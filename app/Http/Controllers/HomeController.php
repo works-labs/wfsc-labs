@@ -8,6 +8,8 @@ use App\Models\SiteStatistic;
 use App\Models\TreatmentBeforeAfter;
 use App\Models\TreatmentCategory;
 use Illuminate\View\View;
+use App\Models\WhyChooseItem;
+use App\Models\Facility;
 
 class HomeController extends Controller
 {
@@ -44,12 +46,24 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        $whyChooseItems = WhyChooseItem::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        $facilities = Facility::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
         return view('public.home', [
             'heroBanners' => $heroBanners,
             'heroDoctors' => $heroDoctors,
             'statistics' => $statistics,
             'treatmentCategories' => $treatmentCategories,
             'treatmentBeforeAfters' => $treatmentBeforeAfters,
+            'whyChooseItems' => $whyChooseItems,
+            'facilities' => $facilities,
         ]);
     }
 }

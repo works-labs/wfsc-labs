@@ -6,4 +6,5 @@
     @include('public.components.hero')
     @include('public.components.treatments')
     @include('public.components.before-after')
+    @include('public.components.why-choose')
 @endsection
