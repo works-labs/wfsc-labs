@@ -18,8 +18,11 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('before_image');
-            $table->string('after_image');
+            $table->string('before_media');
+            $table->string('before_media_type');
+
+            $table->string('after_media');
+            $table->string('after_media_type');
             $table->text('caption')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
             $table->boolean('is_active')->default(true);

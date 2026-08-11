@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "DIN Pro";
+    src: url("/fonts/din-pro/dinpro.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DIN Pro";
+    src: url("/fonts/din-pro/dinpro_medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DIN Pro";
+    src: url("/fonts/din-pro/dinpro_bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DIN Pro";
+    src: url("/fonts/din-pro/dinpro_black.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
+    }
+}
+
+@layer components {
+    .public-nav-link {
+        @apply text-sm font-medium text-white transition-opacity duration-300 hover:opacity-60;
+    }
+
+    .public-nav-cta {
+        @apply text-white;
+    }
+
+    #public-navbar.is-scrolled {
+        @apply bg-white/90 text-neutral-900 shadow-sm backdrop-blur-xl;
+    }
+
+    #public-navbar.is-scrolled .public-nav-link {
+        @apply text-neutral-900;
+    }
+
+    #public-navbar.is-scrolled .public-nav-cta {
+        @apply border-neutral-900 text-neutral-900;
+    }
+}

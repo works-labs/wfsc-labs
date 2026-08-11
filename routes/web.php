@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-Route::view('/', 'welcome')->name('home');
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PublicDoctorController;
+//Route::view('/', 'welcome')->name('home');
+// Route::view('/', 'public.home')->name('home');
 
 Route::middleware('auth')->group(function () {
     
@@ -149,7 +151,31 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin/bookings/{booking}', 'admin.bookings.show')
     ->name('admin.bookings.show');
 
+
+    // before-after 
+    // before-after routes
+    Route::livewire(
+        '/admin/treatments/{treatment}/before-afters',
+        'admin.treatments.before-afters.index'
+    )->name('admin.treatments.before-afters.index');
+
+    Route::livewire(
+        '/admin/treatments/{treatment}/before-afters/create',
+        'admin.treatments.before-afters.create'
+    )->name('admin.treatments.before-afters.create');
+
+    Route::livewire(
+        '/admin/treatments/{treatment}/before-afters/{beforeAfter}/edit',
+        'admin.treatments.before-afters.edit'
+    )->name('admin.treatments.before-afters.edit');
+/// ------------ home route ublics ///
     
 });
+
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
+
+Route::get('/doctors/{doctor:slug}', [PublicDoctorController::class, 'show'])
+    ->name('doctor.show');
 
 require __DIR__.'/settings.php';

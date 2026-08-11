@@ -9,8 +9,10 @@ class TreatmentBeforeAfter extends Model
     // add modelss ini juga :) >//<
     protected $fillable = [
         'treatment_id',
-        'before_image',
-        'after_image',
+        'before_media',
+        'before_media_type',
+        'after_media',
+        'after_media_type',
         'caption',
         'sort_order',
         'is_active',
