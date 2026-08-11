@@ -131,6 +131,14 @@ new #[Layout('layouts.admin')] class extends Component
                                 <div class="flex justify-end gap-2">
 
                                     <a
+                                        href="{{ route('admin.treatments.videos.index', $treatment) }}"
+                                        wire:navigate
+                                        class="text-sm font-medium text-blue-600 hover:underline"
+                                    >
+                                        Procedure Videos
+                                    </a>
+
+                                    <a
                                         href="{{ route('admin.treatments.before-afters.index', $treatment) }}"
                                         wire:navigate
                                         class="text-sm font-medium text-purple-600 hover:underline"

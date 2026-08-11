@@ -12,9 +12,8 @@
     ])
 </head>
 
-<body>
+<body class="@yield('body_class')">
     @include('public.components.navbar')
-
     @yield('content')
 </body>
 </html>

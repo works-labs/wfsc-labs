@@ -10,6 +10,7 @@ use App\Models\TreatmentCategory;
 use Illuminate\View\View;
 use App\Models\WhyChooseItem;
 use App\Models\Facility;
+use App\Models\Promo;
 
 class HomeController extends Controller
 {
@@ -56,14 +57,33 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+
+        $homeDoctors = DoctorHomeSection::query()
+            ->where('section', 'doctors')
+            ->where('is_active', true)
+            ->whereHas('doctor', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->with('doctor')
+            ->orderBy('sort_order')
+            ->get();
+
+        $promos = Promo::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+    
+            
         return view('public.home', [
             'heroBanners' => $heroBanners,
             'heroDoctors' => $heroDoctors,
+            'homeDoctors' => $homeDoctors,
             'statistics' => $statistics,
             'treatmentCategories' => $treatmentCategories,
             'treatmentBeforeAfters' => $treatmentBeforeAfters,
             'whyChooseItems' => $whyChooseItems,
             'facilities' => $facilities,
+            'promos' => $promos,
         ]);
     }
 }

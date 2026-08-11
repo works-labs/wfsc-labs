@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\TreatmentCategory;
 use App\Models\TreatmentProduct;
+use App\Models\TreatmentVideo;
 use App\Models\TreatmentBeforeAfter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,7 @@ class Treatment extends Model
         'short_description',
         'description',
         'cover_image',
+        'procedure_video',
         'is_featured',
         'is_active',
     ];
@@ -33,5 +35,11 @@ class Treatment extends Model
     public function beforeAfters(): HasMany
     {
         return $this->hasMany(TreatmentBeforeAfter::class);
+    }
+
+    public function procedureVideos(): HasMany
+    {
+        return $this->hasMany(TreatmentVideo::class)
+            ->orderBy('sort_order');
     }
 }

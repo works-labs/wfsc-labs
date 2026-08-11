@@ -34,6 +34,11 @@
 
 @theme {
     --font-sans: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
+    
+    /* Tambahan Warna Khas Logo WFSC */
+    --color-wfsc-coral: #FF5252;
+    --color-wfsc-dark: #2A2B2E;
+    --color-wfsc-soft: #FFF8F8;
 }
 
 @layer base {
@@ -44,27 +49,57 @@
     body {
         margin: 0;
         font-family: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
+        color: var(--color-wfsc-dark);
     }
 }
 
 @layer components {
     .public-nav-link {
-        @apply text-sm font-medium text-white transition-opacity duration-300 hover:opacity-60;
+        @apply text-sm font-medium text-white/90 transition-all duration-300 hover:text-white hover:opacity-100 relative py-1;
     }
 
     .public-nav-cta {
-        @apply text-white;
+        @apply border border-white/80 text-white transition-all duration-300 hover:bg-white hover:text-neutral-900 hover:shadow-lg active:scale-95;
     }
 
+    /* Efek Saat Navbar Di-scroll */
     #public-navbar.is-scrolled {
-        @apply bg-white/90 text-neutral-900 shadow-sm backdrop-blur-xl;
+        @apply bg-white/90 text-neutral-900 shadow-sm backdrop-blur-xl border-b border-neutral-100;
     }
 
     #public-navbar.is-scrolled .public-nav-link {
-        @apply text-neutral-900;
+        @apply text-neutral-700 hover:text-[#FF5252];
     }
 
     #public-navbar.is-scrolled .public-nav-cta {
-        @apply border-neutral-900 text-neutral-900;
+        @apply border-[#FF5252] bg-[#FF5252] text-white hover:bg-[#e04545] hover:border-[#e04545];
     }
+}
+
+.public-page-light #public-navbar {
+    background-color: white;
+    color: #171717;
+}
+
+.public-page-light #public-navbar.is-scrolled {
+    background-color: white;
+    color: #171717;
+}
+
+.public-page-light #public-navbar {
+    background-color: white;
+    color: #171717;
+}
+
+.public-page-light #public-navbar .public-nav-link {
+    @apply text-neutral-700 hover:text-[#FF5252];
+}
+
+.public-page-light #public-navbar .public-nav-cta {
+    @apply border-[#FF5252] bg-[#FF5252] text-white hover:bg-[#e04545] hover:border-[#e04545];
+}
+
+.public-page-light #public-navbar.is-scrolled {
+    background-color: white;
+    color: #171717;
 }

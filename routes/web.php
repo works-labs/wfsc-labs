@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicDoctorController;
+use App\Http\Controllers\PublicTreatmentController;
 //Route::view('/', 'welcome')->name('home');
 // Route::view('/', 'public.home')->name('home');
 
@@ -168,6 +169,22 @@ Route::middleware('auth')->group(function () {
         '/admin/treatments/{treatment}/before-afters/{beforeAfter}/edit',
         'admin.treatments.before-afters.edit'
     )->name('admin.treatments.before-afters.edit');
+
+
+    Route::livewire(
+        '/admin/treatments/{treatment}/videos',
+        'admin.treatments.videos.index'
+    )->name('admin.treatments.videos.index');
+
+    Route::livewire(
+        '/admin/treatments/{treatment}/videos/create',
+        'admin.treatments.videos.create'
+    )->name('admin.treatments.videos.create');
+
+    Route::livewire(
+        '/admin/treatments/{treatment}/videos/{video}/edit',
+        'admin.treatments.videos.edit'
+    )->name('admin.treatments.videos.edit');
 /// ------------ home route ublics ///
     
 });
@@ -177,5 +194,12 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::get('/doctors/{doctor:slug}', [PublicDoctorController::class, 'show'])
     ->name('doctor.show');
+
+Route::get('/treatments', [PublicTreatmentController::class, 'index'])
+    ->name('treatments.index');
+
+Route::get('/treatments/{treatment:slug}', [PublicTreatmentController::class, 'show'])
+    ->name('treatment.show');
+    
 
 require __DIR__.'/settings.php';

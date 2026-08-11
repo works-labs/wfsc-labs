@@ -147,3 +147,61 @@ document.addEventListener('DOMContentLoaded', () => {
     showSlide(0);
     startAutoSlide();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('[data-treatment-tab]');
+    const panels = document.querySelectorAll('[data-treatment-panel]');
+
+    if (!tabs.length || !panels.length) {
+        return;
+    }
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const categoryId = tab.dataset.treatmentTab;
+
+            tabs.forEach((item) => {
+                const isActive =
+                    item.dataset.treatmentTab === categoryId;
+
+                item.classList.toggle(
+                    'border-neutral-900',
+                    isActive
+                );
+
+                item.classList.toggle(
+                    'text-neutral-900',
+                    isActive
+                );
+
+                item.classList.toggle(
+                    'border-transparent',
+                    !isActive
+                );
+
+                item.classList.toggle(
+                    'text-neutral-400',
+                    !isActive
+                );
+            });
+
+            panels.forEach((panel) => {
+                panel.classList.toggle(
+                    'hidden',
+                    panel.dataset.treatmentPanel !== categoryId
+                );
+            });
+        });
+    });
+});
+
+// Contoh logika perpindahan class pada slider dot:
+dots.forEach((dot, idx) => {
+    if (idx === activeIndex) {
+        dot.classList.add('w-8', 'bg-[#FF5252]');
+        dot.classList.remove('w-2', 'bg-neutral-300');
+    } else {
+        dot.classList.remove('w-8', 'bg-[#FF5252]');
+        dot.classList.add('w-2', 'bg-neutral-300');
+    }
+});
