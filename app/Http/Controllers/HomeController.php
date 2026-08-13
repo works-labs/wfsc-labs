@@ -11,6 +11,9 @@ use Illuminate\View\View;
 use App\Models\WhyChooseItem;
 use App\Models\Facility;
 use App\Models\Promo;
+use App\Models\News;
+use App\Models\Branch;
+use App\Models\SiteSetting;
 
 class HomeController extends Controller
 {
@@ -72,7 +75,31 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
+
+        $news = News::query()
+            ->where('is_active', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->take(5)
+            ->get();
     
+        $branches = Branch::query()
+            ->where('is_active', true)
+            ->get();
+
+        $settings = SiteSetting::query()
+            ->whereIn('key', [
+                'whatsapp_number',
+                'site_phone',
+                'site_email',
+                'operating_hours',
+                'instagram_url',
+                'tiktok_url',
+                'threads_url',
+            ])
+            ->pluck('value', 'key');
             
         return view('public.home', [
             'heroBanners' => $heroBanners,
@@ -84,6 +111,9 @@ class HomeController extends Controller
             'whyChooseItems' => $whyChooseItems,
             'facilities' => $facilities,
             'promos' => $promos,
+            'news' => $news,
+            'branches' => $branches,
+            'settings' => $settings,
         ]);
     }
 }

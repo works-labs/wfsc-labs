@@ -186,5 +186,8 @@
     </div>
 
 </section>
-
+@include('public.components.news', [
+    'news' => $news,
+])
+@include('public.components.footer')
 @endsection

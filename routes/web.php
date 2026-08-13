@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicDoctorController;
 use App\Http\Controllers\PublicTreatmentController;
+use App\Http\Controllers\PublicNewsController;
 //Route::view('/', 'welcome')->name('home');
 // Route::view('/', 'public.home')->name('home');
 
@@ -185,6 +186,17 @@ Route::middleware('auth')->group(function () {
         '/admin/treatments/{treatment}/videos/{video}/edit',
         'admin.treatments.videos.edit'
     )->name('admin.treatments.videos.edit');
+
+        // site settings
+    Route::livewire('/admin/settings', 'admin.settings.index')
+        ->name('admin.settings.index');
+
+    Route::livewire('/admin/settings/create', 'admin.settings.create')
+        ->name('admin.settings.create');
+
+    Route::livewire('/admin/settings/{setting}/edit', 'admin.settings.edit')
+        ->name('admin.settings.edit');
+    // end site settings
 /// ------------ home route ublics ///
     
 });
@@ -200,6 +212,8 @@ Route::get('/treatments', [PublicTreatmentController::class, 'index'])
 
 Route::get('/treatments/{treatment:slug}', [PublicTreatmentController::class, 'show'])
     ->name('treatment.show');
-    
+
+Route::get('/news/{news:slug}', [PublicNewsController::class, 'show'])
+    ->name('news.show');
 
 require __DIR__.'/settings.php';

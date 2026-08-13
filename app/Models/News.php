@@ -23,6 +23,8 @@ class News extends Model
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
+
+    
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');

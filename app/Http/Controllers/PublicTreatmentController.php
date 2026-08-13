@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use App\Models\Treatment;
 use App\Models\TreatmentCategory;
 use Illuminate\View\View;
@@ -22,8 +23,18 @@ class PublicTreatmentController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        $news = News::query()
+            ->where('is_active', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->take(5)
+            ->get();
+
         return view('public.treatments.index', [
             'categories' => $categories,
+            'news' => $news,
         ]);
     }
 
@@ -35,10 +46,10 @@ class PublicTreatmentController extends Controller
             'category',
 
             'procedureVideos' => function ($query) {
-            $query
-                ->where('is_active', true)
-                ->orderBy('sort_order');
-        },
+                $query
+                    ->where('is_active', true)
+                    ->orderBy('sort_order');
+            },
 
             'products' => function ($query) {
                 $query

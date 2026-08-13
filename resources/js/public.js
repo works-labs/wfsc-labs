@@ -2,7 +2,10 @@ const navbar = document.getElementById('public-navbar');
 
 if (navbar) {
     const updateNavbar = () => {
-        navbar.classList.toggle('is-scrolled', window.scrollY > 40);
+        navbar.classList.toggle(
+            'is-scrolled',
+            window.scrollY > 40
+        );
     };
 
     updateNavbar();
@@ -12,68 +15,18 @@ if (navbar) {
     });
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| Before After Slider
+|--------------------------------------------------------------------------
+*/
+
 document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.querySelector('[data-before-after-slider]');
 
-    if (!slider) {
-        return;
-    }
-
-    const slides = slider.querySelectorAll('[data-before-after-slide]');
-    const dots = slider.querySelectorAll('[data-before-after-dot]');
-
-    if (slides.length <= 1) {
-        return;
-    }
-
-    let currentIndex = 0;
-    let interval;
-
-    const showSlide = (index) => {
-        slides.forEach((slide, slideIndex) => {
-            slide.classList.toggle('hidden', slideIndex !== index);
-        });
-
-        dots.forEach((dot, dotIndex) => {
-            dot.classList.toggle('scale-125', dotIndex === index);
-            dot.classList.toggle('bg-neutral-900', dotIndex === index);
-            dot.classList.toggle('bg-neutral-300', dotIndex !== index);
-        });
-
-        currentIndex = index;
-    };
-
-    const nextSlide = () => {
-        const nextIndex = (currentIndex + 1) % slides.length;
-
-        showSlide(nextIndex);
-    };
-
-    const startAutoSlide = () => {
-        interval = setInterval(nextSlide, 5000);
-    };
-
-    const stopAutoSlide = () => {
-        clearInterval(interval);
-    };
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            showSlide(index);
-
-            stopAutoSlide();
-            startAutoSlide();
-        });
-    });
-
-    slider.addEventListener('mouseenter', stopAutoSlide);
-    slider.addEventListener('mouseleave', startAutoSlide);
-
-    showSlide(0);
-    startAutoSlide();
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.querySelector('[data-before-after-slider]');
+    const slider = document.querySelector(
+        '[data-before-after-slider]'
+    );
 
     if (!slider) {
         return;
@@ -95,6 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let interval = null;
 
     const showSlide = (index) => {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
         slides.forEach((slide, slideIndex) => {
             slide.classList.toggle(
                 'hidden',
@@ -103,19 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         dots.forEach((dot, dotIndex) => {
+
+            const active = dotIndex === index;
+
             dot.classList.toggle(
                 'bg-neutral-900',
-                dotIndex === index
+                active
             );
 
             dot.classList.toggle(
                 'bg-neutral-300',
-                dotIndex !== index
+                !active
             );
 
             dot.classList.toggle(
                 'scale-125',
-                dotIndex === index
+                active
             );
         });
 
@@ -123,12 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const nextSlide = () => {
-        showSlide(
-            (currentIndex + 1) % slides.length
-        );
+        showSlide(currentIndex + 1);
     };
 
     const startAutoSlide = () => {
+
         clearInterval(interval);
 
         interval = setInterval(
@@ -138,70 +102,315 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     dots.forEach((dot, index) => {
+
         dot.addEventListener('click', () => {
             showSlide(index);
             startAutoSlide();
         });
+
     });
+
+    slider.addEventListener(
+        'mouseenter',
+        () => clearInterval(interval)
+    );
+
+    slider.addEventListener(
+        'mouseleave',
+        startAutoSlide
+    );
 
     showSlide(0);
     startAutoSlide();
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| Treatment Tabs
+|--------------------------------------------------------------------------
+*/
+
 document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('[data-treatment-tab]');
-    const panels = document.querySelectorAll('[data-treatment-panel]');
+
+    const tabs = document.querySelectorAll(
+        '[data-treatment-tab]'
+    );
+
+    const panels = document.querySelectorAll(
+        '[data-treatment-panel]'
+    );
 
     if (!tabs.length || !panels.length) {
         return;
     }
 
     tabs.forEach((tab) => {
+
         tab.addEventListener('click', () => {
-            const categoryId = tab.dataset.treatmentTab;
+
+            const categoryId =
+                tab.dataset.treatmentTab;
 
             tabs.forEach((item) => {
-                const isActive =
+
+                const active =
                     item.dataset.treatmentTab === categoryId;
 
                 item.classList.toggle(
                     'border-neutral-900',
-                    isActive
+                    active
                 );
 
                 item.classList.toggle(
                     'text-neutral-900',
-                    isActive
+                    active
                 );
 
                 item.classList.toggle(
                     'border-transparent',
-                    !isActive
+                    !active
                 );
 
                 item.classList.toggle(
                     'text-neutral-400',
-                    !isActive
+                    !active
                 );
             });
 
             panels.forEach((panel) => {
+
                 panel.classList.toggle(
                     'hidden',
                     panel.dataset.treatmentPanel !== categoryId
                 );
+
             });
+
         });
+
     });
+
 });
 
-// Contoh logika perpindahan class pada slider dot:
-dots.forEach((dot, idx) => {
-    if (idx === activeIndex) {
-        dot.classList.add('w-8', 'bg-[#FF5252]');
-        dot.classList.remove('w-2', 'bg-neutral-300');
-    } else {
-        dot.classList.remove('w-8', 'bg-[#FF5252]');
-        dot.classList.add('w-2', 'bg-neutral-300');
+
+/*
+|--------------------------------------------------------------------------
+| Doctor Slider
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slider = document.querySelector(
+        '[data-doctor-slider]'
+    );
+
+    if (!slider) {
+        return;
     }
+
+    const slides = Array.from(
+        slider.querySelectorAll('[data-doctor-slide]')
+    );
+
+    const dots = Array.from(
+        slider.querySelectorAll('[data-doctor-dot]')
+    );
+
+    const prevButton = slider.querySelector(
+        '[data-doctor-prev]'
+    );
+
+    const nextButton = slider.querySelector(
+        '[data-doctor-next]'
+    );
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let currentIndex = 0;
+
+    const showSlide = (index) => {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
+        slides.forEach((slide, slideIndex) => {
+
+            slide.classList.toggle(
+                'hidden',
+                slideIndex !== index
+            );
+
+        });
+
+        dots.forEach((dot, dotIndex) => {
+
+            const active =
+                dotIndex === index;
+
+            dot.classList.toggle(
+                'w-8',
+                active
+            );
+
+            dot.classList.toggle(
+                'w-2',
+                !active
+            );
+
+            dot.classList.toggle(
+                'bg-[#FF5252]',
+                active
+            );
+
+            dot.classList.toggle(
+                'bg-neutral-300',
+                !active
+            );
+
+        });
+
+        currentIndex = index;
+    };
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            showSlide(currentIndex - 1);
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            showSlide(currentIndex + 1);
+        });
+    }
+
+    dots.forEach((dot, index) => {
+
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+
+    });
+
+    showSlide(0);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| News Slider
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slider = document.querySelector(
+        '[data-news-slider]'
+    );
+
+    if (!slider) {
+        return;
+    }
+
+    const slides = Array.from(
+        slider.querySelectorAll('[data-news-slide]')
+    );
+
+    const dots = Array.from(
+        slider.querySelectorAll('[data-news-dot]')
+    );
+
+    const prevButton = slider.querySelector(
+        '[data-news-prev]'
+    );
+
+    const nextButton = slider.querySelector(
+        '[data-news-next]'
+    );
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let currentIndex = 0;
+
+    const showSlide = (index) => {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
+        slides.forEach((slide, slideIndex) => {
+
+            slide.classList.toggle(
+                'hidden',
+                slideIndex !== index
+            );
+
+        });
+
+        dots.forEach((dot, dotIndex) => {
+
+            const active =
+                dotIndex === index;
+
+            dot.classList.toggle(
+                'w-8',
+                active
+            );
+
+            dot.classList.toggle(
+                'w-2',
+                !active
+            );
+
+            dot.classList.toggle(
+                'bg-[#FF5252]',
+                active
+            );
+
+            dot.classList.toggle(
+                'bg-neutral-300',
+                !active
+            );
+
+        });
+
+        currentIndex = index;
+    };
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            showSlide(currentIndex - 1);
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            showSlide(currentIndex + 1);
+        });
+    }
+
+    dots.forEach((dot, index) => {
+
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+
+    });
+
+    showSlide(0);
 });

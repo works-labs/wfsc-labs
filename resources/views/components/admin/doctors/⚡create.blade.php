@@ -1,4 +1,3 @@
-cat > 'resources/views/components/admin/doctors/⚡create.blade.php' <<'EOF'
 <?php
 
 use App\Models\Doctor;
