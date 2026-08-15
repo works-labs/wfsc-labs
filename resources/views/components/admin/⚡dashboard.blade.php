@@ -41,7 +41,6 @@ new #[Layout('layouts.admin')] class extends Component
 };
 
 ?>
-
 <div>
 
     {{-- Header --}}
@@ -463,4 +462,4 @@ new #[Layout('layouts.admin')] class extends Component
     </div>
 
 </div>
-```
+
