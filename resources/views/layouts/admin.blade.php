@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="icon" type="image/png" href="{{ asset('assets/logo.PNG') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/logo.PNG') }}">
+
     <title>{{ $title ?? 'WFSC Admin' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
