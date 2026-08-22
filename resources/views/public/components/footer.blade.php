@@ -52,9 +52,9 @@
                     class="inline-flex items-center"
                     aria-label="WFSC Clinic Home"
                 >
-                    <span class="text-4xl font-semibold tracking-tight">
-                        WFSC<span class="opacity-70">.</span>
-                    </span>
+                    <img src="{{ asset('assets/logo.PNG') }}"
+                        alt="WFSC"
+                        class="h-32 w-auto brightness-0 invert">
                 </a>
 
                 <p class="mt-6 max-w-sm text-sm leading-7 text-white/75">

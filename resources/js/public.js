@@ -307,6 +307,125 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*
 |--------------------------------------------------------------------------
+| Facility Slider
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slider = document.querySelector(
+        '[data-facility-slider]'
+    );
+
+    if (!slider) {
+        return;
+    }
+
+    const slides = Array.from(
+        slider.querySelectorAll('[data-facility-slide]')
+    );
+
+    const dots = Array.from(
+        slider.querySelectorAll('[data-facility-dot]')
+    );
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let currentIndex = 0;
+    let interval = null;
+
+    const showSlide = (index) => {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
+        slides.forEach((slide, slideIndex) => {
+
+            slide.classList.toggle(
+                'hidden',
+                slideIndex !== index
+            );
+
+        });
+
+        dots.forEach((dot, dotIndex) => {
+
+            const active =
+                dotIndex === index;
+
+            dot.classList.toggle(
+                'w-8',
+                active
+            );
+
+            dot.classList.toggle(
+                'w-2',
+                !active
+            );
+
+            dot.classList.toggle(
+                'bg-[#FF5252]',
+                active
+            );
+
+            dot.classList.toggle(
+                'bg-neutral-300',
+                !active
+            );
+
+        });
+
+        currentIndex = index;
+    };
+
+    const nextSlide = () => {
+        showSlide(currentIndex + 1);
+    };
+
+    const startAutoSlide = () => {
+
+        clearInterval(interval);
+
+        interval = setInterval(
+            nextSlide,
+            5000
+        );
+    };
+
+    dots.forEach((dot, index) => {
+
+        dot.addEventListener('click', () => {
+
+            showSlide(index);
+            startAutoSlide();
+
+        });
+
+    });
+
+    slider.addEventListener(
+        'mouseenter',
+        () => clearInterval(interval)
+    );
+
+    slider.addEventListener(
+        'mouseleave',
+        startAutoSlide
+    );
+
+    showSlide(0);
+    startAutoSlide();
+});
+
+/*
+|--------------------------------------------------------------------------
 | News Slider
 |--------------------------------------------------------------------------
 */
