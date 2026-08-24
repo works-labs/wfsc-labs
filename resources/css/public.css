@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* -------------------------------------------------------------------------- */
+/* 1. Custom Font Face (DIN Pro)                                              */
+/* -------------------------------------------------------------------------- */
 @font-face {
     font-family: "DIN Pro";
     src: url("/fonts/din-pro/dinpro.otf") format("opentype");
@@ -32,15 +35,22 @@
     font-display: swap;
 }
 
+/* -------------------------------------------------------------------------- */
+/* 2. Theme Configuration                                                     */
+/* -------------------------------------------------------------------------- */
 @theme {
     --font-sans: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
     
-    /* Tambahan Warna Khas Logo WFSC */
+    /* Warna Khas WFSC Clinic */
     --color-wfsc-coral: #FF5252;
+    --color-wfsc-coral-hover: #E04343;
     --color-wfsc-dark: #2A2B2E;
     --color-wfsc-soft: #FFF8F8;
 }
 
+/* -------------------------------------------------------------------------- */
+/* 3. Base Styles                                                             */
+/* -------------------------------------------------------------------------- */
 @layer base {
     html {
         scroll-behavior: smooth;
@@ -48,59 +58,107 @@
 
     body {
         margin: 0;
-        font-family: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
+        font-family: var(--font-sans);
         color: var(--color-wfsc-dark);
     }
 }
 
+/* -------------------------------------------------------------------------- */
+/* 4. Navbar Component Styles & State                                         */
+/* -------------------------------------------------------------------------- */
 @layer components {
+    /* Link Desktop Navbar + Underline Animation */
     .public-nav-link {
-        @apply text-sm font-medium text-white/90 transition-all duration-300 hover:text-white hover:opacity-100 relative py-1;
+        @apply relative py-1 text-sm font-medium text-white/90 transition-colors duration-300 hover:text-white;
     }
 
+    .public-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background-color: var(--color-wfsc-coral);
+        border-radius: 9999px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(-50%);
+    }
+
+    .public-nav-link:hover::after {
+        width: 100%;
+    }
+
+    /* CTA Button (Default State) */
     .public-nav-cta {
         @apply border border-white/80 text-white transition-all duration-300 hover:bg-white hover:text-neutral-900 hover:shadow-lg active:scale-95;
     }
 
-    /* Efek Saat Navbar Di-scroll */
+    /* Navbar State: Transparent ke Glassmorphism Saat Di-scroll */
     #public-navbar.is-scrolled {
-        @apply bg-white/90 text-neutral-900 shadow-sm backdrop-blur-xl border-b border-neutral-100;
+        @apply border-b border-neutral-100/60 bg-white/85 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] backdrop-blur-xl;
+    }
+
+    #public-navbar.is-scrolled .mx-auto {
+        height: 4.25rem; /* Navbar mengecil halus saat scrolled */
     }
 
     #public-navbar.is-scrolled .public-nav-link {
-        @apply text-neutral-700 hover:text-[#FF5252];
+        @apply text-neutral-700 hover:text-[var(--color-wfsc-coral)];
     }
 
     #public-navbar.is-scrolled .public-nav-cta {
-        @apply border-[#FF5252] bg-[#FF5252] text-white hover:bg-[#e04545] hover:border-[#e04545];
+        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)] hover:shadow-[0_4px_15px_rgba(255,82,82,0.3)];
+    }
+
+    /* Navbar State: Page Halaman Terang (Light Mode Page) */
+    .public-page-light #public-navbar,
+    .public-page-light #public-navbar.is-scrolled {
+        @apply bg-white text-neutral-900;
+    }
+
+    .public-page-light #public-navbar .public-nav-link {
+        @apply text-neutral-700 hover:text-[var(--color-wfsc-coral)];
+    }
+
+    .public-page-light #public-navbar .public-nav-cta {
+        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)];
     }
 }
 
-.public-page-light #public-navbar {
-    background-color: white;
-    color: #171717;
+/* -------------------------------------------------------------------------- */
+/* 5. Entrance & Scroll Reveal Animations                                     */
+/* -------------------------------------------------------------------------- */
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
 }
 
-.public-page-light #public-navbar.is-scrolled {
-    background-color: white;
-    color: #171717;
+.reveal-hidden.reveal-left {
+    transform: translateX(-40px);
 }
 
-.public-page-light #public-navbar {
-    background-color: white;
-    color: #171717;
+.reveal-hidden.reveal-right {
+    transform: translateX(40px);
 }
 
-.public-page-light #public-navbar .public-nav-link {
-    @apply text-neutral-700 hover:text-[#FF5252];
+.reveal-hidden.reveal-zoom {
+    transform: scale(0.92);
 }
 
-.public-page-light #public-navbar .public-nav-cta {
-    @apply border-[#FF5252] bg-[#FF5252] text-white hover:bg-[#e04545] hover:border-[#e04545];
+.reveal-show {
+    opacity: 1 !important;
+    transform: translate(0, 0) scale(1) !important;
 }
 
-.public-page-light #public-navbar.is-scrolled {
-    background-color: white;
-    color: #171717;
+/* Floating animation untuk Doctor Card Hero */
+@keyframes floatSoft {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
 
+.animate-float-soft {
+    animation: floatSoft 6s ease-in-out infinite;
+}

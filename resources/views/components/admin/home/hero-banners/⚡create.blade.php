@@ -3,7 +3,12 @@
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Computed;
+
 use App\Models\HeroBanner;
+use App\Models\Treatment;
+use App\Models\Doctor;
+use App\Models\News;
 
 new #[Layout('layouts.admin')] class extends Component
 {
@@ -13,9 +18,37 @@ new #[Layout('layouts.admin')] class extends Component
     public string $subtitle = '';
     public $background_image = null;
     public string $cta_text = '';
-    public string $cta_url = '';
+    public string $cta_type = 'internal';
+    public string $cta_target = '';
     public int $sort_order = 0;
     public bool $is_active = true;
+
+    #[Computed]
+    public function treatments()
+    {
+        return Treatment::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+    }
+
+    #[Computed]
+    public function doctors()
+    {
+        return Doctor::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+    }
+
+    #[Computed]
+    public function news()
+    {
+        return News::query()
+            ->where('is_active', true)
+            ->orderByDesc('published_at')
+            ->get();
+    }
 
     public function save(): void
     {
@@ -24,7 +57,11 @@ new #[Layout('layouts.admin')] class extends Component
             'subtitle' => ['nullable', 'string'],
             'background_image' => ['nullable', 'image', 'max:4096'],
             'cta_text' => ['nullable', 'string', 'max:255'],
-            'cta_url' => ['nullable', 'string', 'max:255'],
+            'cta_type' => [
+                'required',
+                'in:internal,treatment,doctor,news,whatsapp,external',
+            ],
+            'cta_target' => ['nullable', 'string', 'max:255'],
             'sort_order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ]);
@@ -33,6 +70,11 @@ new #[Layout('layouts.admin')] class extends Component
             $validated['background_image'] = $this->background_image
                 ->store('hero-banners', 'public');
         }
+
+        $position = $validated['sort_order'];
+
+        HeroBanner::where('sort_order', '>=', $position)
+            ->increment('sort_order');
 
         HeroBanner::create($validated);
 
@@ -154,20 +196,144 @@ new #[Layout('layouts.admin')] class extends Component
 
             <div>
                 <label class="mb-2 block text-sm font-medium">
-                    CTA URL
+                    CTA Type
                 </label>
 
-                <input
-                    type="text"
-                    wire:model="cta_url"
+                <select
+                    wire:model.live="cta_type"
                     class="w-full rounded-lg border px-4 py-2"
-                    placeholder="/booking"
                 >
+                    <option value="internal">Internal Page</option>
+                    <option value="treatment">Treatment</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="news">News</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="external">External URL</option>
+                </select>
 
-                @error('cta_url')
+                @error('cta_type')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
+
+           @if ($cta_type === 'internal')
+            <div>
+                <label class="mb-2 block text-sm font-medium">
+                    CTA Target
+                </label>
+
+                <select
+                    wire:model="cta_target"
+                    class="w-full rounded-lg border px-4 py-2"
+                >
+                    <option value="">-- Pilih halaman --</option>
+                    <option value="home">Home</option>
+                    <option value="treatments">Treatments</option>
+                    <option value="doctors">Doctors</option>
+                    <option value="news">News</option>
+                </select>
+
+                @error('cta_target')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+        @elseif ($cta_type === 'treatment')
+            <div>
+                <label class="mb-2 block text-sm font-medium">
+                    Treatment
+                </label>
+
+                <select
+                    wire:model="cta_target"
+                    class="w-full rounded-lg border px-4 py-2"
+                >
+                    <option value="">-- Pilih treatment --</option>
+
+                    @foreach ($this->treatments as $treatment)
+                        <option value="{{ $treatment->slug }}">
+                            {{ $treatment->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('cta_target')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+        @elseif ($cta_type === 'doctor')
+            <div>
+                <label class="mb-2 block text-sm font-medium">
+                    Doctor
+                </label>
+
+                <select
+                    wire:model="cta_target"
+                    class="w-full rounded-lg border px-4 py-2"
+                >
+                    <option value="">-- Pilih doctor --</option>
+
+                    @foreach ($this->doctors as $doctor)
+                        <option value="{{ $doctor->slug }}">
+                            {{ $doctor->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('cta_target')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+        @elseif ($cta_type === 'news')
+            <div>
+                <label class="mb-2 block text-sm font-medium">
+                    News
+                </label>
+
+                <select
+                    wire:model="cta_target"
+                    class="w-full rounded-lg border px-4 py-2"
+                >
+                    <option value="">-- Pilih news --</option>
+
+                    @foreach ($this->news as $item)
+                        <option value="{{ $item->slug }}">
+                            {{ $item->title }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('cta_target')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+        @elseif ($cta_type === 'whatsapp')
+            <div class="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+                CTA akan diarahkan ke WhatsApp perusahaan
+                berdasarkan nomor pada Site Settings.
+            </div>
+
+        @elseif ($cta_type === 'external')
+            <div>
+                <label class="mb-2 block text-sm font-medium">
+                    External URL
+                </label>
+
+                <input
+                    type="url"
+                    wire:model="cta_target"
+                    class="w-full rounded-lg border px-4 py-2"
+                    placeholder="https://example.com"
+                >
+
+                @error('cta_target')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+        @endif
 
         </div>
 

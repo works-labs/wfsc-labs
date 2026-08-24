@@ -238,12 +238,16 @@
 
 
                     {{-- Site Settings --}}
-                    <div
-                        class="cursor-not-allowed rounded-lg px-4 py-2 text-sm text-gray-400"
-                        title="Not implemented yet"
+                    <a
+                        href="{{ route('admin.settings.index') }}"
+                        wire:navigate
+                        class="block rounded-lg px-4 py-2 text-sm
+                            {{ request()->routeIs('admin.settings.*')
+                                ? 'bg-gray-200 text-gray-900 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-100' }}"
                     >
                         Site Settings
-                    </div>
+                    </a>
 
                 </div>
 

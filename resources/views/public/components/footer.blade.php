@@ -30,22 +30,20 @@
 >
     {{-- Decorative background --}}
     <div
-        class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+        class="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-white/10 blur-3xl sm:h-96 sm:w-96"
     ></div>
 
     <div
-        class="pointer-events-none absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+        class="pointer-events-none absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-white/10 blur-3xl sm:h-96 sm:w-96"
     ></div>
 
-    <div class="relative mx-auto max-w-7xl px-6 py-20 lg:px-12 lg:py-24">
+    <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-12 lg:py-24">
 
         {{-- Main Footer Grid --}}
-        <div class="grid gap-14 lg:grid-cols-[1.35fr_1fr_1fr_1fr] lg:gap-12">
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr] lg:gap-12">
 
-            {{-- =========================================
-                 BRAND
-            ========================================== --}}
-            <div class="footer-reveal">
+            {{-- BRAND --}}
+            <div data-reveal="up" data-delay="100" class="reveal-hidden">
 
                 <a
                     href="{{ url('/') }}"
@@ -54,19 +52,19 @@
                 >
                     <img src="{{ asset('assets/logo.PNG') }}"
                         alt="WFSC"
-                        class="h-32 w-auto brightness-0 invert">
+                        class="h-24 w-auto brightness-0 invert sm:h-28 lg:h-32">
                 </a>
 
-                <p class="mt-6 max-w-sm text-sm leading-7 text-white/75">
+                <p class="mt-4 max-w-sm text-xs leading-relaxed text-white/75 sm:mt-6 sm:text-sm sm:leading-7">
                     Pelayanan kedokteran estetika dan anti-aging
                     dengan teknologi medis terkini untuk membantu
                     memancarkan kecantikan alami Anda.
                 </p>
 
                 <div
-                    class="mt-7 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md"
+                    class="mt-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md sm:mt-7 sm:px-5 sm:py-2.5"
                 >
-                    <span class="text-xs font-medium tracking-wide">
+                    <span class="text-[11px] font-medium tracking-wide sm:text-xs">
                         ✦ 20+ Years of Excellence
                     </span>
                 </div>
@@ -74,35 +72,33 @@
             </div>
 
 
-            {{-- =========================================
-                 BRANCHES
-            ========================================== --}}
-            <div class="footer-reveal">
+            {{-- BRANCHES --}}
+            <div data-reveal="up" data-delay="200" class="reveal-hidden">
 
-                <h3 class="relative mb-7 pb-3 text-sm font-medium tracking-wide">
+                <h3 class="relative mb-5 pb-2.5 text-xs font-semibold uppercase tracking-wider text-white sm:mb-7 sm:pb-3 sm:text-sm">
                     Alamat Cabang
 
                     <span
-                        class="absolute bottom-0 left-0 h-px w-10 bg-white/60"
+                        class="absolute bottom-0 left-0 h-0.5 w-8 rounded-full bg-white/60 sm:w-10"
                     ></span>
                 </h3>
 
                 @if ($branches->isNotEmpty())
 
-                    <div class="space-y-4">
+                    <div class="space-y-3 sm:space-y-4">
 
                         @foreach ($branches as $branch)
 
                             <div
-                                class="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/15"
+                                class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/15 sm:p-5"
                             >
 
-                                <p class="text-sm font-medium">
+                                <p class="text-xs font-bold text-white sm:text-sm">
                                     <span class="mr-1 opacity-80">📍</span>
                                     {{ $branch->name }}
                                 </p>
 
-                                <p class="mt-2 text-sm leading-6 text-white/70">
+                                <p class="mt-1.5 text-xs leading-relaxed text-white/70 sm:mt-2 sm:text-sm sm:leading-6">
                                     {{ $branch->address }}
                                 </p>
 
@@ -112,9 +108,10 @@
                                         href="{{ $branch->google_maps_url }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="mt-3 inline-flex text-xs font-medium text-white/80 transition hover:text-white"
+                                        class="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-white/80 transition hover:text-white sm:text-xs"
                                     >
-                                        View on Google Maps →
+                                        <span>View on Google Maps</span>
+                                        <span class="transition-transform group-hover:translate-x-1">→</span>
                                     </a>
 
                                 @endif
@@ -128,9 +125,9 @@
                 @else
 
                     <div
-                        class="rounded-2xl border border-white/15 bg-white/10 p-5"
+                        class="rounded-2xl border border-white/15 bg-white/10 p-4 sm:p-5"
                     >
-                        <p class="text-sm text-white/70">
+                        <p class="text-xs text-white/70 sm:text-sm">
                             Informasi cabang akan segera tersedia.
                         </p>
                     </div>
@@ -140,26 +137,24 @@
             </div>
 
 
-            {{-- =========================================
-                 CONTACT
-            ========================================== --}}
-            <div class="footer-reveal">
+            {{-- CONTACT --}}
+            <div data-reveal="up" data-delay="300" class="reveal-hidden">
 
-                <h3 class="relative mb-7 pb-3 text-sm font-medium tracking-wide">
+                <h3 class="relative mb-5 pb-2.5 text-xs font-semibold uppercase tracking-wider text-white sm:mb-7 sm:pb-3 sm:text-sm">
                     Hubungi Kami
 
                     <span
-                        class="absolute bottom-0 left-0 h-px w-10 bg-white/60"
+                        class="absolute bottom-0 left-0 h-0.5 w-8 rounded-full bg-white/60 sm:w-10"
                     ></span>
                 </h3>
 
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
 
                     {{-- WhatsApp --}}
                     @if ($whatsapp && $whatsappLink)
 
                         <div>
-                            <p class="mb-2 text-[11px] uppercase tracking-[0.16em] text-white/55">
+                            <p class="mb-1 text-[10px] uppercase tracking-[0.16em] text-white/60 sm:mb-2 sm:text-[11px]">
                                 WhatsApp Consultation
                             </p>
 
@@ -167,13 +162,13 @@
                                 href="{{ $whatsappLink }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="group inline-flex items-center gap-3 text-sm transition hover:translate-x-1"
+                                class="group inline-flex items-center gap-2.5 text-xs transition duration-300 hover:translate-x-1 sm:gap-3 sm:text-sm"
                             >
                                 <span
-                                    class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10"
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 sm:h-9 sm:w-9"
                                 >
                                     <svg
-                                        class="h-4 w-4"
+                                        class="h-3.5 w-3.5 sm:h-4 sm:w-4"
                                         viewBox="0 0 24 24"
                                         fill="currentColor"
                                         aria-hidden="true"
@@ -183,7 +178,7 @@
                                     </svg>
                                 </span>
 
-                                <span>
+                                <span class="font-medium">
                                     {{ $whatsapp }}
                                 </span>
                             </a>
@@ -196,19 +191,19 @@
                     @if ($phone)
 
                         <div>
-                            <p class="mb-2 text-[11px] uppercase tracking-[0.16em] text-white/55">
+                            <p class="mb-1 text-[10px] uppercase tracking-[0.16em] text-white/60 sm:mb-2 sm:text-[11px]">
                                 Customer Service
                             </p>
 
                             <a
                                 href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}"
-                                class="inline-flex items-center gap-3 text-sm transition hover:translate-x-1"
+                                class="inline-flex items-center gap-2.5 text-xs transition duration-300 hover:translate-x-1 sm:gap-3 sm:text-sm"
                             >
                                 <span
-                                    class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10"
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 sm:h-9 sm:w-9"
                                 >
                                     <svg
-                                        class="h-4 w-4"
+                                        class="h-3.5 w-3.5 sm:h-4 sm:w-4"
                                         fill="none"
                                         stroke="currentColor"
                                         stroke-width="1.8"
@@ -222,7 +217,7 @@
                                     </svg>
                                 </span>
 
-                                <span>
+                                <span class="font-medium">
                                     {{ $phone }}
                                 </span>
                             </a>
@@ -235,19 +230,19 @@
                     @if ($email)
 
                         <div>
-                            <p class="mb-2 text-[11px] uppercase tracking-[0.16em] text-white/55">
+                            <p class="mb-1 text-[10px] uppercase tracking-[0.16em] text-white/60 sm:mb-2 sm:text-[11px]">
                                 Email Support
                             </p>
 
                             <a
                                 href="mailto:{{ $email }}"
-                                class="inline-flex items-center gap-3 text-sm transition hover:translate-x-1"
+                                class="inline-flex items-center gap-2.5 text-xs transition duration-300 hover:translate-x-1 sm:gap-3 sm:text-sm"
                             >
                                 <span
-                                    class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10"
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 sm:h-9 sm:w-9"
                                 >
                                     <svg
-                                        class="h-4 w-4"
+                                        class="h-3.5 w-3.5 sm:h-4 sm:w-4"
                                         fill="none"
                                         stroke="currentColor"
                                         stroke-width="1.8"
@@ -264,7 +259,7 @@
                                     </svg>
                                 </span>
 
-                                <span>
+                                <span class="font-medium">
                                     {{ $email }}
                                 </span>
                             </a>
@@ -276,13 +271,13 @@
                     {{-- Operating Hours --}}
                     @if ($operatingHours)
 
-                        <div class="border-t border-white/15 pt-5">
+                        <div class="border-t border-white/15 pt-4 sm:pt-5">
 
-                            <p class="text-[11px] uppercase tracking-[0.16em] text-white/55">
+                            <p class="text-[10px] uppercase tracking-[0.16em] text-white/60 sm:text-[11px]">
                                 Jam Operasional
                             </p>
 
-                            <p class="mt-2 text-sm text-white/80">
+                            <p class="mt-1 text-xs text-white/80 sm:mt-2 sm:text-sm">
                                 {{ $operatingHours }}
                             </p>
 
@@ -295,25 +290,23 @@
             </div>
 
 
-            {{-- =========================================
-                 SOCIAL MEDIA
-            ========================================== --}}
-            <div class="footer-reveal">
+            {{-- SOCIAL MEDIA --}}
+            <div data-reveal="up" data-delay="400" class="reveal-hidden">
 
-                <h3 class="relative mb-7 pb-3 text-sm font-medium tracking-wide">
+                <h3 class="relative mb-5 pb-2.5 text-xs font-semibold uppercase tracking-wider text-white sm:mb-7 sm:pb-3 sm:text-sm">
                     Ikuti Kami
 
                     <span
-                        class="absolute bottom-0 left-0 h-px w-10 bg-white/60"
+                        class="absolute bottom-0 left-0 h-0.5 w-8 rounded-full bg-white/60 sm:w-10"
                     ></span>
                 </h3>
 
-                <p class="mb-6 text-sm leading-6 text-white/70">
+                <p class="mb-4 text-xs leading-relaxed text-white/70 sm:mb-6 sm:text-sm sm:leading-6">
                     Dapatkan informasi terbaru, tips kecantikan,
                     dan promo spesial dari WFSC.
                 </p>
 
-                <div class="space-y-3">
+                <div class="space-y-2.5 sm:space-y-3">
 
                     {{-- Instagram --}}
                     @if ($instagram)
@@ -322,12 +315,12 @@
                             href="{{ $instagram }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="group flex items-center gap-4 rounded-xl border border-white/15 bg-white/10 px-4 py-3.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15"
+                            class="group flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15 sm:gap-4 sm:px-4 sm:py-3.5"
                         >
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 sm:h-9 sm:w-9">
 
                                 <svg
-                                    class="h-5 w-5"
+                                    class="h-4 w-4 sm:h-5 sm:w-5"
                                     fill="none"
                                     stroke="currentColor"
                                     stroke-width="1.7"
@@ -355,7 +348,7 @@
 
                             </span>
 
-                            <span class="text-sm">
+                            <span class="text-xs font-medium sm:text-sm">
                                 Instagram
                             </span>
                         </a>
@@ -370,12 +363,12 @@
                             href="{{ $tiktok }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="group flex items-center gap-4 rounded-xl border border-white/15 bg-white/10 px-4 py-3.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15"
+                            class="group flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15 sm:gap-4 sm:px-4 sm:py-3.5"
                         >
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 sm:h-9 sm:w-9">
 
                                 <svg
-                                    class="h-5 w-5"
+                                    class="h-4 w-4 sm:h-5 sm:w-5"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                 >
@@ -384,7 +377,7 @@
 
                             </span>
 
-                            <span class="text-sm">
+                            <span class="text-xs font-medium sm:text-sm">
                                 TikTok
                             </span>
                         </a>
@@ -399,13 +392,13 @@
                             href="{{ $threads }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="group flex items-center gap-4 rounded-xl border border-white/15 bg-white/10 px-4 py-3.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15"
+                            class="group flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 backdrop-blur-md transition duration-300 hover:translate-x-1 hover:bg-white/15 sm:gap-4 sm:px-4 sm:py-3.5"
                         >
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-semibold">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-xs font-bold sm:h-9 sm:w-9 sm:text-sm">
                                 @
                             </span>
 
-                            <span class="text-sm">
+                            <span class="text-xs font-medium sm:text-sm">
                                 Threads
                             </span>
                         </a>
@@ -420,21 +413,21 @@
 
 
         {{-- Divider --}}
-        <div class="my-12 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"></div>
+        <div data-reveal="fade" data-delay="450" class="reveal-hidden my-8 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent sm:my-12"></div>
 
 
-        {{-- Bottom --}}
-        <div class="flex flex-col gap-5 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        {{-- Bottom Copyright & Links --}}
+        <div data-reveal="up" data-delay="500" class="reveal-hidden flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
 
-            <p class="text-xs text-white/60">
+            <p class="text-[11px] text-white/60 sm:text-xs">
                 &copy; {{ date('Y') }}
-                <span class="font-medium text-white/80">
+                <span class="font-semibold text-white/80">
                     WFSC Clinic
                 </span>.
                 All Rights Reserved.
             </p>
 
-            <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-white/55">
+            <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] text-white/60 sm:gap-4 sm:text-xs">
 
                 <a
                     href="#"

@@ -2,137 +2,96 @@
     use Illuminate\Support\Facades\Storage;
 @endphp
 
-<section id="before-after" class="relative overflow-hidden bg-[#FAF9F6] py-24 lg:py-32">
-    {{-- Ambient Glow Decorative Background --}}
-    <div class="pointer-events-none absolute -left-20 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
-    <div class="pointer-events-none absolute -right-20 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
+<section id="before-after" class="relative overflow-hidden bg-[#FAF9F6] py-16 sm:py-20 lg:py-32">
+    {{-- Ambient Glow Background --}}
+    <div class="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
+    <div class="pointer-events-none absolute -right-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
 
-    <div class="relative mx-auto max-w-7xl px-6 lg:px-12">
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
-        {{-- Heading --}}
-        <div class="mb-16 text-center">
-            <div class="inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-4 py-1.5">
+        {{-- Heading Section --}}
+        <div class="mb-10 text-center sm:mb-16">
+            <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                 <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
-                <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF5252]">
+                <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
                     Real Results
                 </span>
             </div>
 
-            <h2 class="mt-4 text-4xl font-bold tracking-tight text-neutral-900 lg:text-5xl">
+            <h2 data-reveal="down" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl lg:text-5xl">
                 See The Difference
             </h2>
 
-            <p class="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-neutral-500">
+            <p data-reveal="down" data-delay="300" class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm">
                 Bukti nyata transformasi dan hasil perawatan pasien kami di WFSC Clinic.
             </p>
         </div>
 
-        {{-- Slider --}}
+        {{-- Slider Container --}}
         @if ($treatmentBeforeAfters->isNotEmpty())
             <div
+                data-reveal="zoom"
+                data-delay="400"
                 data-before-after-slider
-                class="relative mx-auto max-w-5xl"
+                class="reveal-hidden relative mx-auto max-w-5xl"
             >
-                <div class="relative overflow-hidden rounded-[2.5rem] border border-neutral-200/80 bg-white p-4 md:p-6 shadow-xl shadow-neutral-200/50">
+                <div class="relative overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-3 shadow-xl shadow-neutral-200/50 sm:rounded-[2.5rem] sm:p-5 md:p-6">
                     
                     @foreach ($treatmentBeforeAfters as $index => $item)
                         <article
                             data-before-after-slide
                             class="{{ $index === 0 ? '' : 'hidden' }} transition-opacity duration-500"
                         >
-                            {{-- Side-by-Side Comparison Grid --}}
-                            <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+                            {{-- Grid Media Comparison --}}
+                            <div class="grid gap-3 sm:gap-4 md:grid-cols-2 md:gap-6">
 
-                                {{-- BEFORE MEDIA --}}
-                                @php
-                                    $beforeUrl = Storage::url($item->before_media);
-                                    $beforeExtension = strtolower(
-                                        pathinfo($item->before_media, PATHINFO_EXTENSION)
-                                    );
-                                @endphp
+                                {{-- Loop Media (Before = 0, After = 1) untuk mempersingkat kode --}}
+                                @foreach ([
+                                    ['key' => 'before_media', 'label' => 'Before', 'badge' => 'bg-black/60 text-white', 'alt' => 'Before ' . $item->treatment?->name],
+                                    ['key' => 'after_media', 'label' => 'After', 'badge' => 'bg-[#FF5252] text-white shadow-md shadow-[#FF5252]/30', 'alt' => 'After ' . $item->treatment?->name]
+                                ] as $media)
+                                    @php
+                                        $file = $item->{$media['key']};
+                                        $url = Storage::url($file);
+                                        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                    @endphp
 
-                                <div class="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-neutral-100 border border-neutral-200/60">
-                                    {{-- Badge Label --}}
-                                    <div class="absolute left-4 top-4 z-10 rounded-full bg-black/60 px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-md">
-                                        Before
-                                    </div>
+                                    <div class="relative aspect-[4/3] overflow-hidden rounded-xl border border-neutral-200/60 bg-neutral-100 sm:rounded-[1.75rem]">
+                                        {{-- Badge --}}
+                                        <div class="absolute left-3 top-3 z-10 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md sm:left-4 sm:top-4 sm:px-3.5 sm:text-[11px] {{ $media['badge'] }}">
+                                            {{ $media['label'] }}
+                                        </div>
 
-                                    @if (in_array($beforeExtension, ['mp4', 'webm', 'mov']))
-                                        <video
-                                            autoplay
-                                            muted
-                                            loop
-                                            playsinline
-                                            class="h-full w-full object-cover"
-                                        >
-                                            <source
-                                                src="{{ $beforeUrl }}"
-                                                type="{{ $beforeExtension === 'mov' ? 'video/quicktime' : 'video/' . $beforeExtension }}"
+                                        @if (in_array($ext, ['mp4', 'webm', 'mov']))
+                                            <video autoplay muted loop playsinline class="h-full w-full object-cover">
+                                                <source src="{{ $url }}" type="{{ $ext === 'mov' ? 'video/quicktime' : 'video/' . $ext }}">
+                                                Browser kamu tidak mendukung video.
+                                            </video>
+                                        @else
+                                            <img
+                                                src="{{ $url }}"
+                                                alt="{{ $media['alt'] }}"
+                                                class="h-full w-full object-cover transition duration-700 hover:scale-105"
                                             >
-                                            Browser kamu tidak mendukung video.
-                                        </video>
-                                    @else
-                                        <img
-                                            src="{{ $beforeUrl }}"
-                                            alt="Before {{ $item->treatment?->name }}"
-                                            class="h-full w-full object-cover transition duration-700 hover:scale-105"
-                                        >
-                                    @endif
-                                </div>
-
-
-                                {{-- AFTER MEDIA --}}
-                                @php
-                                    $afterUrl = Storage::url($item->after_media);
-                                    $afterExtension = strtolower(
-                                        pathinfo($item->after_media, PATHINFO_EXTENSION)
-                                    );
-                                @endphp
-
-                                <div class="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-neutral-100 border border-neutral-200/60">
-                                    {{-- Badge Label --}}
-                                    <div class="absolute left-4 top-4 z-10 rounded-full bg-[#FF5252] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-md shadow-[#FF5252]/30">
-                                        After
+                                        @endif
                                     </div>
-
-                                    @if (in_array($afterExtension, ['mp4', 'webm', 'mov']))
-                                        <video
-                                            autoplay
-                                            muted
-                                            loop
-                                            playsinline
-                                            class="h-full w-full object-cover"
-                                        >
-                                            <source
-                                                src="{{ $afterUrl }}"
-                                                type="{{ $afterExtension === 'mov' ? 'video/quicktime' : 'video/' . $afterExtension }}"
-                                            >
-                                            Browser kamu tidak mendukung video.
-                                        </video>
-                                    @else
-                                        <img
-                                            src="{{ $afterUrl }}"
-                                            alt="After {{ $item->treatment?->name }}"
-                                            class="h-full w-full object-cover transition duration-700 hover:scale-105"
-                                        >
-                                    @endif
-                                </div>
+                                @endforeach
 
                             </div>
 
                             {{-- Caption Info Box --}}
-                            <div class="mt-8 border-t border-neutral-100 pt-6 text-center">
+                            <div class="mt-6 border-t border-neutral-100 pt-5 text-center sm:mt-8 sm:pt-6">
                                 @if ($item->treatment)
-                                    <span class="text-[11px] font-bold uppercase tracking-wider text-[#FF5252]">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#FF5252] sm:text-[11px]">
                                         Treatment Result
                                     </span>
-                                    <h3 class="mt-1 text-2xl font-bold tracking-tight text-neutral-900">
+                                    <h3 class="mt-1 text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl">
                                         {{ $item->treatment->name }}
                                     </h3>
                                 @endif
 
                                 @if ($item->caption)
-                                    <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-neutral-500">
+                                    <p class="mx-auto mt-1.5 max-w-2xl text-xs leading-relaxed text-neutral-500 sm:mt-2 sm:text-sm">
                                         {{ $item->caption }}
                                     </p>
                                 @endif
@@ -145,12 +104,12 @@
 
                 {{-- Indicators (Pill Style) --}}
                 @if ($treatmentBeforeAfters->count() > 1)
-                    <div class="mt-8 flex justify-center items-center gap-2">
+                    <div class="mt-6 flex items-center justify-center gap-2 sm:mt-8">
                         @foreach ($treatmentBeforeAfters as $index => $item)
                             <button
                                 type="button"
                                 data-before-after-dot="{{ $index }}"
-                                class="h-2 rounded-full transition-all duration-300 {{ $index === 0 ? 'w-8 bg-[#FF5252]' : 'w-2 bg-neutral-300 hover:bg-neutral-400' }}"
+                                class="h-1.5 rounded-full transition-all duration-300 sm:h-2 {{ $index === 0 ? 'w-6 bg-[#FF5252] sm:w-8' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400 sm:w-2' }}"
                                 aria-label="Go to slide {{ $index + 1 }}"
                             ></button>
                         @endforeach
@@ -158,8 +117,8 @@
                 @endif
             </div>
         @else
-            <div class="rounded-2xl border border-dashed border-neutral-300 bg-white/50 py-16 text-center">
-                <p class="text-sm text-neutral-400">
+            <div class="rounded-2xl border border-dashed border-neutral-300 bg-white/50 py-12 text-center sm:py-16">
+                <p class="text-xs text-neutral-400 sm:text-sm">
                     No before and after results available at the moment.
                 </p>
             </div>

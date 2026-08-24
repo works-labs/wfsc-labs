@@ -28,7 +28,6 @@ new #[Layout('layouts.admin')] class extends Component
                 'max:255',
                 'unique:site_settings,key,' . $this->setting->id,
             ],
-
             'value' => [
                 'nullable',
                 'string',
@@ -53,7 +52,6 @@ new #[Layout('layouts.admin')] class extends Component
 <div>
 
     <div class="mb-6">
-
         <a
             href="{{ route('admin.settings.index') }}"
             wire:navigate
@@ -69,7 +67,6 @@ new #[Layout('layouts.admin')] class extends Component
         <p class="mt-1 text-sm text-gray-500">
             Update this website setting.
         </p>
-
     </div>
 
     <form
@@ -79,9 +76,7 @@ new #[Layout('layouts.admin')] class extends Component
 
         <div class="space-y-6">
 
-            {{-- Key --}}
             <div>
-
                 <label class="mb-2 block text-sm font-medium text-gray-700">
                     Key
                 </label>
@@ -97,12 +92,9 @@ new #[Layout('layouts.admin')] class extends Component
                         {{ $message }}
                     </p>
                 @enderror
-
             </div>
 
-            {{-- Value --}}
             <div>
-
                 <label class="mb-2 block text-sm font-medium text-gray-700">
                     Value
                 </label>
@@ -118,7 +110,6 @@ new #[Layout('layouts.admin')] class extends Component
                         {{ $message }}
                     </p>
                 @enderror
-
             </div>
 
         </div>

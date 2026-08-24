@@ -6,6 +6,16 @@ use App\Models\SiteSetting;
 
 new #[Layout('layouts.admin')] class extends Component
 {
+    public array $availableSettings = [
+    'whatsapp_number' => 'WhatsApp Number',
+    'site_phone' => 'Site Phone',
+    'site_email' => 'Site Email',
+    'operating_hours' => 'Operating Hours',
+    'instagram_url' => 'Instagram URL',
+    'tiktok_url' => 'TikTok URL',
+    'threads_url' => 'Threads URL',
+    ];
+
     public string $key = '';
     public string $value = '';
 
@@ -14,8 +24,7 @@ new #[Layout('layouts.admin')] class extends Component
         $validated = $this->validate([
             'key' => [
                 'required',
-                'string',
-                'max:255',
+                'in:whatsapp_number,site_phone,site_email,operating_hours,instagram_url,tiktok_url,threads_url',
                 'unique:site_settings,key',
             ],
 
@@ -74,12 +83,20 @@ new #[Layout('layouts.admin')] class extends Component
                     Key
                 </label>
 
-                <input
-                    type="text"
+                <select
                     wire:model="key"
-                    placeholder="e.g. whatsapp_number"
                     class="w-full rounded-lg border-gray-300 px-4 py-2.5 text-sm focus:border-gray-900 focus:ring-gray-900"
                 >
+                    <option value="">
+                        Select setting
+                    </option>
+
+                    @foreach ($availableSettings as $settingKey => $label)
+                        <option value="{{ $settingKey }}">
+                            {{ $label }}
+                        </option>
+                    @endforeach
+                </select>
 
                 @error('key')
                     <p class="mt-1 text-sm text-red-600">

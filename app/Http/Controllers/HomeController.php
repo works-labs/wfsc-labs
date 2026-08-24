@@ -13,6 +13,7 @@ use App\Models\Facility;
 use App\Models\Promo;
 use App\Models\News;
 use App\Models\Branch;
+use App\Models\Treatment;
 use App\Models\SiteSetting;
 
 class HomeController extends Controller
@@ -43,6 +44,17 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
+
+        $treatments = Treatment::query()
+    ->with('category')
+    ->where('is_active', true)
+    ->whereHas('category', function ($query) {
+        $query->where('is_active', true);
+    })
+    ->orderByDesc('is_featured')
+    ->orderBy('name')
+    ->take(8)
+    ->get();
 
         $treatmentBeforeAfters = TreatmentBeforeAfter::query()
             ->with('treatment')
@@ -107,6 +119,7 @@ class HomeController extends Controller
             'homeDoctors' => $homeDoctors,
             'statistics' => $statistics,
             'treatmentCategories' => $treatmentCategories,
+            'treatments' => $treatments,
             'treatmentBeforeAfters' => $treatmentBeforeAfters,
             'whyChooseItems' => $whyChooseItems,
             'facilities' => $facilities,
