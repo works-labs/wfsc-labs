@@ -27,7 +27,7 @@ class Doctor extends Model
     }
     public function isFounder(): bool
     {
-        return $this->slug === 'dr-yuly-lie';
+        return $this->slug === 'dr-yuly-lie-jaya';
     }
     protected static function booted(): void
     {
