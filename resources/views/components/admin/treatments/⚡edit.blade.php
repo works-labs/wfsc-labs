@@ -36,11 +36,10 @@ new #[Layout('layouts.admin')] class extends Component
         $this->is_active = (bool) $treatment->is_active;
     }
 
+    // Mengubah slug otomatis saat name diedit (menggunakan underscore)
     public function updatedName(string $value): void
     {
-        if ($this->slug === $this->treatment->slug) {
-            $this->slug = Str::slug($value);
-        }
+        $this->slug = Str::slug($value, '-');
     }
 
     public function update(): void
@@ -156,12 +155,17 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
 
             <div>
-                <label class="block text-sm font-medium">Slug</label>
+                <label class="block text-sm font-medium text-gray-700">
+                    Slug (Auto-generated)
+                </label>
 
                 <input
                     type="text"
                     wire:model="slug"
-                    class="mt-1 w-full rounded-lg border-gray-300"
+                    readonly
+                    tabindex="-1"
+                    class="mt-1 w-full cursor-not-allowed rounded-lg border border-gray-300 bg-gray-100 px-4 py-2.5 font-mono text-sm text-gray-500"
+                    placeholder="hydrafacial_facial"
                 >
 
                 @error('slug')

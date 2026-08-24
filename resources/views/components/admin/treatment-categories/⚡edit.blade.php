@@ -2,6 +2,7 @@
 
 use App\Models\TreatmentCategory;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
@@ -30,6 +31,12 @@ new #[Layout('layouts.admin')] class extends Component
         $this->currentImage = $category->image;
         $this->sort_order = $category->sort_order;
         $this->is_active = (bool) $category->is_active;
+    }
+
+    // Mengubah slug otomatis saat name diedit (menggunakan underscore)
+    public function updatedName(string $value): void
+    {
+        $this->slug = Str::slug($value, '-');
     }
 
     public function update(): void
@@ -100,9 +107,10 @@ new #[Layout('layouts.admin')] class extends Component
                 Name
             </label>
 
+            {{-- Menggunakan wire:model.live agar slug otomatis ter-update --}}
             <input
                 type="text"
-                wire:model="name"
+                wire:model.live="name"
                 class="w-full rounded-lg border border-gray-300 px-4 py-2.5"
             >
 
@@ -112,14 +120,17 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
 
         <div>
-            <label class="mb-2 block text-sm font-medium">
-                Slug
+            <label class="mb-2 block text-sm font-medium text-gray-700">
+                Slug (Auto-generated)
             </label>
 
             <input
                 type="text"
                 wire:model="slug"
-                class="w-full rounded-lg border border-gray-300 px-4 py-2.5"
+                readonly
+                tabindex="-1"
+                class="w-full cursor-not-allowed rounded-lg border border-gray-300 bg-gray-100 px-4 py-2.5 font-mono text-sm text-gray-500"
+                placeholder="skin_quality"
             >
 
             @error('slug')

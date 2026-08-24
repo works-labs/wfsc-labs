@@ -127,19 +127,23 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
 
             <div>
-                <label class="block text-sm font-medium">Slug</label>
+    <label class="block text-sm font-medium text-gray-700">
+        Slug (Auto-generated)
+    </label>
 
-                <input
-                    type="text"
-                    wire:model="slug"
-                    class="mt-1 w-full rounded-lg border-gray-300"
-                    placeholder="hydrafacial"
-                >
+    <input
+        type="text"
+        wire:model="slug"
+        readonly
+        tabindex="-1"
+        class="mt-1 w-full cursor-not-allowed rounded-lg border border-gray-300 bg-gray-100 px-4 py-2.5 font-mono text-sm text-gray-500"
+        placeholder="hydrafacial"
+    >
 
-                @error('slug')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
+    @error('slug')
+        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+</div>
 
             <div>
                 <label class="block text-sm font-medium">Short Description</label>
