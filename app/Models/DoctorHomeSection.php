@@ -18,4 +18,9 @@ class DoctorHomeSection extends Model
     {
         return $this->belongsTo(Doctor::class);
     }
+
+    public function isFounder(): bool
+    {
+        return $this->doctor?->isFounder() ?? false;
+    }
 }

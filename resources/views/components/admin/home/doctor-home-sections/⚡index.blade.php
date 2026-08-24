@@ -7,14 +7,26 @@ use App\Models\DoctorHomeSection;
 new #[Layout('layouts.admin')] class extends Component
 {
     public function delete(int $sectionId): void
-    {
-        DoctorHomeSection::findOrFail($sectionId)->delete();
+{
+    $section = DoctorHomeSection::with('doctor')
+        ->findOrFail($sectionId);
 
+    if ($section->isFounder()) {
         session()->flash(
-            'success',
-            'Doctor home section deleted successfully.'
+            'error',
+            'Founder doctor cannot be removed from the Home page.'
         );
+
+        return;
     }
+
+    $section->delete();
+
+    session()->flash(
+        'success',
+        'Doctor home section deleted successfully.'
+    );
+}
 
     public function with(): array
     {
@@ -51,10 +63,16 @@ new #[Layout('layouts.admin')] class extends Component
     </div>
 
     @if (session('success'))
-        <div class="mb-6 rounded-lg bg-green-100 px-4 py-3 text-sm text-green-700">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div class="mb-6 rounded-lg bg-green-100 px-4 py-3 text-sm text-green-700">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="mb-6 rounded-lg bg-red-100 px-4 py-3 text-sm text-red-700">
+        {{ session('error') }}
+    </div>
+@endif
 
     <div class="overflow-hidden rounded-xl bg-white shadow-sm">
         <div class="overflow-x-auto">
@@ -92,6 +110,11 @@ new #[Layout('layouts.admin')] class extends Component
                                     {{ $section->doctor?->name }}
                                 </div>
 
+                                @if ($section->isFounder())
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                                        ♛ Founder
+                                    </span>
+                                @endif
                                 @if ($section->doctor?->specialization)
                                     <div class="mt-1 text-sm text-gray-500">
                                         {{ $section->doctor->specialization }}
@@ -131,14 +154,24 @@ new #[Layout('layouts.admin')] class extends Component
                                         Edit
                                     </a>
 
-                                    <button
-                                        type="button"
-                                        wire:click="delete({{ $section->id }})"
-                                        wire:confirm="Are you sure you want to remove this doctor from the Home section?"
-                                        class="text-sm font-medium text-red-600 hover:underline"
-                                    >
-                                        Delete
-                                    </button>
+                                    @if ($section->isFounder())
+
+                                        <span class="text-sm font-medium text-amber-600">
+                                            ♛ Protected
+                                        </span>
+
+                                    @else
+
+                                        <button
+                                            type="button"
+                                            wire:click="delete({{ $section->id }})"
+                                            wire:confirm="Are you sure you want to remove this doctor from the Home section?"
+                                            class="text-sm font-medium text-red-600 hover:underline"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    @endif
                                 </div>
                             </td>
                         </tr>

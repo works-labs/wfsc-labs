@@ -25,4 +25,18 @@ class Doctor extends Model
     {
         return $this->hasMany(DoctorHomeSection::class);
     }
+    public function isFounder(): bool
+    {
+        return $this->slug === 'dr-yuly-lie';
+    }
+    protected static function booted(): void
+    {
+        static::deleting(function (Doctor $doctor) {
+            if ($doctor->isFounder()) {
+                throw new \RuntimeException(
+                    'Founder doctor cannot be deleted.'
+                );
+            }
+        });
+    }
 }

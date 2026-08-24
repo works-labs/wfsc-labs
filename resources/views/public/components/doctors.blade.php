@@ -41,7 +41,7 @@
         {{-- Slider Track --}}
         @if ($homeDoctors->isNotEmpty())
 
-            {{-- Container Slider Utama (Tidak diberi animasi reveal agar tidak bentrok dengan kalkulasi JS Slider) --}}
+            {{-- Container Slider Utama --}}
             <div data-doctor-slider class="relative overflow-hidden">
                 <div data-doctor-track class="-mx-3 flex transition-transform duration-500 ease-out">
 
@@ -55,8 +55,29 @@
                                 data-delay="{{ 100 + ($index * 100) }}"
                                 class="reveal-hidden w-full shrink-0 px-3 sm:w-1/2 lg:w-1/3"
                             >
-                                <a href="{{ route('doctor.show', $doctor->slug) }}" class="group block h-full">
-                                    <div class="overflow-hidden rounded-[2rem] bg-neutral-100">
+                                <a
+                                    href="{{ route('doctor.show', $doctor->slug) }}"
+                                    class="group block h-full"
+                                >
+                                    {{-- Image Container --}}
+                                    <div
+                                        class="relative overflow-hidden rounded-[2rem] bg-neutral-100
+                                        {{ $doctor->isFounder()
+                                            ? 'border-2 border-[#FF5252] shadow-[0_12px_40px_rgba(255,82,82,0.16)]'
+                                            : 'border border-transparent'
+                                        }}"
+                                    >
+                                        {{-- Founder Badge --}}
+                                        @if ($doctor->isFounder())
+                                            <div class="absolute left-4 top-4 z-10">
+                                                <div class="inline-flex items-center gap-1.5 rounded-full border border-[#FF5252]/20 bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#FF5252] shadow-lg backdrop-blur-sm">
+                                                    <span class="text-sm leading-none">♛</span>
+                                                    <span>Founder</span>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        {{-- Doctor Photo --}}
                                         @if ($doctor->photo)
                                             <img
                                                 src="{{ asset('storage/' . $doctor->photo) }}"
@@ -68,9 +89,24 @@
                                                 No photo
                                             </div>
                                         @endif
+
+                                        {{-- Founder Corner Accent --}}
+                                        @if ($doctor->isFounder())
+                                            <div class="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#FF5252] text-white shadow-lg">
+                                                <span class="text-lg">♛</span>
+                                            </div>
+                                        @endif
                                     </div>
 
+                                    {{-- Doctor Info & Link --}}
                                     <div class="pt-5 text-center">
+                                        @if ($doctor->isFounder())
+                                            <div class="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#FF5252]/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#FF5252]">
+                                                <span>♛</span>
+                                                <span>Founder</span>
+                                            </div>
+                                        @endif
+
                                         @if ($doctor->specialization)
                                             <p class="text-xs uppercase tracking-[0.18em] text-neutral-400 sm:text-sm">
                                                 {{ $doctor->specialization }}

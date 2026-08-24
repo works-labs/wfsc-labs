@@ -13,39 +13,56 @@ new #[Layout('layouts.admin')] class extends Component
     public bool $is_active = true;
 
     public function save(): void
-    {
-        $validated = $this->validate([
-            'doctor_id' => ['required', 'exists:doctors,id'],
-            'section' => ['required', 'in:hero,doctors'],
-            'sort_order' => ['required', 'integer', 'min:0'],
-            'is_active' => ['boolean'],
-        ]);
+{
+    $validated = $this->validate([
+        'doctor_id' => ['required', 'exists:doctors,id'],
+        'section' => ['required', 'in:hero,doctors'],
+        'sort_order' => ['required', 'integer', 'min:0'],
+        'is_active' => ['boolean'],
+    ]);
 
-        $exists = DoctorHomeSection::where('doctor_id', $this->doctor_id)
-            ->where('section', $this->section)
-            ->exists();
+    $doctor = Doctor::findOrFail($this->doctor_id);
 
-        if ($exists) {
-            $this->addError(
-                'doctor_id',
-                'This doctor is already assigned to this section.'
-            );
-
-            return;
-        }
-
-        DoctorHomeSection::create($validated);
-
-        session()->flash(
-            'success',
-            'Doctor home section created successfully.'
+    // Founder hanya boleh berada di Doctors section
+    if ($doctor->isFounder() && $this->section !== 'doctors') {
+        $this->addError(
+            'section',
+            'Founder doctor can only be assigned to the Doctors section.'
         );
 
-        $this->redirect(
-            route('admin.home.doctor-home-sections.index'),
-            navigate: true
-        );
+        return;
     }
+
+    // Founder harus selalu active
+    if ($doctor->isFounder()) {
+        $validated['is_active'] = true;
+    }
+
+    $exists = DoctorHomeSection::where('doctor_id', $this->doctor_id)
+        ->where('section', $this->section)
+        ->exists();
+
+    if ($exists) {
+        $this->addError(
+            'doctor_id',
+            'This doctor is already assigned to this section.'
+        );
+
+        return;
+    }
+
+    DoctorHomeSection::create($validated);
+
+    session()->flash(
+        'success',
+        'Doctor home section created successfully.'
+    );
+
+    $this->redirect(
+        route('admin.home.doctor-home-sections.index'),
+        navigate: true
+    );
+}
 
     public function with(): array
     {
@@ -83,10 +100,13 @@ new #[Layout('layouts.admin')] class extends Component
                 <option value="">Select doctor</option>
 
                 @foreach ($doctors as $doctor)
-                    <option value="{{ $doctor->id }}">
-                        {{ $doctor->title }} {{ $doctor->name }}
-                    </option>
-                @endforeach
+    <option value="{{ $doctor->id }}">
+        {{ $doctor->title }} {{ $doctor->name }}
+        @if ($doctor->isFounder())
+            — Founder
+        @endif
+    </option>
+@endforeach
             </select>
 
             @error('doctor_id')

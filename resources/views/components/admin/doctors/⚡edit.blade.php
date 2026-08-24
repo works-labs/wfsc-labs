@@ -23,14 +23,14 @@ new #[Layout('layouts.admin')] class extends Component
     public string $certifications = '';
     public string $experience = '';
     public bool $is_active = true;
-
+    public bool $isFounder = false;
     public $photo;
     public ?string $currentPhoto = null;
 
     public function mount(Doctor $doctor): void
     {
         $this->doctor = $doctor;
-
+        $this->isFounder = $doctor->isFounder();
         $this->name = $doctor->name;
         $this->slug = $doctor->slug;
         $this->title = $doctor->title ?? '';
@@ -46,6 +46,9 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function updatedName(): void
     {
+        if ($this->isFounder) {
+            return;
+        }
         $this->slug = Str::slug($this->name);
     }
 
@@ -84,7 +87,9 @@ new #[Layout('layouts.admin')] class extends Component
         unset($validated['photo']);
     }
 
-    $this->doctor->update($validated);
+    if ($this->doctor->isFounder()) {
+    $validated['slug'] = $this->doctor->slug;
+}
 
     session()->flash('success', 'Doctor updated successfully.');
 
@@ -161,9 +166,16 @@ new #[Layout('layouts.admin')] class extends Component
                     <input
                         type="text"
                         wire:model="slug"
-                        class="mt-1 w-full rounded-lg border-gray-300 bg-gray-50 shadow-sm"
+                        @disabled($isFounder)
+                        class="mt-1 w-full rounded-lg border-gray-300 bg-gray-50 shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
                     >
+                    @if ($isFounder)
 
+                        <p class="mt-2 text-xs text-amber-600">
+                            ♛ This doctor is the protected founder. The slug cannot be changed.
+                        </p>
+
+                    @endif
                     @error('slug')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror

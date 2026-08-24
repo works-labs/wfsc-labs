@@ -112,7 +112,25 @@ class HomeController extends Controller
                 'threads_url',
             ])
             ->pluck('value', 'key');
-            
+        
+        $whatsappUrl = null;
+        if (!empty($settings['whatsapp_number'])) {
+            $cleanNumber = preg_replace('/[^0-9]/', '', $settings['whatsapp_number']);
+            $whatsappUrl = $cleanNumber ? "https://wa.me/{$cleanNumber}" : null;
+        }
+
+        $founder = $homeDoctors->first(
+            fn ($item) => $item->doctor?->isFounder()
+        );
+
+        if ($founder) {
+            $homeDoctors = $homeDoctors
+                ->reject(fn ($item) => $item->id === $founder->id)
+                ->values();
+
+            $homeDoctors->splice(1, 0, [$founder]);
+        }
+
         return view('public.home', [
             'heroBanners' => $heroBanners,
             'heroDoctors' => $heroDoctors,
@@ -127,6 +145,7 @@ class HomeController extends Controller
             'news' => $news,
             'branches' => $branches,
             'settings' => $settings,
+            'whatsappUrl' => $whatsappUrl,
         ]);
     }
 }

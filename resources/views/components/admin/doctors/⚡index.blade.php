@@ -21,11 +21,22 @@ new #[Layout('layouts.admin')] class extends Component
 {
     $doctor = Doctor::findOrFail($doctorId);
 
-    if ($doctor->photo && Storage::disk('public')->exists($doctor->photo)) {
-        Storage::disk('public')->delete($doctor->photo);
+    if ($doctor->isFounder()) {
+        session()->flash(
+            'error',
+            'Founder doctor cannot be deleted.'
+        );
+
+        return;
     }
 
+    $photo = $doctor->photo;
+
     $doctor->delete();
+
+    if ($photo && Storage::disk('public')->exists($photo)) {
+        Storage::disk('public')->delete($photo);
+    }
 
     $this->resetPage();
 }
@@ -143,6 +154,12 @@ new #[Layout('layouts.admin')] class extends Component
                                             {{ $doctor->title }} {{ $doctor->name }}
                                         </div>
 
+                                        @if ($doctor->isFounder())
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                                                ♛ Founder
+                                            </span>
+                                        @endif
+
                                         <div class="text-sm text-gray-500">
                                             {{ $doctor->slug }}
                                         </div>
@@ -188,14 +205,25 @@ new #[Layout('layouts.admin')] class extends Component
                                     Edit
                                 </a>
 
-                                <button
-                                    type="button"
-                                    wire:click="delete({{ $doctor->id }})"
-                                    wire:confirm="Delete this doctor?"
-                                    class="ml-4 font-medium text-red-600 hover:text-red-800"
-                                >
-                                    Delete
-                                </button>
+                                @if ($doctor->isFounder())
+
+                                    <span class="ml-4 inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                                        <span>♛</span>
+                                        Protected Founder
+                                    </span>
+
+                                @else
+
+                                    <button
+                                        type="button"
+                                        wire:click="delete({{ $doctor->id }})"
+                                        wire:confirm="Delete this doctor?"
+                                        class="ml-4 font-medium text-red-600 hover:text-red-800"
+                                    >
+                                        Delete
+                                    </button>
+
+                                @endif
 
                             </td>
 
