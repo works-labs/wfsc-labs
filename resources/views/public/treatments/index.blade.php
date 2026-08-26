@@ -5,12 +5,12 @@
 
 @section('content')
 
-{{-- Category Navigation --}}
+{{-- Category Navigation (Centered) --}}
 <section class="relative border-b border-neutral-200/80 bg-[#FAF9F6] pt-32 lg:pt-40">
     <div class="mx-auto max-w-7xl px-6 lg:px-12">
 
         <div
-            class="flex items-center justify-start md:justify-center overflow-x-auto scrollbar-hide gap-2 md:gap-6"
+            class="flex items-center justify-center overflow-x-auto scrollbar-hide gap-2 md:gap-6"
             data-treatment-tabs
         >
 
@@ -49,8 +49,8 @@
                 class="{{ $loop->first ? '' : 'hidden' }} transition-opacity duration-500"
             >
 
-                {{-- Category Heading --}}
-                <div class="mb-12 max-w-2xl">
+                {{-- Category Heading (Centered & Dibatasi Lebarnya) --}}
+                <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-2 sm:mb-14 lg:mb-16">
 
                     <div class="inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1">
                         <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
@@ -59,12 +59,12 @@
                         </span>
                     </div>
 
-                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-neutral-900 lg:text-5xl">
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                         {{ $category->name }}
                     </h2>
 
                     @if ($category->description)
-                        <p class="mt-4 text-base leading-relaxed text-neutral-500">
+                        <p class="mt-3 text-sm leading-relaxed text-neutral-500 sm:mt-4 sm:text-base">
                             {{ $category->description }}
                         </p>
                     @endif

@@ -341,4 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     initScrollReveal();
 
+    new TrackSlider('promo', {
+    breakpoints: { lg: 3, sm: 2, default: 1 },
+    autoSlide: true,
+    interval: 2000
+});
 });

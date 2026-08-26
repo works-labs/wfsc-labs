@@ -4,123 +4,219 @@
 
 @if ($promos->isNotEmpty())
     <section id="promos" class="relative overflow-hidden bg-[#FAF9F6] py-16 sm:py-20 lg:py-32">
+
         {{-- Ambient Glow Background --}}
         <div class="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
         <div class="pointer-events-none absolute -right-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
-            {{-- Heading Section --}}
-            <div class="mb-10 text-center sm:mb-16">
-                <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
-                    <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
+            {{-- Header & Navigation --}}
+            <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-6 text-center sm:mb-14 lg:mb-16">
+
+                {{-- Text Header --}}
+                <div>
+                    <p
+                        data-reveal="fade-up"
+                        data-delay="100"
+                        class="reveal-hidden text-xs font-semibold uppercase tracking-[0.25em] text-[#FF5252] sm:text-sm"
+                    >
                         Special Offer
-                    </span>
+                    </p>
+
+                    <h2
+                        data-reveal="fade-up"
+                        data-delay="200"
+                        class="reveal-hidden mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-5xl"
+                    >
+                        Our Promo
+                    </h2>
+
+                    <p
+                        data-reveal="fade-up"
+                        data-delay="300"
+                        class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm"
+                    >
+                        Nikmati penawaran terbatas dan diskon spesial untuk perawatan terbaik Anda.
+                    </p>
                 </div>
 
-                <h2 data-reveal="down" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl lg:text-5xl">
-                    Our Promo
-                </h2>
+                {{-- Navigation Buttons --}}
+                @if ($promos->count() > 1)
+                    <div
+                        data-reveal="fade-up"
+                        data-delay="400"
+                        class="reveal-hidden flex items-center justify-center gap-2.5 sm:gap-3"
+                    >
+                        <button
+                            type="button"
+                            data-promo-prev
+                            class="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 transition-all duration-300 hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:w-11"
+                            aria-label="Previous promotions"
+                        >
+                            ←
+                        </button>
 
-                <p data-reveal="down" data-delay="300" class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm">
-                    Nikmati penawaran terbatas dan diskon spesial untuk perawatan terbaik Anda.
-                </p>
+                        <button
+                            type="button"
+                            data-promo-next
+                            class="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 transition-all duration-300 hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:w-11"
+                            aria-label="Next promotions"
+                        >
+                            →
+                        </button>
+                    </div>
+                @endif
+
             </div>
 
-            {{-- Slider Container --}}
+
+            {{-- Slider --}}
             <div
                 data-reveal="zoom"
-                data-delay="400"
+                data-delay="500"
                 data-promo-slider
-                class="reveal-hidden relative mx-auto max-w-4xl"
+                class="reveal-hidden relative overflow-hidden"
             >
-                <div class="relative overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-3 shadow-xl shadow-neutral-200/50 sm:rounded-[2.5rem] sm:p-5 md:p-6">
-                    
+
+                <div
+                    data-promo-track
+                    class="-mx-2 flex transition-transform duration-500 ease-out sm:-mx-3"
+                >
+
                     @foreach ($promos as $index => $promo)
+
                         @php
-                            // Check image fallback to linked product if promo image is empty
-                            $imageUrl = $promo->image 
-                                ? Storage::url($promo->image) 
-                                : ($promo->treatmentProduct?->image ? Storage::url($promo->treatmentProduct->image) : null);
+                            $imageUrl = $promo->image
+                                ? Storage::url($promo->image)
+                                : (
+                                    $promo->treatmentProduct?->image
+                                        ? Storage::url($promo->treatmentProduct->image)
+                                        : null
+                                );
+
+                            $promoCount = $promos->count();
+
+                            if ($promoCount === 1) {
+                                $slideWidth = 'w-full';
+                            } elseif ($promoCount === 2) {
+                                $slideWidth = 'w-full sm:w-1/2';
+                            } else {
+                                $slideWidth = 'w-full sm:w-1/2 lg:w-1/3';
+                            }
                         @endphp
 
-                        <article
+                        <div
                             data-promo-slide
-                            class="{{ $index === 0 ? '' : 'hidden' }} transition-opacity duration-500"
+                            class="w-full shrink-0 px-2 sm:px-3 {{ $slideWidth }}"
                         >
-                            {{-- Image Container with Floating Date Badge --}}
-                            @if ($imageUrl)
-                                <div class="relative aspect-[16/9] overflow-hidden rounded-xl border border-neutral-200/60 bg-neutral-100 sm:rounded-[1.75rem]">
-                                    <img
-                                        src="{{ $imageUrl }}"
-                                        alt="{{ $promo->title }}"
-                                        class="h-full w-full object-cover transition duration-700 hover:scale-105"
-                                    >
+                            <article
+                                class="flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white transition-all duration-500 hover:-translate-y-1.5 hover:border-[#FF5252]/30 hover:shadow-[0_20px_40px_rgba(255,82,82,0.10)] sm:rounded-[2rem]"
+                            >
 
-                                    {{-- Floating Date Chip / Badge --}}
-                                    <div class="absolute left-3 top-3 z-10 sm:left-5 sm:top-5">
-                                        <div class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1.5 text-[11px] font-medium text-white shadow-lg backdrop-blur-md sm:px-4 sm:py-2 sm:text-xs">
-                                            <svg class="h-3.5 w-3.5 text-[#FF5252]" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                {{-- Image --}}
+                                <div class="relative aspect-[16/10] overflow-hidden bg-neutral-200">
+
+                                    @if ($imageUrl)
+                                        <img
+                                            src="{{ $imageUrl }}"
+                                            alt="{{ $promo->title }}"
+                                            class="h-full w-full object-cover transition duration-700 ease-out hover:scale-105"
+                                        >
+                                    @else
+                                        <div class="flex h-full items-center justify-center text-xs text-neutral-400 sm:text-sm">
+                                            No image
+                                        </div>
+                                    @endif
+
+                                    {{-- Date Badge --}}
+                                    <div class="absolute left-3 top-3 z-10 sm:left-4 sm:top-4">
+                                        <div class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1.5 text-[10px] font-medium text-white shadow-lg backdrop-blur-md sm:px-4 sm:py-2 sm:text-xs">
+
+                                            <svg
+                                                class="h-3.5 w-3.5 text-[#FF5252]"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="2"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                                                />
                                             </svg>
-                                            
+
                                             @if ($promo->start_date && $promo->end_date)
-                                                <span>{{ $promo->start_date->format('d M') }} – {{ $promo->end_date->format('d M Y') }}</span>
+                                                <span>
+                                                    {{ $promo->start_date->format('d M') }}
+                                                    –
+                                                    {{ $promo->end_date->format('d M Y') }}
+                                                </span>
                                             @elseif ($promo->end_date)
-                                                <span>Berlaku s/d {{ $promo->end_date->format('d M Y') }}</span>
+                                                <span>
+                                                    Berlaku s/d {{ $promo->end_date->format('d M Y') }}
+                                                </span>
                                             @else
-                                                <span class="font-semibold uppercase tracking-wider text-[#FF5252]">Limited Offer</span>
+                                                <span class="font-semibold uppercase tracking-wider text-[#FF5252]">
+                                                    Limited Offer
+                                                </span>
                                             @endif
+
                                         </div>
                                     </div>
+
                                 </div>
-                            @endif
 
-                            {{-- Caption / Info Box Centered --}}
-                            <div class="mt-6 border-t border-neutral-100 pt-5 text-center sm:mt-8 sm:pt-6">
-                                <h3 class="text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl lg:text-3xl">
-                                    {{ $promo->title }}
-                                </h3>
 
-                                @if ($promo->description)
-                                    <p class="mx-auto mt-2 max-w-2xl text-xs leading-relaxed text-neutral-500 sm:text-sm">
-                                        {{ $promo->description }}
-                                    </p>
-                                @endif
+                                {{-- Content --}}
+                                <div class="flex grow flex-col p-4 sm:p-6">
 
-                                @if ($promo->cta_text && $promo->cta_url)
-                                    <div class="mt-5 sm:mt-6">
-                                        <a
-                                            href="{{ $promo->cta_url }}"
-                                            class="group inline-flex items-center justify-center rounded-full bg-[#FF5252] px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-[#FF5252]/25 transition hover:bg-[#e04343] sm:px-7 sm:py-3 sm:text-sm"
-                                        >
-                                            {{ $promo->cta_text }}
-                                            <span class="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
+                                    <h3 class="text-lg font-bold leading-snug text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                        {{ $promo->title }}
+                                    </h3>
 
-                        </article>
+                                    @if ($promo->description)
+                                        <p class="mt-2 line-clamp-3 text-xs leading-relaxed text-neutral-500 sm:text-sm">
+                                            {{ $promo->description }}
+                                        </p>
+                                    @endif
+
+                                    @if ($promo->cta_text && $promo->cta_url)
+                                        <div class="mt-auto pt-4 sm:pt-5">
+                                            <a
+                                                href="{{ $promo->cta_url }}"
+                                                class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-900 transition duration-300 hover:text-[#FF5252] sm:text-sm"
+                                            >
+                                                <span>{{ $promo->cta_text }}</span>
+
+                                                <span class="transition-transform duration-300 hover:translate-x-1">
+                                                    →
+                                                </span>
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                </div>
+
+                            </article>
+                        </div>
+
                     @endforeach
 
                 </div>
-
-                {{-- Indicators (Pill Style) --}}
-                @if ($promos->count() > 1)
-                    <div class="mt-6 flex items-center justify-center gap-2 sm:mt-8">
-                        @foreach ($promos as $index => $promo)
-                            <button
-                                type="button"
-                                data-promo-dot="{{ $index }}"
-                                class="h-1.5 rounded-full transition-all duration-300 sm:h-2 {{ $index === 0 ? 'w-6 bg-[#FF5252] sm:w-8' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400 sm:w-2' }}"
-                                aria-label="Go to slide {{ $index + 1 }}"
-                            ></button>
-                        @endforeach
-                    </div>
-                @endif
             </div>
+
+
+            {{-- Dynamic Dots --}}
+            @if ($promos->count() > 1)
+                <div
+                    data-reveal="zoom"
+                    data-delay="600"
+                    data-promo-dots
+                    class="reveal-hidden mt-6 flex justify-center gap-2 sm:mt-8"
+                ></div>
+            @endif
 
         </div>
     </section>

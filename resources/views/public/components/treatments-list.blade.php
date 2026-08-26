@@ -1,27 +1,27 @@
 <section id="treatment-list" class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
-        {{-- Header & Navigation --}}
-        <div class="mb-8 flex flex-col gap-6 sm:mb-12 lg:flex-row lg:items-end lg:justify-between">
+        {{-- Header & Navigation (Centered dengan Max-Width agar tidak melebar penuh) --}}
+        <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-6 sm:mb-14 lg:mb-16">
             {{-- Header Text --}}
-            <div class="max-w-2xl">
-                <div data-reveal="left" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
+            <div>
+                <div data-reveal="fade-up" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                     <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
                         Our Treatments
                     </span>
                 </div>
                 {{-- Responsive Heading --}}
-                <h2 data-reveal="left" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl md:text-5xl">
+                <h2 data-reveal="fade-up" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl md:text-5xl">
                     Find the Right Treatment
                     <span class="text-[#FF5252]">for You</span>
                 </h2>
-                <p data-reveal="left" data-delay="300" class="reveal-hidden mt-3 max-w-xl text-sm leading-relaxed text-neutral-500 sm:mt-4 sm:text-base">
+                <p data-reveal="fade-up" data-delay="300" class="reveal-hidden mt-3 text-sm leading-relaxed text-neutral-500 sm:mt-4 sm:text-base">
                     Pilihan perawatan estetika yang dirancang untuk membantu
                     memenuhi kebutuhan kulit dan kecantikan Anda.
                 </p>
             </div>
             {{-- Navigation Buttons --}}
-            <div data-reveal="right" data-delay="300" class="reveal-hidden flex items-center gap-2.5 sm:gap-3">
+            <div data-reveal="fade-up" data-delay="300" class="reveal-hidden flex items-center justify-center gap-2.5 sm:gap-3">
                 <button
                     type="button"
                     data-treatment-list-prev
@@ -40,6 +40,7 @@
                 </button>
             </div>
         </div>
+
         {{-- Slider Track --}}
         @if ($treatments->isNotEmpty())
             <div
@@ -62,7 +63,7 @@
                                 class="group flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white transition-all duration-500 hover:-translate-y-1.5 hover:border-[#FF5252]/30 hover:shadow-[0_20px_40px_rgba(255,82,82,0.12)] sm:rounded-[1.75rem]"
                             >
                                 {{-- Responsive Aspect Ratio Image Container --}}
-                                <div class="relative aspect-[4/4] sm:aspect-[4/5] overflow-hidden bg-neutral-100">
+                                <div class="relative aspect-[4/4] overflow-hidden bg-neutral-100 sm:aspect-[4/5]">
                                     @if ($treatment->cover_image)
                                         <img
                                             src="{{ asset('storage/' . $treatment->cover_image) }}"

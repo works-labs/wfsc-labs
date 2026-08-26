@@ -1,22 +1,22 @@
 <section id="news" class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
-        {{-- Header & Navigation --}}
-        <div class="mb-8 flex flex-col gap-6 sm:mb-12 lg:flex-row lg:items-end lg:justify-between">
+        {{-- Header & Navigation (Centered & Dibatasi Lebarnya) --}}
+        <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-6 sm:mb-14 lg:mb-16">
 
             {{-- Text Header --}}
-            <div class="max-w-2xl">
-                <p data-reveal="left" data-delay="100" class="reveal-hidden text-xs font-semibold uppercase tracking-[0.25em] text-[#FF5252] sm:text-sm">
+            <div>
+                <p data-reveal="fade-up" data-delay="100" class="reveal-hidden text-xs font-semibold uppercase tracking-[0.25em] text-[#FF5252] sm:text-sm">
                     Latest News
                 </p>
 
-                <h2 data-reveal="left" data-delay="200" class="reveal-hidden mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-5xl">
+                <h2 data-reveal="fade-up" data-delay="200" class="reveal-hidden mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-5xl">
                     News & Updates
                 </h2>
             </div>
 
             {{-- Navigation Buttons --}}
-            <div data-reveal="right" data-delay="300" class="reveal-hidden flex items-center gap-2.5 sm:gap-3">
+            <div data-reveal="fade-up" data-delay="300" class="reveal-hidden flex items-center justify-center gap-2.5 sm:gap-3">
                 <button
                     type="button"
                     data-news-prev

@@ -15,5 +15,6 @@
 <body class="@yield('body_class')">
     @include('public.components.navbar')
     @yield('content')
+    @include('public.components.floating-whatsapp')
 </body>
 </html>
