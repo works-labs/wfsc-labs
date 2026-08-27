@@ -4,7 +4,7 @@
 
 @section('content')
     @include('public.components.hero')
-    @include('public.components.treatments-list')
+    @include('public.components.treatments')
     @include('public.components.before-after')
     @include('public.components.why-choose')
     @include('public.components.doctors')

@@ -23,11 +23,11 @@
             </p>
         </div>
 
-        {{-- Treatment Cards Grid --}}
+        {{-- Treatment Cards (Mobile: Horizontal Scroll / Desktop: 4 Grid) --}}
         @if ($treatmentCategories->isNotEmpty())
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 pt-2 scrollbar-none sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 sm:pt-0 lg:grid-cols-4">
                 @foreach ($treatmentCategories as $category)
-                    <article class="group flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)]">
+                    <article class="group flex w-[80vw] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] sm:w-auto">
 
                         <div>
                             {{-- Image Container --}}
