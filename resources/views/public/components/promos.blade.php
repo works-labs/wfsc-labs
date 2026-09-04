@@ -71,17 +71,17 @@
             </div>
 
 
-            {{-- Slider --}}
+            {{-- Slider Container (-my-8 py-8 mencegah shadow/scale terpotong) --}}
             <div
                 data-reveal="zoom"
                 data-delay="500"
                 data-promo-slider
-                class="reveal-hidden relative overflow-hidden"
+                class="reveal-hidden relative -my-8 overflow-hidden py-8"
             >
 
                 <div
                     data-promo-track
-                    class="-mx-2 flex transition-transform duration-500 ease-out sm:-mx-3"
+                    class="flex items-center transition-transform duration-500 ease-out"
                 >
 
                     @foreach ($promos as $index => $promo)
@@ -108,98 +108,101 @@
 
                         <div
                             data-promo-slide
-                            class="w-full shrink-0 px-2 sm:px-3 {{ $slideWidth }}"
+                            class="shrink-0 px-3 {{ $slideWidth }}"
                         >
-                            <article
-                                class="flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white transition-all duration-500 hover:-translate-y-1.5 hover:border-[#FF5252]/30 hover:shadow-[0_20px_40px_rgba(255,82,82,0.10)] sm:rounded-[2rem]"
-                            >
+                            {{-- Inner Wrapper untuk penanganan Scale & Shadow --}}
+                            <div class="promo-card-inner transition-all duration-500 ease-out">
+                                <article
+                                    class="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3 shadow-lg transition-all duration-300 hover:shadow-xl"
+                                >
 
-                                {{-- Image --}}
-                                <div class="relative aspect-[16/10] overflow-hidden bg-neutral-200">
+                                    {{-- Image (Presisi 1000x1000px dengan aspect-square) --}}
+                                    <div class="relative aspect-square w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
 
-                                    @if ($imageUrl)
-                                        <img
-                                            src="{{ $imageUrl }}"
-                                            alt="{{ $promo->title }}"
-                                            class="h-full w-full object-cover transition duration-700 ease-out hover:scale-105"
-                                        >
-                                    @else
-                                        <div class="flex h-full items-center justify-center text-xs text-neutral-400 sm:text-sm">
-                                            No image
-                                        </div>
-                                    @endif
-
-                                    {{-- Date Badge --}}
-                                    <div class="absolute left-3 top-3 z-10 sm:left-4 sm:top-4">
-                                        <div class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1.5 text-[10px] font-medium text-white shadow-lg backdrop-blur-md sm:px-4 sm:py-2 sm:text-xs">
-
-                                            <svg
-                                                class="h-3.5 w-3.5 text-[#FF5252]"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke-width="2"
-                                                stroke="currentColor"
+                                        @if ($imageUrl)
+                                            <img
+                                                src="{{ $imageUrl }}"
+                                                alt="{{ $promo->title }}"
+                                                class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                                                />
-                                            </svg>
+                                        @else
+                                            <div class="flex h-full items-center justify-center text-xs text-neutral-400 sm:text-sm">
+                                                No image
+                                            </div>
+                                        @endif
 
-                                            @if ($promo->start_date && $promo->end_date)
-                                                <span>
-                                                    {{ $promo->start_date->format('d M') }}
-                                                    –
-                                                    {{ $promo->end_date->format('d M Y') }}
-                                                </span>
-                                            @elseif ($promo->end_date)
-                                                <span>
-                                                    Berlaku s/d {{ $promo->end_date->format('d M Y') }}
-                                                </span>
-                                            @else
-                                                <span class="font-semibold uppercase tracking-wider text-[#FF5252]">
-                                                    Limited Offer
-                                                </span>
-                                            @endif
+                                        {{-- Date Badge --}}
+                                        <div class="absolute left-3 top-3 z-10">
+                                            <div class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1.5 text-[10px] font-medium text-white shadow-lg backdrop-blur-md">
 
+                                                <svg
+                                                    class="h-3.5 w-3.5 text-[#FF5252]"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="2"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                                                    />
+                                                </svg>
+
+                                                @if ($promo->start_date && $promo->end_date)
+                                                    <span>
+                                                        {{ $promo->start_date->format('d M') }}
+                                                        –
+                                                        {{ $promo->end_date->format('d M Y') }}
+                                                    </span>
+                                                @elseif ($promo->end_date)
+                                                    <span>
+                                                        Berlaku s/d {{ $promo->end_date->format('d M Y') }}
+                                                    </span>
+                                                @else
+                                                    <span class="font-semibold uppercase tracking-wider text-[#FF5252]">
+                                                        Limited Offer
+                                                    </span>
+                                                @endif
+
+                                            </div>
                                         </div>
+
                                     </div>
 
-                                </div>
 
+                                    {{-- Content --}}
+                                    <div class="flex grow flex-col p-4">
 
-                                {{-- Content --}}
-                                <div class="flex grow flex-col p-4 sm:p-6">
+                                        <h3 class="text-lg font-bold leading-snug text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                            {{ $promo->title }}
+                                        </h3>
 
-                                    <h3 class="text-lg font-bold leading-snug text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
-                                        {{ $promo->title }}
-                                    </h3>
+                                        @if ($promo->description)
+                                            <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-neutral-500 sm:text-sm">
+                                                {{ $promo->description }}
+                                            </p>
+                                        @endif
 
-                                    @if ($promo->description)
-                                        <p class="mt-2 line-clamp-3 text-xs leading-relaxed text-neutral-500 sm:text-sm">
-                                            {{ $promo->description }}
-                                        </p>
-                                    @endif
+                                        @if ($promo->cta_text && $promo->cta_url)
+                                            <div class="mt-auto pt-4">
+                                                <a
+                                                    href="{{ $promo->cta_url }}"
+                                                    class="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-sm"
+                                                >
+                                                    <span>{{ $promo->cta_text }}</span>
 
-                                    @if ($promo->cta_text && $promo->cta_url)
-                                        <div class="mt-auto pt-4 sm:pt-5">
-                                            <a
-                                                href="{{ $promo->cta_url }}"
-                                                class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-900 transition duration-300 hover:text-[#FF5252] sm:text-sm"
-                                            >
-                                                <span>{{ $promo->cta_text }}</span>
+                                                    <span class="transition-transform duration-300 group-hover:translate-x-1">
+                                                        →
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        @endif
 
-                                                <span class="transition-transform duration-300 hover:translate-x-1">
-                                                    →
-                                                </span>
-                                            </a>
-                                        </div>
-                                    @endif
+                                    </div>
 
-                                </div>
-
-                            </article>
+                                </article>
+                            </div>
                         </div>
 
                     @endforeach

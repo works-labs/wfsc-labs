@@ -1,10 +1,8 @@
 <section id="doctors" class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
-        {{-- Header & Navigation (Centered & Dibatasi Lebarnya) --}}
+        {{-- Header & Navigation --}}
         <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-6 sm:mb-14 lg:mb-16">
-
-            {{-- Text Header --}}
             <div>
                 <p data-reveal="fade-up" data-delay="100" class="reveal-hidden text-xs font-semibold uppercase tracking-[0.25em] text-[#FF5252] sm:text-sm">
                     Our Doctors
@@ -35,15 +33,14 @@
                     →
                 </button>
             </div>
-
         </div>
 
         {{-- Slider Track --}}
         @if ($homeDoctors->isNotEmpty())
 
-            {{-- Container Slider Utama --}}
-            <div data-doctor-slider class="relative overflow-hidden">
-                <div data-doctor-track class="-mx-3 flex transition-transform duration-500 ease-out">
+            {{-- Slider Container: Diberi py-8 dan -my-8 agar shadow & scale tidak terpotong --}}
+            <div data-doctor-slider class="relative -my-8 overflow-hidden py-8">
+                <div data-doctor-track class="flex items-center transition-transform duration-500 ease-out">
 
                     @foreach ($homeDoctors as $index => $item)
                         @php $doctor = $item->doctor; @endphp
@@ -53,76 +50,60 @@
                                 data-doctor-slide 
                                 data-reveal="up"
                                 data-delay="{{ 100 + ($index * 100) }}"
-                                class="reveal-hidden w-full shrink-0 px-3 sm:w-1/2 lg:w-1/3"
+                                class="reveal-hidden w-full shrink-0 px-4 sm:w-1/2 lg:w-1/3"
                             >
-                                <a
-                                    href="{{ route('doctor.show', $doctor->slug) }}"
-                                    class="group block h-full"
-                                >
-                                    {{-- Image Container --}}
-                                    <div
-                                        class="relative overflow-hidden rounded-[2rem] bg-neutral-100
-                                        {{ $doctor->isFounder()
-                                            ? 'border-2 border-[#FF5252] shadow-[0_12px_40px_rgba(255,82,82,0.16)]'
-                                            : 'border border-transparent'
-                                        }}"
+                                {{-- Card Wrapper: Mengakomodasi animasi scale dan shadow yang mulus --}}
+                                <div class="doctor-card-inner transition-all duration-500 ease-out">
+                                    <a
+                                        href="{{ route('doctor.show', $doctor->slug) }}"
+                                        class="group block rounded-[2rem] bg-white p-3 border border-neutral-100 shadow-lg transition-all duration-300 hover:shadow-xl"
                                     >
-                                        {{-- Founder Badge --}}
-                                        @if ($doctor->isFounder())
-                                            <div class="absolute left-4 top-4 z-10">
-                                                <div class="inline-flex items-center gap-1.5 rounded-full border border-[#FF5252]/20 bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#FF5252] shadow-lg backdrop-blur-sm">
-                                                    <span class="text-sm leading-none">♛</span>
-                                                    <span>Founder</span>
+                                        {{-- Container Foto (Aspect Ratio 4:5 = 1080x1350px) --}}
+                                        <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
+                                            
+                                            {{-- Founder Badge --}}
+                                            @if ($doctor->isFounder())
+                                                <div class="absolute left-3 top-3 z-10">
+                                                    <div class="inline-flex items-center gap-1.5 rounded-full border border-[#FF5252]/20 bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#FF5252] backdrop-blur-md">
+                                                        <span>♛</span>
+                                                        <span>Founder</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endif
+                                            @endif
 
-                                        {{-- Doctor Photo --}}
-                                        @if ($doctor->photo)
-                                            <img
-                                                src="{{ asset('storage/' . $doctor->photo) }}"
-                                                alt="{{ $doctor->name }}"
-                                                class="aspect-[4/5] w-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                                            >
-                                        @else
-                                            <div class="flex aspect-[4/5] items-center justify-center text-sm text-neutral-400">
-                                                No photo
-                                            </div>
-                                        @endif
+                                            {{-- Doctor Image --}}
+                                            @if ($doctor->photo)
+                                                <img
+                                                    src="{{ asset('storage/' . $doctor->photo) }}"
+                                                    alt="{{ $doctor->name }}"
+                                                    class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                                >
+                                            @else
+                                                <div class="flex h-full w-full items-center justify-center text-sm text-neutral-400">
+                                                    No photo
+                                                </div>
+                                            @endif
+                                        </div>
 
-                                        {{-- Founder Corner Accent --}}
-                                        @if ($doctor->isFounder())
-                                            <div class="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#FF5252] text-white shadow-lg">
-                                                <span class="text-lg">♛</span>
-                                            </div>
-                                        @endif
-                                    </div>
+                                        {{-- Info Dokter --}}
+                                        <div class="p-4 text-center">
+                                            @if ($doctor->specialization)
+                                                <p class="text-xs font-medium uppercase tracking-[0.15em] text-[#FF5252]">
+                                                    {{ $doctor->specialization }}
+                                                </p>
+                                            @endif
 
-                                    {{-- Doctor Info & Link --}}
-                                    <div class="pt-5 text-center">
-                                        @if ($doctor->isFounder())
-                                            <div class="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#FF5252]/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#FF5252]">
-                                                <span>♛</span>
-                                                <span>Founder</span>
-                                            </div>
-                                        @endif
+                                            <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                                {{ $doctor->title }} {{ $doctor->name }}
+                                            </h3>
 
-                                        @if ($doctor->specialization)
-                                            <p class="text-xs uppercase tracking-[0.18em] text-neutral-400 sm:text-sm">
-                                                {{ $doctor->specialization }}
-                                            </p>
-                                        @endif
-
-                                        <h3 class="mt-2 text-lg font-semibold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
-                                            {{ $doctor->title }} {{ $doctor->name }}
-                                        </h3>
-
-                                        <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-neutral-500 transition duration-300 group-hover:text-[#FF5252] sm:mt-4 sm:text-sm">
-                                            <span>View Profile</span>
-                                            <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                                        </span>
-                                    </div>
-                                </a>
+                                            <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]">
+                                                <span>View Profile</span>
+                                                <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         @endif
                     @endforeach

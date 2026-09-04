@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const delay = el.dataset.delay || 0;
                     const animationType = el.dataset.reveal;
 
-                    // Set jenis animasi berdasarkan attribute
                     if (animationType === 'left') el.classList.add('reveal-left');
                     if (animationType === 'right') el.classList.add('reveal-right');
                     if (animationType === 'zoom') el.classList.add('reveal-zoom');
@@ -26,13 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         el.classList.add('reveal-show');
                     }, delay);
 
-                    observer.unobserve(el); // Hanya jalankan animasi 1 kali
+                    observer.unobserve(el);
                 }
             });
         }, observerOptions);
 
         revealElements.forEach(el => observer.observe(el));
     };
+
     /*
     |--------------------------------------------------------------------------
     | 1. Navbar Scroll Effect
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /*
     |--------------------------------------------------------------------------
-    | 3. Fade / Chunk Switcher Slider Class (Doctor, News, Before-After, Facility)
+    | 3. Fade / Chunk Switcher Slider Class (Facility, dll)
     |--------------------------------------------------------------------------
     */
     class FadeSlider {
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             this.dots.forEach((dot, i) => {
                 const active = i === index;
-                // Support toggle untuk dot lebar (w-8 vs w-2) atau dot scale
                 dot.classList.toggle('w-8', active && dot.dataset.dotType !== 'scale');
                 dot.classList.toggle('w-2', !active && dot.dataset.dotType !== 'scale');
                 dot.classList.toggle('scale-125', active && dot.dataset.dotType === 'scale');
@@ -157,12 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /*
     |--------------------------------------------------------------------------
-    | 4. Track Carousel Slider Class (Treatment List)
-    |--------------------------------------------------------------------------
-    */
-    /*
-    |--------------------------------------------------------------------------
-    | Track Carousel Slider Class (Treatment List, dll)
+    | 4. Track Carousel Slider Class (Dengan Fitur Center Scale Focus)
     |--------------------------------------------------------------------------
     */
     class TrackSlider {
@@ -174,15 +168,14 @@ document.addEventListener('DOMContentLoaded', () => {
             this.track = this.slider.querySelector(`[data-${prefix}-track]`);
             this.slides = Array.from(this.slider.querySelectorAll(`[data-${prefix}-slide]`));
             
-            // Cari tombol prev/next di dalam slider ATAU di seluruh document (karena tombol treatment ada di luar div slider)
             this.prevButton = document.querySelector(`[data-${prefix}-prev]`);
             this.nextButton = document.querySelector(`[data-${prefix}-next]`);
             this.dotsContainer = document.querySelector(`[data-${prefix}-dots]`);
             
-            // Config Breakpoints & AutoSlide
-            this.breakpoints = options.breakpoints || { lg: 4, sm: 2, default: 1 };
+            this.breakpoints = options.breakpoints || { lg: 3, sm: 2, default: 1 };
             this.autoSlide = options.autoSlide || false;
-            this.autoSlideInterval = options.interval || 4000; // default 4 detik
+            this.autoSlideInterval = options.interval || 3000;
+            this.centerScale = options.centerScale || false; // Opsi untuk mengaktifkan efek menonjol di tengah
 
             if (!this.track || !this.slides.length) return;
 
@@ -214,31 +207,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot.addEventListener('click', () => {
                     this.currentIndex = i;
                     this.updateSlider();
-                    this.startAutoSlide(); // Reset timer saat diklik manual
+                    this.startAutoSlide();
                 });
                 this.dotsContainer.appendChild(dot);
             }
         }
+
+        updateCenterFocus() {
+    if (!this.centerScale) return;
+    const visible = this.getVisibleSlides();
+
+    this.slides.forEach((slide, index) => {
+        // Ambil elemen pembungkus kartu (.doctor-card-inner)
+        const cardInner = slide.querySelector('.doctor-card-inner') || slide.firstElementChild;
+        if (!cardInner) return;
+
+        let isCenter = false;
+
+        if (visible === 3) {
+            isCenter = (index === this.currentIndex + 1); // Kartu tengah pada layar desktop
+        } else if (visible === 1) {
+            isCenter = (index === this.currentIndex); // Kartu utama pada layar mobile
+        }
+
+        if (isCenter) {
+            // Kartu tengah membesar penuh
+            cardInner.classList.remove('scale-90');
+            cardInner.classList.add('scale-105');
+        } else {
+            // Kartu pinggir tetap 100% jelas (tanpa opacity), hanya ukurannya sedikit lebih kecil
+            cardInner.classList.remove('scale-105');
+            cardInner.classList.add('scale-90');
+        }
+    });
+}
 
         updateSlider() {
             const visibleSlides = this.getVisibleSlides();
             const maxIndex = this.getMaxIndex();
 
             if (this.currentIndex > maxIndex) {
-                this.currentIndex = 0; // Loop kembali ke awal jika melebih maxIndex (khusus autoslide)
+                this.currentIndex = 0;
             }
             if (this.currentIndex < 0) {
-                this.currentIndex = maxIndex; // Loop ke paling akhir jika dari slide 0 dipencet Prev
+                this.currentIndex = maxIndex;
             }
 
             const slideWidth = 100 / visibleSlides;
             this.track.style.transform = `translateX(-${this.currentIndex * slideWidth}%)`;
 
-            // Update tombol state
+            // Update status tombol prev/next
             if (this.prevButton) this.prevButton.disabled = (this.currentIndex === 0 && !this.autoSlide);
             if (this.nextButton) this.nextButton.disabled = (this.currentIndex >= maxIndex && !this.autoSlide);
 
-            // Update active dots
+            // Update status dot aktif
             if (this.dotsContainer) {
                 Array.from(this.dotsContainer.children).forEach((dot, index) => {
                     const active = index === this.currentIndex;
@@ -248,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     dot.classList.toggle('bg-neutral-300', !active);
                 });
             }
+
+            // Jalankan penyesuaian skala kartu tengah
+            this.updateCenterFocus();
         }
 
         startAutoSlide() {
@@ -269,13 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         init() {
-            // Event tombol Prev & Next
             if (this.prevButton) {
                 this.prevButton.addEventListener('click', () => {
                     const maxIndex = this.getMaxIndex();
                     this.currentIndex = this.currentIndex <= 0 ? maxIndex : this.currentIndex - 1;
                     this.updateSlider();
-                    this.startAutoSlide(); // Reset timer autoslide
+                    this.startAutoSlide();
                 });
             }
 
@@ -284,18 +308,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     const maxIndex = this.getMaxIndex();
                     this.currentIndex = this.currentIndex >= maxIndex ? 0 : this.currentIndex + 1;
                     this.updateSlider();
-                    this.startAutoSlide(); // Reset timer autoslide
+                    this.startAutoSlide();
                 });
             }
 
-            // Pause Auto-Slide saat kursor berada di atas Slider
             if (this.autoSlide) {
                 const wrapper = this.slider.parentElement || this.slider;
                 wrapper.addEventListener('mouseenter', () => this.stopAutoSlide());
                 wrapper.addEventListener('mouseleave', () => this.startAutoSlide());
             }
 
-            // Window resize event
             let resizeTimeout;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
@@ -313,37 +335,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /*
     |--------------------------------------------------------------------------
-    | Instansiasi Komponen (Hanya 1 Baris Per Section!)
+    | Instansiasi Komponen
     |--------------------------------------------------------------------------
     */
     
-    // 1. Fade Sliders (Chunk Switcher / Simple Fade)
-    new FadeSlider('before-after', { autoSlide: true, activeDotClass: 'bg-neutral-900' });
+    // Fade Sliders
     new FadeSlider('facility', { autoSlide: true });
-    //new FadeSlider('doctor');
-    //new FadeSlider('news');
-    new TrackSlider('treatment-list', { 
-        breakpoints: { lg: 4, sm: 2, default: 1 },
+
+    // Track Sliders
+    new TrackSlider('before-after', { 
+        breakpoints: { lg: 3, sm: 2, default: 1 },
         autoSlide: true,
-        interval: 2000 // Berpindah setiap 4 detik
+        interval: 3500
     });
+
+    new TrackSlider('treatment-list', { 
+        breakpoints: { lg: 3, sm: 2, default: 1 },
+        autoSlide: true,
+        interval: 2500
+    });
+
+    // Slider Doctor dengan Efek Center Scale aktif
     new TrackSlider('doctor', { 
         breakpoints: { lg: 3, sm: 2, default: 1 },
         autoSlide: true,
-        interval: 3000
+        interval: 3000,
+        centerScale: true // Mengaktifkan fokus kartu tengah lebih besar
     });
 
-    // 3. News List (Show 3 Desktop, 2 Tablet, 1 Mobile)
     new TrackSlider('news', { 
-        breakpoints: { lg: 3, sm: 2, default: 1 },
-        autoSlide: true,
-        interval: 3000
-    });
-    initScrollReveal();
+    breakpoints: { lg: 3, sm: 2, default: 1 },
+    autoSlide: true,
+    interval: 3000,
+    centerScale: true // Mengaktifkan efek fokus kartu tengah
+});
 
     new TrackSlider('promo', {
     breakpoints: { lg: 3, sm: 2, default: 1 },
     autoSlide: true,
-    interval: 2000
+    interval: 3000,
+    centerScale: true // Mengaktifkan efek kartu tengah menonjol
 });
+
+    initScrollReveal();
 });

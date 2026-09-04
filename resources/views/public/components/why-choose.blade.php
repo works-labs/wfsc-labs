@@ -77,9 +77,9 @@
                                 data-facility-slide
                                 class="{{ $index === 0 ? '' : 'hidden' }} transition-opacity duration-500"
                             >
-                                {{-- Image Container (Fluid Aspect Ratio) --}}
+                                {{-- Image Container Rasio 1:1 (Setara 1350x1350px) --}}
                                 @if ($facility->image)
-                                    <div class="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-200 sm:rounded-[2rem]">
+                                    <div class="relative aspect-square overflow-hidden rounded-xl bg-neutral-200 sm:rounded-[2rem]">
                                         <img
                                             src="{{ Storage::url($facility->image) }}"
                                             alt="{{ $facility->name }}"
@@ -120,7 +120,6 @@
                         </div>
                     @endif
                 @else
-
                     <div class="rounded-2xl border border-dashed border-neutral-300 bg-neutral-200/50 p-8 text-center sm:rounded-[2.5rem] sm:p-12">
                         <p class="text-xs text-neutral-500 sm:text-sm">
                             No facilities available.
