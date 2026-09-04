@@ -344,10 +344,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Track Sliders
     new TrackSlider('before-after', { 
-        breakpoints: { lg: 3, sm: 2, default: 1 },
-        autoSlide: true,
-        interval: 3500
-    });
+    breakpoints: { lg: 3, sm: 2, default: 1 },
+    autoSlide: true,
+    interval: 3500,
+    centerScale: true
+});
 
     new TrackSlider('treatment-list', { 
         breakpoints: { lg: 3, sm: 2, default: 1 },
