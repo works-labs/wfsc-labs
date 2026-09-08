@@ -2,7 +2,6 @@
 
 use App\Models\Treatment;
 use App\Models\TreatmentVideo;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -19,10 +18,6 @@ new #[Layout('layouts.admin')] class extends Component
     {
         abort_unless($video->treatment_id === $this->treatment->id, 404);
 
-        if ($video->video_path) {
-            Storage::disk('public')->delete($video->video_path);
-        }
-
         $video->delete();
 
         session()->flash('success', 'Procedure video deleted successfully.');
@@ -33,6 +28,7 @@ new #[Layout('layouts.admin')] class extends Component
         return [
             'videos' => $this->treatment
                 ->procedureVideos()
+                ->orderBy('sort_order')
                 ->get(),
         ];
     }
@@ -113,16 +109,14 @@ new #[Layout('layouts.admin')] class extends Component
 
                     <div class="flex items-center gap-5 px-6 py-5">
 
-                        {{-- Video Preview --}}
-                        <div class="h-28 w-44 shrink-0 overflow-hidden rounded-xl bg-black">
-
-                            <video
-                                src="{{ Storage::url($video->video_path) }}"
-                                class="h-full w-full object-cover"
-                                controls
-                                preload="metadata"
-                            ></video>
-
+                        {{-- YouTube Shorts Preview Thumbnail --}}
+                        <div class="h-32 w-20 shrink-0 overflow-hidden rounded-xl bg-black">
+                            <iframe
+                                class="h-full w-full pointer-events-none"
+                                src="https://www.youtube.com/embed/{{ str($video->video_path)->afterLast('/') }}"
+                                title="YouTube Shorts Preview"
+                                frameborder="0"
+                            ></iframe>
                         </div>
 
 

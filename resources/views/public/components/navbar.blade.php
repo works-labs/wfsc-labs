@@ -22,7 +22,7 @@
             <a href="#promo" class="public-nav-link">Promo</a>
             <a href="#skincare" class="public-nav-link">Skincare</a>
             <a href="#news" class="public-nav-link">News</a>
-            <a href="#about" class="public-nav-link">About Us</a>
+            <a href="#about" class="public-nav-link">Contact Us</a>
         </div>
 
         {{-- CTA Button --}}

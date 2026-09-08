@@ -2,20 +2,17 @@
 
 use App\Models\Treatment;
 use App\Models\TreatmentVideo;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 new #[Layout('layouts.admin')] class extends Component
 {
-    use WithFileUploads;
-
     public Treatment $treatment;
 
     public string $title = '';
+    public string $video_path = '';
     public string $description = '';
-    public $video = null;
     public int $sort_order = 0;
     public bool $is_active = true;
 
@@ -28,32 +25,15 @@ new #[Layout('layouts.admin')] class extends Component
     {
         $validated = $this->validate([
             'title' => ['nullable', 'string', 'max:255'],
+            'video_path' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'video' => [
-                'required',
-                'file',
-                'mimetypes:video/mp4,video/webm,video/quicktime',
-                'max:51200',
-            ],
             'sort_order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ]);
 
-        $videoPath = $this->video->store('treatment-videos', 'public');
+        $this->treatment->procedureVideos()->create($validated);
 
-        TreatmentVideo::create([
-            'treatment_id' => $this->treatment->id,
-            'title' => $validated['title'],
-            'video_path' => $videoPath,
-            'description' => $validated['description'],
-            'sort_order' => $validated['sort_order'],
-            'is_active' => $validated['is_active'],
-        ]);
-
-        session()->flash(
-            'success',
-            'Procedure video added successfully.'
-        );
+        session()->flash('success', 'Treatment video created successfully.');
 
         $this->redirect(
             route('admin.treatments.videos.index', $this->treatment),
@@ -67,7 +47,6 @@ new #[Layout('layouts.admin')] class extends Component
 
     {{-- Header --}}
     <div>
-
         <a
             href="{{ route('admin.treatments.videos.index', $treatment) }}"
             wire:navigate
@@ -86,21 +65,15 @@ new #[Layout('layouts.admin')] class extends Component
                 {{ $treatment->name }}
             </span>
         </p>
-
     </div>
 
-
     {{-- Form --}}
-    <form
-        wire:submit="save"
-        class="space-y-6"
-    >
+    <form wire:submit="save" class="space-y-6">
 
         <div class="space-y-5 rounded-xl border bg-white p-6 shadow-sm">
 
             {{-- Title --}}
             <div>
-
                 <label class="block text-sm font-medium">
                     Title
                 </label>
@@ -117,13 +90,10 @@ new #[Layout('layouts.admin')] class extends Component
                         {{ $message }}
                     </p>
                 @enderror
-
             </div>
-
 
             {{-- Description --}}
             <div>
-
                 <label class="block text-sm font-medium">
                     Description
                 </label>
@@ -140,70 +110,54 @@ new #[Layout('layouts.admin')] class extends Component
                         {{ $message }}
                     </p>
                 @enderror
-
             </div>
 
-
-            {{-- Video --}}
+            {{-- YouTube Shorts Link --}}
             <div>
-
                 <label class="block text-sm font-medium">
-                    Procedure Video
+                    YouTube Shorts URL / Path
                 </label>
 
                 <input
-                    type="file"
-                    wire:model="video"
-                    accept="video/mp4,video/webm,video/quicktime"
-                    class="mt-1 block w-full text-sm"
+                    type="text"
+                    wire:model.live="video_path"
+                    class="mt-1 w-full rounded-lg border-gray-300"
+                    placeholder="https://www.youtube.com/shorts/VIDEO_ID atau VIDEO_ID"
                 >
 
                 <p class="mt-1 text-xs text-gray-500">
-                    Supported formats: MP4, WebM, MOV. Maximum size: 50 MB.
+                    Masukkan URL penuh YouTube Shorts atau ID videonya saja.
                 </p>
 
-                @error('video')
+                @error('video_path')
                     <p class="mt-1 text-sm text-red-600">
                         {{ $message }}
                     </p>
                 @enderror
 
-
-                {{-- Loading --}}
-                <div
-                    wire:loading
-                    wire:target="video"
-                    class="mt-3 text-sm text-gray-500"
-                >
-                    Uploading video...
-                </div>
-
-
                 {{-- Preview --}}
-                @if ($video)
-
+                @if ($video_path)
                     <div class="mt-4">
-
                         <p class="mb-2 text-sm text-gray-500">
                             Preview
                         </p>
 
-                        <video
-                            src="{{ $video->temporaryUrl() }}"
-                            controls
-                            class="max-h-96 w-full rounded-xl bg-black object-contain"
-                        ></video>
-
+                        <div class="aspect-[9/16] max-w-xs overflow-hidden rounded-xl bg-black">
+                            <iframe
+                                class="h-full w-full"
+                                src="https://www.youtube.com/embed/{{ str($video_path)->afterLast('/') }}"
+                                title="YouTube Shorts Preview"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
                     </div>
-
                 @endif
-
             </div>
-
 
             {{-- Sort Order --}}
             <div>
-
                 <label class="block text-sm font-medium">
                     Sort Order
                 </label>
@@ -224,15 +178,11 @@ new #[Layout('layouts.admin')] class extends Component
                         {{ $message }}
                     </p>
                 @enderror
-
             </div>
-
 
             {{-- Active --}}
             <div>
-
                 <label class="flex items-center gap-2">
-
                     <input
                         type="checkbox"
                         wire:model="is_active"
@@ -242,17 +192,14 @@ new #[Layout('layouts.admin')] class extends Component
                     <span class="text-sm">
                         Active
                     </span>
-
                 </label>
 
                 <p class="mt-1 text-xs text-gray-500">
                     Only active videos will be displayed on the public website.
                 </p>
-
             </div>
 
         </div>
-
 
         {{-- Actions --}}
         <div class="flex justify-end gap-3">

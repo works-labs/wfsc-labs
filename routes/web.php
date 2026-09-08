@@ -153,8 +153,6 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin/bookings/{booking}', 'admin.bookings.show')
     ->name('admin.bookings.show');
 
-
-    // before-after 
     // before-after routes
     Route::livewire(
         '/admin/treatments/{treatment}/before-afters',
@@ -197,6 +195,58 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin/settings/{setting}/edit', 'admin.settings.edit')
         ->name('admin.settings.edit');
     // end site settings
+
+    Route::livewire('admin/banners', 'admin.banners.index')
+    ->name('admin.banners.index');
+
+    Route::livewire('admin/banners/create', 'admin.banners.create')
+        ->name('admin.banners.create');
+
+    Route::livewire('admin/banners/{banner}/edit', 'admin.banners.edit')
+        ->name('admin.banners.edit');
+
+    Route::livewire('/skincare/categories', 'admin.skincare.categories.index')
+    ->name('admin.skincare.categories.index');
+
+    Route::livewire('/skincare/categories/create', 'admin.skincare.categories.create')
+        ->name('admin.skincare.categories.create');
+
+    Route::livewire('/skincare/categories/{skincareCategory}/edit', 'admin.skincare.categories.edit')
+        ->name('admin.skincare.categories.edit');
+
+    Route::livewire('/skincare/attributes', 'admin.skincare.attributes.index')
+    ->name('admin.skincare.attributes.index');
+
+    Route::livewire('/skincare/attributes/create', 'admin.skincare.attributes.create')
+        ->name('admin.skincare.attributes.create');
+
+    Route::livewire('/skincare/attributes/{skincareAttribute}/edit', 'admin.skincare.attributes.edit')
+        ->name('admin.skincare.attributes.edit');
+
+    Route::livewire('/skincare/products', 'admin.skincare.products.index')
+    ->name('admin.skincare.products.index');
+
+    Route::livewire('/skincare/products/create', 'admin.skincare.products.create')
+        ->name('admin.skincare.products.create');
+
+    Route::livewire('/skincare/products/{skincareProduct}/edit', 'admin.skincare.products.edit')
+        ->name('admin.skincare.products.edit');
+
+    Route::livewire('/treatments', 'admin.treatments.index')
+    ->name('admin.treatments.index');
+
+Route::livewire('/treatments/create', 'admin.treatments.create')
+    ->name('admin.treatments.create');
+
+Route::livewire('/treatments/{treatment}/edit', 'admin.treatments.edit')
+    ->name('admin.treatments.edit');
+
+Route::livewire(
+    '/treatments/{treatment}/related-treatments',
+    'admin.treatments.related-treatments.index'
+)->name('admin.treatments.related-treatments.index');
+
+    
 /// ------------ home route ublics ///
     
 });

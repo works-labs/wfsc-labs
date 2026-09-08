@@ -26,70 +26,85 @@ new #[Layout('layouts.admin')] class extends Component
     }
 
     public function save(): void
-    {
-        $validated = $this->validate([
-            'before_media' => [
-                'required',
-                'file',
-                'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
-                'max:51200',
-            ],
+{
+    $validated = $this->validate([
+        'before_media' => [
+            'required',
+            'file',
+            'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
+            'max:51200',
+        ],
 
-            'after_media' => [
-                'required',
-                'file',
-                'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
-                'max:51200',
-            ],
+        'after_media' => [
+            'required',
+            'file',
+            'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
+            'max:51200',
+        ],
 
-            'caption' => [
-                'nullable',
-                'string',
-            ],
+        'caption' => [
+            'nullable',
+            'string',
+        ],
 
-            'sort_order' => [
-                'required',
-                'integer',
-                'min:0',
-            ],
+        'sort_order' => [
+            'required',
+            'integer',
+            'min:0',
+        ],
 
-            'is_active' => [
-                'boolean',
-            ],
-        ]);
+        'is_active' => [
+            'boolean',
+        ],
+    ]);
 
-        $beforePath = $this->before_media->store(
-            'treatments/before-after',
-            'public'
-        );
+    $beforePath = $this->before_media->store(
+        'treatments/before-after',
+        'public'
+    );
 
-        $afterPath = $this->after_media->store(
-            'treatments/before-after',
-            'public'
-        );
+    $afterPath = $this->after_media->store(
+        'treatments/before-after',
+        'public'
+    );
 
-        TreatmentBeforeAfter::create([
-            'treatment_id' => $this->treatment->id,
-            'before_media' => $beforePath,
-            'after_media' => $afterPath,
-            'caption' => $validated['caption'],
-            'sort_order' => $validated['sort_order'],
-            'is_active' => $validated['is_active'],
-        ]);
+    $beforeMediaType = in_array(
+        strtolower($this->before_media->getClientOriginalExtension()),
+        ['jpg', 'jpeg', 'png', 'webp']
+    ) ? 'image' : 'video';
 
-        session()->flash(
-            'success',
-            'Before & After berhasil ditambahkan.'
-        );
+    $afterMediaType = in_array(
+        strtolower($this->after_media->getClientOriginalExtension()),
+        ['jpg', 'jpeg', 'png', 'webp']
+    ) ? 'image' : 'video';
 
-        $this->redirect(
-            route(
-                'admin.treatments.before-afters.index',
-                $this->treatment
-            ),
-            navigate: true
-        );
-    }
+    TreatmentBeforeAfter::create([
+        'treatment_id' => $this->treatment->id,
+
+        'before_media' => $beforePath,
+        'before_media_type' => $beforeMediaType,
+
+        'after_media' => $afterPath,
+        'after_media_type' => $afterMediaType,
+
+        'caption' => $validated['caption'],
+        'sort_order' => $validated['sort_order'],
+        'is_active' => $validated['is_active'],
+    ]);
+
+    session()->flash(
+        'success',
+        'Before & After berhasil ditambahkan.'
+    );
+
+    $this->redirect(
+        route(
+            'admin.treatments.before-afters.index',
+            $this->treatment
+        ),
+        navigate: true
+    );
+}
 };
 ?>
 

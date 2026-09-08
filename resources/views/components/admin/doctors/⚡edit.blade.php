@@ -90,6 +90,7 @@ new #[Layout('layouts.admin')] class extends Component
     if ($this->doctor->isFounder()) {
     $validated['slug'] = $this->doctor->slug;
 }
+    $this->doctor->update($validated);
 
     session()->flash('success', 'Doctor updated successfully.');
 

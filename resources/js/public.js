@@ -335,10 +335,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /*
     |--------------------------------------------------------------------------
+    | 5. Before & After Lightbox Popup
+    |--------------------------------------------------------------------------
+    */
+    const initBeforeAfterLightbox = () => {
+        const triggers = document.querySelectorAll('[data-lightbox-trigger]');
+        const modal = document.getElementById('before-after-lightbox');
+        const closeBtn = document.getElementById('lightbox-close');
+        
+        const beforeContainer = document.getElementById('lightbox-before-container');
+        const afterContainer = document.getElementById('lightbox-after-container');
+        const captionContainer = document.getElementById('lightbox-caption-container');
+        const captionText = document.getElementById('lightbox-caption');
+
+        if (!triggers.length || !modal) return;
+
+        const renderMedia = (container, src, type, label) => {
+            // Bersihkan elemen lama kecuali badge label
+            const badge = container.querySelector('span');
+            container.innerHTML = '';
+            if (badge) container.appendChild(badge);
+
+            if (!src) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+
+            if (type === 'video') {
+                const video = document.createElement('video');
+                video.src = src;
+                video.autoplay = true;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.className = 'h-full w-full object-contain';
+                container.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = label;
+                img.className = 'h-full w-full object-contain';
+                container.appendChild(img);
+            }
+        };
+
+        const openModal = (card) => {
+            const beforeSrc = card.dataset.beforeSrc;
+            const beforeType = card.dataset.beforeType;
+            const afterSrc = card.dataset.afterSrc;
+            const afterType = card.dataset.afterType;
+            const caption = card.dataset.caption;
+
+            renderMedia(beforeContainer, beforeSrc, beforeType, 'Before Result');
+            renderMedia(afterContainer, afterSrc, afterType, 'After Result');
+
+            if (caption && caption.trim() !== '') {
+                captionText.textContent = caption;
+                captionContainer.classList.remove('hidden');
+            } else {
+                captionContainer.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+            }, 10);
+
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+                
+                // Hentikan video saat modal ditutup
+                beforeContainer.querySelectorAll('video').forEach(v => v.pause());
+                afterContainer.querySelectorAll('video').forEach(v => v.pause());
+            }, 300);
+        };
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', () => openModal(trigger));
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        // Tutup jika klik latar belakang di luar dialog
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Tutup jika menekan tombol ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    };
+
+    // Jalankan fungsi
+   
+
+    /*
+    |--------------------------------------------------------------------------
     | Instansiasi Komponen
     |--------------------------------------------------------------------------
     */
-    
+     initBeforeAfterLightbox();
     // Fade Sliders
     new FadeSlider('facility', { autoSlide: true });
 

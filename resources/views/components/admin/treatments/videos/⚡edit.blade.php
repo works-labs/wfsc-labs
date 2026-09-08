@@ -2,20 +2,16 @@
 
 use App\Models\Treatment;
 use App\Models\TreatmentVideo;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 new #[Layout('layouts.admin')] class extends Component
 {
-    use WithFileUploads;
-
     public Treatment $treatment;
     public TreatmentVideo $video;
 
     public string $title = '';
-    public $video_path = null;
+    public string $video_path = '';
     public string $description = '';
     public int $sort_order = 0;
     public bool $is_active = true;
@@ -28,8 +24,9 @@ new #[Layout('layouts.admin')] class extends Component
         $this->video = $video;
 
         $this->title = $video->title ?? '';
+        $this->video_path = $video->video_path ?? '';
         $this->description = $video->description ?? '';
-        $this->sort_order = $video->sort_order;
+        $this->sort_order = $video->sort_order ?? 0;
         $this->is_active = (bool) $video->is_active;
     }
 
@@ -37,25 +34,11 @@ new #[Layout('layouts.admin')] class extends Component
     {
         $validated = $this->validate([
             'title' => ['nullable', 'string', 'max:255'],
-            'video_path' => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:51200'],
+            'video_path' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'sort_order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ]);
-
-        if ($this->video_path) {
-            $oldVideo = $this->video->video_path;
-
-            $newVideo = $this->video_path->store('treatment-videos', 'public');
-
-            $validated['video_path'] = $newVideo;
-
-            if ($oldVideo) {
-                Storage::disk('public')->delete($oldVideo);
-            }
-        } else {
-            unset($validated['video_path']);
-        }
 
         $this->video->update($validated);
 
@@ -119,45 +102,21 @@ new #[Layout('layouts.admin')] class extends Component
                 @enderror
             </div>
 
-            {{-- Current Video --}}
-            @if ($video->video_path && !$video_path)
-
-                <div>
-                    <label class="block text-sm font-medium">
-                        Current Video
-                    </label>
-
-                    <div class="mt-3 overflow-hidden rounded-xl border bg-black">
-                        <video
-                            controls
-                            class="max-h-[420px] w-full"
-                        >
-                            <source
-                                src="{{ Storage::url($video->video_path) }}"
-                            >
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
-
-            @endif
-
-            {{-- New Video --}}
+            {{-- YouTube Shorts Link --}}
             <div>
                 <label class="block text-sm font-medium">
-                    Replace Video
+                    YouTube Shorts URL / Path
                 </label>
 
                 <input
-                    type="file"
-                    wire:model="video_path"
-                    accept="video/mp4,video/webm,video/quicktime"
-                    class="mt-1 block w-full text-sm"
+                    type="text"
+                    wire:model.live="video_path"
+                    class="mt-1 w-full rounded-lg border-gray-300"
+                    placeholder="https://www.youtube.com/shorts/VIDEO_ID atau VIDEO_ID"
                 >
 
                 <p class="mt-1 text-xs text-gray-500">
-                    Leave empty to keep the current video.
-                    Maximum file size: 50 MB.
+                    Masukkan URL penuh YouTube Shorts atau ID videonya saja.
                 </p>
 
                 @error('video_path')
@@ -166,20 +125,24 @@ new #[Layout('layouts.admin')] class extends Component
                     </p>
                 @enderror
 
+                {{-- Preview --}}
                 @if ($video_path)
-
                     <div class="mt-4">
                         <p class="mb-2 text-sm text-gray-500">
-                            New video preview
+                            Video Preview
                         </p>
 
-                        <video
-                            controls
-                            class="max-h-[420px] w-full rounded-xl bg-black"
-                            src="{{ $video_path->temporaryUrl() }}"
-                        ></video>
+                        <div class="aspect-[9/16] max-w-xs overflow-hidden rounded-xl bg-black">
+                            <iframe
+                                class="h-full w-full"
+                                src="https://www.youtube.com/embed/{{ Str::afterLast($video_path, '/') }}"
+                                title="YouTube Shorts Preview"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
                     </div>
-
                 @endif
             </div>
 
@@ -270,4 +233,3 @@ new #[Layout('layouts.admin')] class extends Component
     </form>
 
 </div>
-

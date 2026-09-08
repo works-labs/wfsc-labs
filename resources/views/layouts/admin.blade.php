@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="icon" type="image/png" href="{{ asset('assets/logo.PNG') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/logo.PNG') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/logo.PNG') }}">
 
     <title>{{ $title ?? 'WFSC Admin' }}</title>
@@ -100,6 +100,30 @@
                     </a>
 
 
+                    {{-- Skincare Categories --}}
+                    <a
+                        href="{{ route('admin.skincare.categories.index') }}"
+                        wire:navigate
+                        class="block rounded-lg px-4 py-2 text-sm
+                            {{ request()->routeIs('admin.skincare.categories.*')
+                                ? 'bg-gray-200 text-gray-900 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-100' }}"
+                    >
+                        Skincare Categories
+                    </a>
+
+                    {{-- Skincare Attributes --}}
+                    <a
+                        href="{{ route('admin.skincare.attributes.index') }}"
+                        wire:navigate
+                        class="block rounded-lg px-4 py-2 text-sm
+                            {{ request()->routeIs('admin.skincare.attributes.*')
+                                ? 'bg-gray-200 text-gray-900 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-100' }}"
+                    >
+                        Skincare Attributes
+                    </a>
+
                     {{-- Facilities --}}
                     <a
                         href="{{ route('admin.facilities.index') }}"
@@ -172,6 +196,19 @@
                                 : 'text-gray-700 hover:bg-gray-100' }}"
                     >
                         Hero Banners
+                    </a>
+
+
+                    {{-- General Banners --}}
+                    <a
+                        href="{{ route('admin.banners.index') }}"
+                        wire:navigate
+                        class="block rounded-lg px-4 py-2 text-sm
+                            {{ request()->routeIs('admin.banners.*')
+                                ? 'bg-gray-200 text-gray-900 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-100' }}"
+                    >
+                        Banners
                     </a>
 
 
@@ -301,24 +338,13 @@
                 <h2 class="text-lg font-semibold">
                     {{ $heading ?? 'Dashboard' }}
                 </h2>
-
             </header>
-
-
             {{-- Page --}}
             <div class="p-8">
-
                 {{ $slot }}
-
             </div>
-
         </main>
-
     </div>
-
-
     @livewireScripts
-
 </body>
-
 </html>

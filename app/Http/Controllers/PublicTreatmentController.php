@@ -62,6 +62,11 @@ class PublicTreatmentController extends Controller
                     ->where('is_active', true)
                     ->orderBy('sort_order');
             },
+            'relatedTreatments' => function ($query) {
+                $query->where('is_active', true)
+                    ->with('category')
+                    ->orderBy('name');
+            },
         ]);
 
         return view('public.treatments.show', [

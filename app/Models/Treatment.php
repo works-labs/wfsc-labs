@@ -8,6 +8,7 @@ use App\Models\TreatmentBeforeAfter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Treatment extends Model
 {
     // add models dulu bjir :)
@@ -41,5 +42,25 @@ class Treatment extends Model
     {
         return $this->hasMany(TreatmentVideo::class)
             ->orderBy('sort_order');
+    }
+
+    public function relatedTreatments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Treatment::class,
+            'treatment_related',
+            'treatment_id',
+            'related_treatment_id'
+        );
+    }
+
+    public function relatedToTreatments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Treatment::class,
+            'treatment_related',
+            'related_treatment_id',
+            'treatment_id'
+        );
     }
 }

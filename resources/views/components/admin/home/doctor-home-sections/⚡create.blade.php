@@ -24,10 +24,12 @@ new #[Layout('layouts.admin')] class extends Component
     $doctor = Doctor::findOrFail($this->doctor_id);
 
     // Founder hanya boleh berada di Doctors section
-    if ($doctor->isFounder() && $this->section !== 'doctors') {
+    $allowedSections = ['doctors', 'hero'];
+
+    if ($doctor->isFounder() && !in_array($this->section, $allowedSections)) {
         $this->addError(
             'section',
-            'Founder doctor can only be assigned to the Doctors section.'
+            'Founder doctor can only be assigned to Doctors or Home sections.'
         );
 
         return;

@@ -153,7 +153,13 @@ new #[Layout('layouts.admin')] class extends Component
                                     >
                                         Edit
                                     </a>
-
+                                    <a
+                                        href="{{ route('admin.treatments.related-treatments.index', $treatment) }}"
+                                        wire:navigate
+                                        class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                                    >
+                                        Related
+                                    </a>
                                     <a
                                         href="{{ route('admin.treatments.products.index', $treatment) }}"
                                         wire:navigate

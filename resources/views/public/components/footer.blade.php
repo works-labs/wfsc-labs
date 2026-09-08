@@ -55,20 +55,6 @@
                         class="h-24 w-auto brightness-0 invert sm:h-28 lg:h-32">
                 </a>
 
-                <p class="mt-4 max-w-sm text-xs leading-relaxed text-white/75 sm:mt-6 sm:text-sm sm:leading-7">
-                    Pelayanan kedokteran estetika dan anti-aging
-                    dengan teknologi medis terkini untuk membantu
-                    memancarkan kecantikan alami Anda.
-                </p>
-
-                <div
-                    class="mt-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md sm:mt-7 sm:px-5 sm:py-2.5"
-                >
-                    <span class="text-[11px] font-medium tracking-wide sm:text-xs">
-                        ✦ 20+ Years of Excellence
-                    </span>
-                </div>
-
             </div>
 
 
