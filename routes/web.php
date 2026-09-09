@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicDoctorController;
 use App\Http\Controllers\PublicTreatmentController;
 use App\Http\Controllers\PublicNewsController;
+use App\Http\Controllers\PublicBeforeAfterController;
+use App\Http\Controllers\PublicPromoController;
 //Route::view('/', 'welcome')->name('home');
 // Route::view('/', 'public.home')->name('home');
 
@@ -266,4 +268,9 @@ Route::get('/treatments/{treatment:slug}', [PublicTreatmentController::class, 's
 Route::get('/news/{news:slug}', [PublicNewsController::class, 'show'])
     ->name('news.show');
 
+Route::get('/before-after', [PublicBeforeAfterController::class, 'index'])
+    ->name('before-after.index');
+
+Route::get('/promos', [PublicPromoController::class, 'index'])
+    ->name('promos.index');
 require __DIR__.'/settings.php';

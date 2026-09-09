@@ -31,11 +31,7 @@
 
     @include('public.treatments.sections.related-treatments')
 
-    {{-- =========================================================
-        5. CTA
-    ========================================================== --}}
-    @include('public.treatments.sections.cta')
 
 </main>
-
+    @include('public.components.footer')
 @endsection

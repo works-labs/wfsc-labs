@@ -18,16 +18,16 @@
         <div class="flex items-center gap-8">
             <a href="{{ route('home') }}" class="public-nav-link">Home</a>
             <a href="{{ route('treatments.index') }}" class="public-nav-link">Treatment</a>
-            <a href="#before-after" class="public-nav-link">Before After</a>
-            <a href="#promo" class="public-nav-link">Promo</a>
-            <a href="#skincare" class="public-nav-link">Skincare</a>
-            <a href="#news" class="public-nav-link">News</a>
-            <a href="#about" class="public-nav-link">Contact Us</a>
+            <a href="{{ route('before-after.index') }}" class="public-nav-link">Before After</a>
+            <a href="{{ route('promos.index') }}" class="public-nav-link">Promo</a>
+            <a href="{{ route('home') }}#skincare" class="public-nav-link">Skincare</a>
+            <a href="{{ route('home') }}#news" class="public-nav-link">News</a>
+            <a href="{{ route('home') }}#about" class="public-nav-link">Contact Us</a>
         </div>
 
         {{-- CTA Button --}}
         <a
-            href="#contact"
+            href="{{ route('home') }}#contact"
             class="public-nav-cta group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300"
         >
             <span>Contact Us</span>
@@ -36,7 +36,6 @@
     </div>
 </nav>
 
-{{-- Mobile Bottom Navigation --}}
 {{-- Mobile Bottom Navigation --}}
 <nav class="fixed inset-x-0 bottom-0 z-50 lg:hidden">
     <div class="mx-auto flex h-16 items-center justify-around border-t border-neutral-200/60 bg-white/85 px-2 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl">
@@ -57,24 +56,24 @@
             <span>Treatment</span>
         </a>
 
+        {{-- Promo --}}
+        <a href="{{ route('promos.index') }}" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
+            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+            </svg>
+            <span>Promo</span>
+        </a>
+
         {{-- Before After --}}
-        <a href="#before-after" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
+        <a href="{{ route('before-after.index') }}" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
             <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
             </svg>
             <span>B&A</span>
         </a>
 
-        {{-- Skincare --}}
-        <a href="#skincare" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
-            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-            </svg>
-            <span>Skincare</span>
-        </a>
-
         {{-- News --}}
-        <a href="#news" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
+        <a href="{{ route('home') }}#news" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
             <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
             </svg>
@@ -82,7 +81,7 @@
         </a>
 
         {{-- Contact CTA Highlighted --}}
-        <a href="#contact" class="group flex flex-col items-center gap-1 text-[10px] font-semibold text-[#FF5252]">
+        <a href="{{ route('home') }}#contact" class="group flex flex-col items-center gap-1 text-[10px] font-semibold text-[#FF5252]">
             <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[#FF5252]/10 transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#FF5252] group-hover:text-white">
                 <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
