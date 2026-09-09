@@ -7,21 +7,23 @@
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
 
     {{-- Dialog --}}
-    <div class="relative flex min-h-full items-center justify-center p-4 sm:p-6">
+    <div
+        class="relative flex min-h-full items-center justify-center p-3 sm:p-6"
+    >
         <div
-            class="relative w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+            class="relative w-full max-w-6xl overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
         >
 
             {{-- Close --}}
             <button
                 id="lightbox-close"
                 type="button"
-                class="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-black/80"
+                class="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-black/80 sm:right-4 sm:top-4 sm:h-10 sm:w-10"
                 aria-label="Close"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
+                    class="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -35,16 +37,22 @@
                 </svg>
             </button>
 
+
             {{-- Header --}}
-            <div class="border-b border-neutral-100 px-6 py-5 sm:px-8">
-                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-wfsc-coral">
+            <div class="border-b border-neutral-100 px-5 py-4 sm:px-8 sm:py-5">
+                <p
+                    class="text-[10px] font-semibold uppercase tracking-[0.2em] text-wfsc-coral sm:text-xs"
+                >
                     Before & After
                 </p>
 
-                <h2 class="mt-1 text-xl font-bold text-neutral-900 sm:text-2xl">
+                <h2
+                    class="mt-1 text-lg font-bold text-neutral-900 sm:text-2xl"
+                >
                     Treatment Result
                 </h2>
             </div>
+
 
             {{-- Before / After --}}
             <div class="grid grid-cols-1 gap-px bg-neutral-200 sm:grid-cols-2">
@@ -52,33 +60,39 @@
                 {{-- Before --}}
                 <div
                     id="lightbox-before-container"
-                    class="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-neutral-100"
+                    class="relative flex h-[38vh] min-h-[240px] max-h-[360px] items-center justify-center overflow-hidden bg-neutral-100 sm:h-[60vh] sm:min-h-[400px] sm:max-h-none"
                 >
-                    <span class="absolute left-4 top-4 z-10 rounded-full bg-black/70 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm">
+                    <span
+                        class="absolute left-3 top-3 z-10 rounded-full bg-black/70 px-3 py-1.5 text-[10px] font-semibold text-white backdrop-blur-sm sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-xs"
+                    >
                         Before
                     </span>
                 </div>
 
+
                 {{-- After --}}
                 <div
                     id="lightbox-after-container"
-                    class="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-neutral-100"
+                    class="relative flex h-[38vh] min-h-[240px] max-h-[360px] items-center justify-center overflow-hidden bg-neutral-100 sm:h-[60vh] sm:min-h-[400px] sm:max-h-none"
                 >
-                    <span class="absolute left-4 top-4 z-10 rounded-full bg-wfsc-coral px-4 py-2 text-xs font-semibold text-white">
+                    <span
+                        class="absolute left-3 top-3 z-10 rounded-full bg-wfsc-coral px-3 py-1.5 text-[10px] font-semibold text-white sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-xs"
+                    >
                         After
                     </span>
                 </div>
 
             </div>
 
+
             {{-- Caption --}}
             <div
                 id="lightbox-caption-container"
-                class="hidden border-t border-neutral-100 px-6 py-5 sm:px-8"
+                class="hidden border-t border-neutral-100 px-5 py-4 sm:px-8 sm:py-5"
             >
                 <p
                     id="lightbox-caption"
-                    class="text-sm leading-relaxed text-neutral-600"
+                    class="text-xs leading-relaxed text-neutral-600 sm:text-sm"
                 ></p>
             </div>
 
