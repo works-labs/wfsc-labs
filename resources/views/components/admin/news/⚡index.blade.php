@@ -109,6 +109,13 @@ new #[Layout('layouts.admin')] class extends Component
 
                         <td class="px-6 py-4">
                             <a
+                                href="{{ route('admin.news.related', $news) }}"
+                                wire:navigate
+                                class="text-sm font-medium text-neutral-600 hover:text-neutral-900"
+                            >
+                                Related
+                            </a>
+                            <a
                                 href="{{ route('admin.news.edit', $news) }}"
                                 wire:navigate
                                 class="text-sm font-medium text-blue-600 hover:underline"

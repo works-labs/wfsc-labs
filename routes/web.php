@@ -248,6 +248,25 @@ Route::livewire(
     'admin.treatments.related-treatments.index'
 )->name('admin.treatments.related-treatments.index');
 
+Route::livewire(
+    'admin/news/categories',
+    'admin.news.categories.index'
+)->name('admin.news.categories.index');
+
+Route::livewire(
+    'admin/news/categories/create',
+    'admin.news.categories.create'
+)->name('admin.news.categories.create');
+
+Route::livewire(
+    'admin/news/categories/{category}/edit',
+    'admin.news.categories.edit'
+)->name('admin.news.categories.edit');
+
+Route::livewire(
+    'admin/news/{news}/related',
+    'admin.news.related'
+)->name('admin.news.related');
     
 /// ------------ home route ublics ///
     
@@ -273,4 +292,8 @@ Route::get('/before-after', [PublicBeforeAfterController::class, 'index'])
 
 Route::get('/promos', [PublicPromoController::class, 'index'])
     ->name('promos.index');
+
+Route::get('/news', [PublicNewsController::class, 'index'])
+    ->name('news.index');
+
 require __DIR__.'/settings.php';

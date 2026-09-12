@@ -105,27 +105,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         showSlide(index) {
-            this.currentIndex = (index + this.slides.length) % this.slides.length;
+    this.currentIndex = (index + this.slides.length) % this.slides.length;
 
-            this.slides.forEach((slide, i) => {
-                slide.classList.toggle('hidden', i !== this.currentIndex);
-            });
+    this.slides.forEach((slide, i) => {
+        const active = i === this.currentIndex;
 
-            this.dots.forEach((dot, i) => {
-                const active = i === this.currentIndex;
-                const isScale = dot.dataset.dotType === 'scale';
+        slide.classList.toggle('opacity-100', active);
+        slide.classList.toggle('opacity-0', !active);
 
-                if (!isScale) {
-                    dot.classList.toggle('w-8', active);
-                    dot.classList.toggle('w-2', !active);
-                } else {
-                    dot.classList.toggle('scale-125', active);
-                }
+        slide.classList.toggle('pointer-events-auto', active);
+        slide.classList.toggle('pointer-events-none', !active);
+    });
 
-                dot.classList.toggle(this.activeDotClass, active);
-                dot.classList.toggle(this.inactiveDotClass, !active);
-            });
+    this.dots.forEach((dot, i) => {
+        const active = i === this.currentIndex;
+        const isScale = dot.dataset.dotType === 'scale';
+
+        if (!isScale) {
+            dot.classList.toggle('w-8', active);
+            dot.classList.toggle('w-2', !active);
+        } else {
+            dot.classList.toggle('scale-125', active);
         }
+
+        dot.classList.toggle(this.activeDotClass, active);
+        dot.classList.toggle(this.inactiveDotClass, !active);
+    });
+}
 
         startAutoSlide() {
             if (!this.autoSlide) return;
@@ -550,8 +556,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initBeforeAfterLightbox();
     initBeforeAfterNavigation();
     initPromoLightbox();
-
+    new FadeSlider('hero', {
+    autoSlide: true,
+    activeDotClass: 'bg-[#FF5252]',
+    inactiveDotClass: 'bg-white/50'
+});
     // Inisialisasi Class Slider jika dibutuhkan
-    // new FadeSlider('hero', { autoSlide: true });
-    // new TrackSlider('doctor', { centerScale: true });
+    new FadeSlider('hero', { autoSlide: true });
+    new TrackSlider('doctor', { centerScale: true });
 });
