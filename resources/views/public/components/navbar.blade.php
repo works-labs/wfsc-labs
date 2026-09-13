@@ -21,7 +21,10 @@
             <a href="{{ route('before-after.index') }}" class="public-nav-link">Before After</a>
             <a href="{{ route('promos.index') }}" class="public-nav-link">Promo</a>
             <a href="{{ route('home') }}#skincare" class="public-nav-link">Skincare</a>
-            <a href="{{ route('home') }}#news" class="public-nav-link">News</a>
+            
+            {{-- PERBAIKAN: Mengarah ke route news.index --}}
+            <a href="{{ route('news.index') }}" class="public-nav-link">News</a>
+            
             <a href="{{ route('home') }}#about" class="public-nav-link">Contact Us</a>
         </div>
 
@@ -72,8 +75,8 @@
             <span>B&A</span>
         </a>
 
-        {{-- News --}}
-        <a href="{{ route('home') }}#news" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
+        {{-- News -- PERBAIKAN: Mengarah ke route news.index --}}
+        <a href="{{ route('news.index') }}" class="group flex flex-col items-center gap-1 text-[10px] font-medium text-neutral-500 transition-colors duration-300 hover:text-[#FF5252]">
             <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
             </svg>

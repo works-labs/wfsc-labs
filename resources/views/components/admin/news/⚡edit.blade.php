@@ -57,15 +57,6 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function update(): void
     {
-        /*
-        |--------------------------------------------------------------------------
-        | Normalize select values
-        |--------------------------------------------------------------------------
-        |
-        | HTML <select> mengirim value="" ketika memilih option kosong.
-        | Database nullable integer membutuhkan NULL, bukan string kosong.
-        |
-        */
 
         $this->category_id = $this->category_id ?: null;
         $this->baca_juga_id = $this->baca_juga_id ?: null;
@@ -151,22 +142,8 @@ new #[Layout('layouts.admin')] class extends Component
                 'public'
             );
         } else {
-            /*
-             * Tidak upload gambar baru.
-             * Pertahankan thumbnail lama.
-             */
             $validated['thumbnail'] = $this->news->thumbnail;
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Update author
-        |--------------------------------------------------------------------------
-        |
-        | Author tidak diubah ketika artikel diedit.
-        | Yang dicatat tetap pembuat artikel awal.
-        |
-        */
 
         unset($validated['thumbnail']);
 
@@ -209,11 +186,6 @@ new #[Layout('layouts.admin')] class extends Component
 ?>
 
 <div class="space-y-6">
-
-    {{-- ============================================================
-         HEADER
-    ============================================================= --}}
-
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
         <div>
@@ -236,11 +208,6 @@ new #[Layout('layouts.admin')] class extends Component
 
     </div>
 
-
-    {{-- ============================================================
-         FLASH MESSAGE
-    ============================================================= --}}
-
     @if (session('success'))
         <div
             class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
@@ -248,12 +215,6 @@ new #[Layout('layouts.admin')] class extends Component
             {{ session('success') }}
         </div>
     @endif
-
-
-    {{-- ============================================================
-         VALIDATION ERROR
-    ============================================================= --}}
-
     @if ($errors->any())
         <div
             class="rounded-xl border border-red-200 bg-red-50 px-4 py-3"
@@ -270,19 +231,10 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
     @endif
 
-
-    {{-- ============================================================
-         FORM
-    ============================================================= --}}
-
     <form
         wire:submit="update"
         class="space-y-6"
     >
-
-        {{-- ========================================================
-             BASIC INFORMATION
-        ========================================================= --}}
 
         <div class="rounded-2xl border border-neutral-200 bg-white p-6">
 
@@ -295,9 +247,6 @@ new #[Layout('layouts.admin')] class extends Component
                     Informasi utama yang akan ditampilkan pada halaman berita.
                 </p>
             </div>
-
-
-            {{-- TITLE --}}
 
             <div>
                 <label
@@ -321,9 +270,6 @@ new #[Layout('layouts.admin')] class extends Component
                     </p>
                 @enderror
             </div>
-
-
-            {{-- SLUG --}}
 
             <div class="mt-5">
                 <label
@@ -351,13 +297,7 @@ new #[Layout('layouts.admin')] class extends Component
                     </p>
                 @enderror
             </div>
-
-
-            {{-- CATEGORY + BACA JUGA --}}
-
             <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-
-                {{-- CATEGORY --}}
 
                 <div>
                     <label
@@ -389,10 +329,6 @@ new #[Layout('layouts.admin')] class extends Component
                         </p>
                     @enderror
                 </div>
-
-
-                {{-- BACA JUGA --}}
-
                 <div>
                     <label
                         for="baca_juga_id"
@@ -430,10 +366,6 @@ new #[Layout('layouts.admin')] class extends Component
                 </div>
 
             </div>
-
-
-            {{-- EXCERPT --}}
-
             <div class="mt-5">
                 <label
                     for="excerpt"
@@ -458,12 +390,6 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
 
         </div>
-
-
-        {{-- ========================================================
-             CONTENT EDITOR
-        ========================================================= --}}
-
         <div class="rounded-2xl border border-neutral-200 bg-white p-6">
 
             <div class="mb-6">
@@ -493,12 +419,6 @@ new #[Layout('layouts.admin')] class extends Component
             @enderror
 
         </div>
-
-
-        {{-- ========================================================
-             THUMBNAIL
-        ========================================================= --}}
-
         <div class="rounded-2xl border border-neutral-200 bg-white p-6">
 
             <div class="mb-6">
@@ -510,10 +430,6 @@ new #[Layout('layouts.admin')] class extends Component
                     Gambar utama yang digunakan pada kartu dan halaman artikel.
                 </p>
             </div>
-
-
-            {{-- CURRENT THUMBNAIL --}}
-
             @if ($news->thumbnail)
 
                 <div class="mb-5">
@@ -533,9 +449,6 @@ new #[Layout('layouts.admin')] class extends Component
                 </div>
 
             @endif
-
-
-            {{-- NEW THUMBNAIL --}}
 
             <div>
 
