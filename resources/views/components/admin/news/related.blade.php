@@ -62,88 +62,92 @@ new #[Layout('layouts.admin')] class extends Component
 };
 ?>
 
-<div class="p-6 lg:p-8">
+<div class="mx-auto max-w-4xl space-y-8 pb-10">
 
     {{-- Header --}}
-    <div class="mb-8">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+        <a
+            href="{{ route('admin.news.index') }}"
+            wire:navigate
+            class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]"
+        >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to News
+        </a>
 
-            <div>
-                <a
-                    href="{{ route('admin.news.index') }}"
-                    wire:navigate
-                    class="text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
-                >
-                    ← Back to News
-                </a>
-
-                <h1 class="mt-3 text-2xl font-semibold tracking-tight text-neutral-900">
-                    Related News
-                </h1>
-
-                <p class="mt-1 text-sm text-neutral-500">
-                    Pilih berita yang berkaitan dengan artikel:
-                </p>
-
-                <p class="mt-2 font-medium text-neutral-900">
-                    {{ $news->title }}
-                </p>
+        <div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-sm">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
+                        Related News
+                    </h1>
+                    <p class="mt-1 text-sm font-medium text-gray-500">
+                        Pilih berita yang berkaitan dengan artikel:
+                    </p>
+                    <p class="mt-1 text-sm font-bold text-[var(--color-wfsc-dark)]">
+                        "{{ $news->title }}"
+                    </p>
+                </div>
             </div>
 
             <a
                 href="{{ route('admin.news.edit', $news) }}"
                 wire:navigate
-                class="inline-flex items-center justify-center rounded-lg border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-bold text-gray-700 shadow-sm transition-all hover:bg-gray-50"
             >
                 Edit News
             </a>
-
         </div>
     </div>
 
     {{-- Flash message --}}
     @if (session()->has('success'))
-        <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+        <div class="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-6 py-4 text-sm font-bold text-emerald-700 shadow-sm">
+            <svg class="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- Related news --}}
-    <div class="rounded-xl border border-neutral-200 bg-white">
+    {{-- Related news Card --}}
+    <div class="relative overflow-hidden rounded-2xl border border-gray-100/50 bg-white elegant-shadow">
+        <div class="absolute left-0 top-0 h-full w-1 bg-indigo-400"></div>
 
-        <div class="border-b border-neutral-200 px-6 py-4">
+        <div class="border-b border-gray-100 px-8 py-6">
             <div class="flex items-center justify-between gap-4">
                 <div>
-                    <h2 class="font-semibold text-neutral-900">
+                    <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">
                         Choose Related News
                     </h2>
 
-                    <p class="mt-1 text-sm text-neutral-500">
+                    <p class="mt-0.5 text-xs font-medium text-gray-400">
                         Berita yang dipilih dapat digunakan sebagai artikel terkait.
                     </p>
                 </div>
 
-                <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3.5 py-1 text-xs font-bold text-indigo-600 ring-1 ring-inset ring-indigo-600/20">
                     {{ count($selectedNews) }} selected
                 </span>
             </div>
         </div>
 
-        <div class="divide-y divide-neutral-100">
+        <div class="divide-y divide-gray-50">
 
             @forelse ($newsList as $item)
 
                 <label
                     wire:key="related-news-{{ $item->id }}"
-                    class="flex cursor-pointer gap-4 px-6 py-4 transition hover:bg-neutral-50"
+                    class="flex cursor-pointer gap-4 px-8 py-5 transition-colors hover:bg-rose-50/20"
                 >
 
-                    <div class="pt-1">
+                    <div class="pt-0.5">
                         <input
                             type="checkbox"
                             value="{{ $item->id }}"
                             wire:model="selectedNews"
-                            class="h-4 w-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900"
+                            class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]"
                         >
                     </div>
 
@@ -152,12 +156,12 @@ new #[Layout('layouts.admin')] class extends Component
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
 
                             <div class="min-w-0">
-                                <h3 class="font-medium text-neutral-900">
+                                <h3 class="font-bold text-[var(--color-wfsc-dark)]">
                                     {{ $item->title }}
                                 </h3>
 
                                 @if ($item->excerpt)
-                                    <p class="mt-1 line-clamp-2 text-sm text-neutral-500">
+                                    <p class="mt-1 line-clamp-2 text-xs font-medium text-gray-500 leading-relaxed">
                                         {{ $item->excerpt }}
                                     </p>
                                 @endif
@@ -166,18 +170,18 @@ new #[Layout('layouts.admin')] class extends Component
                             <div class="flex shrink-0 items-center gap-2">
 
                                 @if ($item->category)
-                                    <span class="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600">
+                                    <span class="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-600">
                                         {{ $item->category->name }}
                                     </span>
                                 @endif
 
                                 @if ($item->is_active)
-                                    <span class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
-                                        Active
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Active
                                     </span>
                                 @else
-                                    <span class="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600">
-                                        Inactive
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600 ring-1 ring-inset ring-red-600/20">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Inactive
                                     </span>
                                 @endif
 
@@ -186,7 +190,7 @@ new #[Layout('layouts.admin')] class extends Component
                         </div>
 
                         @if ($item->published_at)
-                            <p class="mt-2 text-xs text-neutral-400">
+                            <p class="mt-2 text-xs font-mono font-medium text-gray-400">
                                 {{ $item->published_at->format('d M Y') }}
                             </p>
                         @endif
@@ -197,10 +201,12 @@ new #[Layout('layouts.admin')] class extends Component
 
             @empty
 
-                <div class="px-6 py-12 text-center">
-                    <p class="text-sm text-neutral-500">
-                        Belum ada berita lain yang tersedia.
-                    </p>
+                <div class="px-8 py-12 text-center">
+                    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
+                        <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                    </div>
+                    <p class="mt-4 text-sm font-medium text-gray-900">Belum ada berita lain yang tersedia</p>
+                    <p class="mt-1 text-sm text-gray-500">Buat artikel berita lain untuk dihubungkan sebagai artikel terkait.</p>
                 </div>
 
             @endforelse
@@ -208,9 +214,9 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
 
         {{-- Footer --}}
-        <div class="flex items-center justify-between border-t border-neutral-200 px-6 py-4">
+        <div class="flex items-center justify-between border-t border-gray-100 bg-gray-50/50 px-8 py-4">
 
-            <p class="text-sm text-neutral-500">
+            <p class="text-xs font-bold text-gray-500">
                 {{ count($selectedNews) }} berita dipilih
             </p>
 
@@ -218,13 +224,14 @@ new #[Layout('layouts.admin')] class extends Component
                 type="button"
                 wire:click="save"
                 wire:loading.attr="disabled"
-                class="rounded-lg bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
+                class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-8 py-3 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
             >
                 <span wire:loading.remove wire:target="save">
                     Save Related News
                 </span>
 
                 <span wire:loading wire:target="save">
+                    <svg class="h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     Saving...
                 </span>
             </button>

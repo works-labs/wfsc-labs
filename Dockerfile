@@ -1,6 +1,3 @@
-# =========================
-# Frontend build
-# =========================
 FROM node:22-bookworm AS frontend
 
 WORKDIR /app
@@ -15,10 +12,6 @@ COPY public ./public
 
 RUN npm run build
 
-
-# =========================
-# Laravel application
-# =========================
 FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \

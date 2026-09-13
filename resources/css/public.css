@@ -36,6 +36,36 @@
 }
 
 /* -------------------------------------------------------------------------- */
+/* 7. Admin UI Refinements                                                    */
+/* -------------------------------------------------------------------------- */
+@layer utilities {
+    /* Bayangan elegan yang sangat halus untuk card */
+    .elegant-shadow {
+        box-shadow: 0 4px 24px -4px rgba(42, 43, 46, 0.04), 0 2px 8px -2px rgba(42, 43, 46, 0.02);
+    }
+    
+    /* Scrollbar khusus yang tipis dan bersih untuk Sidebar */
+    .elegant-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .elegant-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .elegant-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #f3f4f6;
+        border-radius: 10px;
+    }
+    .elegant-scrollbar:hover::-webkit-scrollbar-thumb {
+        background-color: #e5e7eb;
+    }
+}
+
+/* Menyembunyikan elemen Alpine.js sebelum termuat agar tidak berkedip */
+[x-cloak] {
+    display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
 /* 2. Theme Configuration                                                     */
 /* -------------------------------------------------------------------------- */
 @theme {

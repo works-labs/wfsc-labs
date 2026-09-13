@@ -102,235 +102,184 @@ new #[Layout('layouts.admin')] class extends Component
 };
 ?>
 
-<div class="mx-auto max-w-4xl space-y-6">
+<div class="mx-auto max-w-4xl space-y-8 pb-10">
 
+    {{-- Top Navigation & Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900">
-            Edit Doctor
-        </h1>
-
-        <p class="mt-1 text-sm text-gray-500">
-            Update doctor information.
-        </p>
+        <a href="{{ route('admin.doctors.index') }}" wire:navigate class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Doctors
+        </a>
+        <div class="mt-4 flex items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-500 shadow-sm">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Edit Doctor</h1>
+                <p class="text-sm font-medium text-gray-500">Update information for {{ $title }} {{ $name }}.</p>
+            </div>
+        </div>
     </div>
 
     @if (session('success'))
-        <div class="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+        <div class="rounded-2xl border border-emerald-100 bg-emerald-50 px-6 py-4 shadow-sm flex items-center gap-3 text-sm font-bold text-emerald-700">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             {{ session('success') }}
         </div>
     @endif
 
-    <form wire:submit="update" class="space-y-6">
+    <form wire:submit="update" class="space-y-8">
 
-        <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        {{-- Basic Information Card --}}
+        <div class="relative overflow-hidden rounded-2xl border border-gray-100/50 bg-white p-8 elegant-shadow">
+            <div class="absolute left-0 top-0 h-full w-1 bg-blue-400"></div>
+            
+            <div class="mb-6 flex items-center gap-3">
+                <div class="rounded-lg bg-blue-50 p-2 text-blue-500"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Basic Information</h2>
+            </div>
 
             <div class="grid gap-6 md:grid-cols-2">
-
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Name
-                    </label>
-
-                    <input
-                        type="text"
-                        wire:model="name"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    >
-
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Name</label>
+                    <input type="text" wire:model="name" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                    @error('name') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Title
-                    </label>
-
-                    <input
-                        type="text"
-                        wire:model="title"
-                        placeholder="dr."
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    >
-
-                    @error('title')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Title</label>
+                    <input type="text" wire:model="title" placeholder="dr." class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                    @error('title') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Slug
-                    </label>
-
-                    <input
-                        type="text"
-                        wire:model="slug"
-                        @disabled($isFounder)
-                        class="mt-1 w-full rounded-lg border-gray-300 bg-gray-50 shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
-                    >
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Slug</label>
+                    <input type="text" wire:model="slug" @disabled($isFounder) class="w-full rounded-xl border-gray-200 px-4 py-3 text-sm transition-colors focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)] disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:opacity-70">
+                    
                     @if ($isFounder)
-
-                        <p class="mt-2 text-xs text-amber-600">
-                            ♛ This doctor is the protected founder. The slug cannot be changed.
-                        </p>
-
-                    @endif
-                    @error('slug')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Specialization
-                    </label>
-
-                    <input
-                        type="text"
-                        wire:model="specialization"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    >
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Experience
-                    </label>
-
-                    <input
-                        type="text"
-                        wire:model="experience"
-                        placeholder="8 Tahun"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    >
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Short Bio
-                    </label>
-
-                    <textarea
-                        wire:model="short_bio"
-                        rows="3"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    ></textarea>
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Biography
-                    </label>
-
-                    <textarea
-                        wire:model="bio"
-                        rows="5"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    ></textarea>
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Education
-                    </label>
-
-                    <textarea
-                        wire:model="education"
-                        rows="3"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    ></textarea>
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Certifications
-                    </label>
-
-                    <textarea
-                        wire:model="certifications"
-                        rows="3"
-                        class="mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                    ></textarea>
-                </div>
-
-                <div class="md:col-span-2">
-
-                    <label class="block text-sm font-medium text-gray-700">
-                        Photo
-                    </label>
-
-                    @if ($currentPhoto)
-                        <div class="mb-3 mt-2">
-                            <img
-                                src="{{ asset('storage/' . $currentPhoto) }}"
-                                alt="{{ $name }}"
-                                class="h-24 w-24 rounded-xl object-cover"
-                            >
+                        <div class="mt-2 flex items-center gap-2 text-xs font-bold text-amber-600">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+                            This doctor is the protected founder. The slug cannot be changed.
                         </div>
                     @endif
+                    @error('slug') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                </div>
 
-                    <input
-                        type="file"
-                        wire:model="photo"
-                        accept="image/*"
-                        class="mt-1 block w-full text-sm"
-                    >
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Specialization</label>
+                    <input type="text" wire:model="specialization" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                </div>
 
-                    @error('photo')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Experience</label>
+                    <input type="text" wire:model="experience" placeholder="8 Tahun" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                </div>
+            </div>
+        </div>
 
-                    <div wire:loading wire:target="photo" class="mt-2 text-sm text-gray-500">
-                        Uploading...
+        {{-- Biography Card --}}
+        <div class="relative overflow-hidden rounded-2xl border border-gray-100/50 bg-white p-8 elegant-shadow">
+            <div class="absolute left-0 top-0 h-full w-1 bg-amber-400"></div>
+            
+            <div class="mb-6 flex items-center gap-3">
+                <div class="rounded-lg bg-amber-50 p-2 text-amber-500"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></div>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Biography</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Short Bio</label>
+                    <textarea wire:model="short_bio" rows="3" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Biography</label>
+                    <textarea wire:model="bio" rows="5" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                </div>
+            </div>
+        </div>
+
+        {{-- Education & Certifications --}}
+        <div class="relative overflow-hidden rounded-2xl border border-gray-100/50 bg-white p-8 elegant-shadow">
+            <div class="absolute left-0 top-0 h-full w-1 bg-emerald-400"></div>
+            
+            <div class="mb-6 flex items-center gap-3">
+                <div class="rounded-lg bg-emerald-50 p-2 text-emerald-500"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg></div>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Education & Certifications</h2>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Education</label>
+                    <textarea wire:model="education" rows="4" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Certifications</label>
+                    <textarea wire:model="certifications" rows="4" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                </div>
+            </div>
+        </div>
+
+        {{-- Photo & Status --}}
+        <div class="relative overflow-hidden rounded-2xl border border-gray-100/50 bg-white p-8 elegant-shadow">
+            <div class="absolute left-0 top-0 h-full w-1 bg-purple-400"></div>
+            
+            <div class="mb-6 flex items-center gap-3">
+                <div class="rounded-lg bg-purple-50 p-2 text-purple-500"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Photo & Status</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Doctor Photo</label>
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+                        @if ($photo)
+                            <div class="shrink-0 relative">
+                                <span class="absolute -top-2 -right-2 bg-[var(--color-wfsc-coral)] text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">New</span>
+                                <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="h-24 w-24 rounded-2xl object-cover shadow-sm ring-4 ring-gray-50">
+                            </div>
+                        @elseif ($currentPhoto)
+                            <div class="shrink-0">
+                                <img src="{{ asset('storage/' . $currentPhoto) }}" alt="{{ $name }}" class="h-24 w-24 rounded-2xl object-cover shadow-sm ring-4 ring-gray-50">
+                            </div>
+                        @endif
+
+                        <div class="w-full">
+                            <input type="file" wire:model="photo" accept="image/*" class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                            <div wire:loading wire:target="photo" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
+                                <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                Uploading preview...
+                            </div>
+                            @error('photo') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                        </div>
                     </div>
                 </div>
 
-                <div class="md:col-span-2">
-                    <label class="inline-flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            wire:model="is_active"
-                            class="rounded border-gray-300"
-                        >
-
-                        <span class="text-sm font-medium text-gray-700">
-                            Active
-                        </span>
-                    </label>
-                </div>
-
+                <label class="inline-flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
+                    <input type="checkbox" wire:model="is_active" class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]">
+                    <div>
+                        <span class="block text-sm font-bold text-gray-800">Set as Active Profile</span>
+                        <span class="block text-xs font-medium text-gray-500">Doctor will be visible on the public website.</span>
+                    </div>
+                </label>
             </div>
-
         </div>
 
-        <div class="flex items-center justify-between">
-
-            <a
-                href="{{ route('admin.doctors.index') }}"
-                wire:navigate
-                class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
+        {{-- Actions --}}
+        <div class="flex items-center justify-end gap-4 pt-4">
+            <a href="{{ route('admin.doctors.index') }}" wire:navigate class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">
                 Cancel
             </a>
 
-            <button
-                type="submit"
-                wire:loading.attr="disabled"
-                class="rounded-lg bg-gray-900 px-5 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
-            >
-                <span wire:loading.remove wire:target="update">
-                    Save Changes
-                </span>
-
+            <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-8 py-3 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40 disabled:opacity-70 disabled:hover:scale-100">
+                <span wire:loading.remove wire:target="update">Save Changes</span>
                 <span wire:loading wire:target="update">
+                    <svg class="h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     Saving...
                 </span>
             </button>
-
         </div>
 
     </form>
-
 </div>

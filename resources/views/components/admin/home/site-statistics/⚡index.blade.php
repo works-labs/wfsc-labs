@@ -27,113 +27,124 @@ new #[Layout('layouts.admin')] class extends Component
 };
 ?>
 
-<div>
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold">
-                Site Statistics
-            </h1>
+<div class="mx-auto max-w-7xl space-y-6">
 
-            <p class="mt-2 text-gray-600">
-                Manage statistics displayed on the WFSC website.
-            </p>
+    {{-- Header Card --}}
+    <div class="flex flex-col gap-4 rounded-2xl border border-gray-100/50 bg-white p-6 elegant-shadow sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-4">
+            <div class="hidden sm:flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
+                    Site Statistics
+                </h1>
+                <p class="mt-1 text-sm font-medium text-gray-500">
+                    Manage statistics displayed on the WFSC website.
+                </p>
+            </div>
         </div>
 
-        <a
-            href="{{ route('admin.home.site-statistics.create') }}"
-            wire:navigate
-            class="rounded-lg bg-black px-5 py-2 font-semibold text-white"
+        <a href="{{ route('admin.home.site-statistics.create') }}" wire:navigate
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40"
         >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Add Statistic
         </a>
     </div>
 
+    {{-- Flash Message --}}
     @if (session('success'))
-        <div class="mb-6 rounded-lg bg-green-100 px-4 py-3 text-sm text-green-700">
+        <div class="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-6 py-4 text-sm font-bold text-emerald-700 shadow-sm">
+            <svg class="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+    {{-- Table Card --}}
+    <div class="overflow-hidden rounded-2xl border border-gray-100/50 bg-white elegant-shadow">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="border-b bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-100">
+                <thead class="bg-[#F4F6F9]">
                     <tr>
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Label
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Value
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Suffix
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Icon
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Sort Order
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                             Status
                         </th>
-
-                        <th class="px-6 py-4 text-sm font-semibold">
+                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">
                             Actions
                         </th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-50">
                     @forelse ($statistics as $statistic)
-                        <tr>
+                        <tr class="transition-colors hover:bg-rose-50/30">
+                            {{-- Label --}}
                             <td class="px-6 py-4">
-                                <div class="font-medium">
+                                <div class="font-bold text-[var(--color-wfsc-dark)]">
                                     {{ $statistic->label }}
                                 </div>
                             </td>
 
+                            {{-- Value --}}
                             <td class="px-6 py-4">
-                                <span class="font-semibold">
+                                <span class="font-mono font-bold text-gray-800">
                                     {{ $statistic->value }}
                                 </span>
                             </td>
 
-                            <td class="px-6 py-4">
+                            {{-- Suffix --}}
+                            <td class="px-6 py-4 font-mono text-gray-500">
                                 {{ $statistic->suffix ?: '-' }}
                             </td>
 
-                            <td class="px-6 py-4">
+                            {{-- Icon --}}
+                            <td class="px-6 py-4 font-mono text-xs text-gray-500">
                                 {{ $statistic->icon ?: '-' }}
                             </td>
 
-                            <td class="px-6 py-4">
-                                {{ $statistic->sort_order }}
+                            {{-- Sort Order --}}
+                            <td class="whitespace-nowrap px-6 py-4">
+                                <span class="inline-flex items-center justify-center rounded-lg bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-600">
+                                    #{{ $statistic->sort_order }}
+                                </span>
                             </td>
 
-                            <td class="px-6 py-4">
+                            {{-- Status --}}
+                            <td class="whitespace-nowrap px-6 py-4">
                                 @if ($statistic->is_active)
-                                    <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                                        Active
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Active
                                     </span>
                                 @else
-                                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                                        Inactive
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-50 px-3 py-1 text-xs font-bold text-gray-500 ring-1 ring-inset ring-gray-500/20">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span> Inactive
                                     </span>
                                 @endif
                             </td>
 
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
+                            {{-- Actions --}}
+                            <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
+                                <div class="flex items-center justify-end gap-2">
                                     <a
                                         href="{{ route('admin.home.site-statistics.edit', $statistic) }}"
                                         wire:navigate
-                                        class="text-sm font-medium text-blue-600 hover:underline"
+                                        class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-600 transition-colors hover:bg-blue-100 hover:text-blue-700"
                                     >
                                         Edit
                                     </a>
@@ -142,7 +153,7 @@ new #[Layout('layouts.admin')] class extends Component
                                         type="button"
                                         wire:click="delete({{ $statistic->id }})"
                                         wire:confirm="Are you sure you want to delete this statistic?"
-                                        class="text-sm font-medium text-red-600 hover:underline"
+                                        class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
                                     >
                                         Delete
                                     </button>
@@ -151,11 +162,12 @@ new #[Layout('layouts.admin')] class extends Component
                         </tr>
                     @empty
                         <tr>
-                            <td
-                                colspan="7"
-                                class="px-6 py-12 text-center text-gray-500"
-                            >
-                                No statistics found.
+                            <td colspan="7" class="px-6 py-12 text-center">
+                                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
+                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                </div>
+                                <p class="mt-4 text-sm font-medium text-gray-900">No statistics found.</p>
+                                <p class="mt-1 text-sm text-gray-500">Get started by creating a new site statistic item.</p>
                             </td>
                         </tr>
                     @endforelse

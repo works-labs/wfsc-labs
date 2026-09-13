@@ -8,7 +8,6 @@ use App\Models\Facility;
 use App\Models\Branch;
 use App\Models\News;
 use App\Models\Promo;
-use App\Models\Booking;
 
 new #[Layout('layouts.admin')] class extends Component
 {
@@ -21,445 +20,140 @@ new #[Layout('layouts.admin')] class extends Component
             'branchesCount' => Branch::count(),
             'newsCount' => News::count(),
             'promosCount' => Promo::count(),
-
-            'bookingsCount' => Booking::count(),
-
-            'pendingBookings' => Booking::where('status', 'pending')->count(),
-            'confirmedBookings' => Booking::where('status', 'confirmed')->count(),
-            'completedBookings' => Booking::where('status', 'completed')->count(),
-            'cancelledBookings' => Booking::where('status', 'cancelled')->count(),
-
-            'recentBookings' => Booking::with([
-                    'treatment',
-                    'branch',
-                ])
-                ->latest()
-                ->limit(5)
-                ->get(),
         ];
     }
 };
-
 ?>
-<div>
 
+<div class="mx-auto max-w-7xl">
+    
     {{-- Header --}}
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold">
-            Welcome back, {{ auth()->user()->name }} 👋
-        </h1>
-
-        <p class="mt-2 text-gray-600">
-            Manage your WFSC website content from here.
-        </p>
+    <div class="mb-10 flex items-center justify-between bg-white p-8 rounded-2xl elegant-shadow border border-gray-100/50">
+        <div>
+            <h1 class="text-3xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
+                Overview
+            </h1>
+            <p class="mt-2 text-sm font-medium text-gray-500">
+                Welcome back, <span class="text-[var(--color-wfsc-coral)]">{{ auth()->user()->name }}</span>. Here is what's happening at WFSC today.
+            </p>
+        </div>
+        <div class="hidden sm:block">
+            <div class="p-3 bg-rose-50 rounded-xl text-[var(--color-wfsc-coral)]">
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+        </div>
     </div>
-
 
     {{-- Content Statistics --}}
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-        {{-- Doctors --}}
-        <a
-            href="{{ route('admin.doctors.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                Doctors
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $doctorsCount }}
-            </p>
+        {{-- Doctors (Biru Lembut) --}}
+        <a href="{{ route('admin.doctors.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50/80 to-white p-8 elegant-shadow border border-blue-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-blue-500/70 uppercase">
+                        Doctors
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-blue-950">
+                        {{ $doctorsCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-blue-500 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+            </div>
         </a>
 
-
-        {{-- Treatments --}}
-        <a
-            href="{{ route('admin.treatments.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                Treatments
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $treatmentsCount }}
-            </p>
+        {{-- Treatments (Coral Khas) --}}
+        <a href="{{ route('admin.treatments.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-50/80 to-white p-8 elegant-shadow border border-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-rose-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-[var(--color-wfsc-coral)]/70 uppercase">
+                        Treatments
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-rose-950">
+                        {{ $treatmentsCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-[var(--color-wfsc-coral)] group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                </div>
+            </div>
         </a>
 
-
-        {{-- Facilities --}}
-        <a
-            href="{{ route('admin.facilities.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                Facilities
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $facilitiesCount }}
-            </p>
+        {{-- Facilities (Emerald Lembut) --}}
+        <a href="{{ route('admin.facilities.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50/80 to-white p-8 elegant-shadow border border-emerald-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-emerald-500/70 uppercase">
+                        Facilities
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-emerald-950">
+                        {{ $facilitiesCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-emerald-500 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                </div>
+            </div>
         </a>
 
-
-        {{-- Branches --}}
-        <a
-            href="{{ route('admin.branches.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                Branches
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $branchesCount }}
-            </p>
+        {{-- Branches (Amber Lembut) --}}
+        <a href="{{ route('admin.branches.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50/80 to-white p-8 elegant-shadow border border-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-amber-500/70 uppercase">
+                        Branches
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-amber-950">
+                        {{ $branchesCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-amber-500 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+            </div>
         </a>
 
-
-        {{-- News --}}
-        <a
-            href="{{ route('admin.news.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                News
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $newsCount }}
-            </p>
+        {{-- News (Ungu Lembut) --}}
+        <a href="{{ route('admin.news.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50/80 to-white p-8 elegant-shadow border border-purple-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-purple-500/70 uppercase">
+                        News & Articles
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-purple-950">
+                        {{ $newsCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-purple-500 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3m0 0l3-3m-3 3V8"/></svg>
+                </div>
+            </div>
         </a>
 
-
-        {{-- Promos --}}
-        <a
-            href="{{ route('admin.home.promos.index') }}"
-            wire:navigate
-            class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-            <p class="text-sm text-gray-500">
-                Promos
-            </p>
-
-            <p class="mt-2 text-3xl font-bold">
-                {{ $promosCount }}
-            </p>
+        {{-- Promos (Pink Lembut) --}}
+        <a href="{{ route('admin.home.promos.index') }}" wire:navigate
+            class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50/80 to-white p-8 elegant-shadow border border-pink-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-pink-900/5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-bold tracking-wider text-pink-500/70 uppercase">
+                        Active Promos
+                    </p>
+                    <p class="mt-4 text-5xl font-black text-pink-950">
+                        {{ $promosCount }}
+                    </p>
+                </div>
+                <div class="rounded-2xl bg-white shadow-sm p-3 text-pink-500 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+                </div>
+            </div>
         </a>
 
     </div>
-
-
-    {{-- Booking Statistics --}}
-    <div class="mt-8">
-
-        <div class="mb-4 flex items-center justify-between">
-
-            <div>
-                <h2 class="text-lg font-semibold">
-                    Booking Overview
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    Current booking status summary.
-                </p>
-            </div>
-
-            <a
-                href="{{ route('admin.bookings.index') }}"
-                wire:navigate
-                class="text-sm font-medium text-blue-600 hover:underline"
-            >
-                View all
-            </a>
-
-        </div>
-
-
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-
-            {{-- Total --}}
-            <div class="rounded-xl bg-white p-6 shadow-sm">
-
-                <p class="text-sm text-gray-500">
-                    Total
-                </p>
-
-                <p class="mt-2 text-3xl font-bold">
-                    {{ $bookingsCount }}
-                </p>
-
-            </div>
-
-
-            {{-- Pending --}}
-            <div class="rounded-xl bg-white p-6 shadow-sm">
-
-                <p class="text-sm text-gray-500">
-                    Pending
-                </p>
-
-                <p class="mt-2 text-3xl font-bold text-yellow-600">
-                    {{ $pendingBookings }}
-                </p>
-
-            </div>
-
-
-            {{-- Confirmed --}}
-            <div class="rounded-xl bg-white p-6 shadow-sm">
-
-                <p class="text-sm text-gray-500">
-                    Confirmed
-                </p>
-
-                <p class="mt-2 text-3xl font-bold text-green-600">
-                    {{ $confirmedBookings }}
-                </p>
-
-            </div>
-
-
-            {{-- Completed --}}
-            <div class="rounded-xl bg-white p-6 shadow-sm">
-
-                <p class="text-sm text-gray-500">
-                    Completed
-                </p>
-
-                <p class="mt-2 text-3xl font-bold text-blue-600">
-                    {{ $completedBookings }}
-                </p>
-
-            </div>
-
-
-            {{-- Cancelled --}}
-            <div class="rounded-xl bg-white p-6 shadow-sm">
-
-                <p class="text-sm text-gray-500">
-                    Cancelled
-                </p>
-
-                <p class="mt-2 text-3xl font-bold text-red-600">
-                    {{ $cancelledBookings }}
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {{-- Recent Bookings --}}
-    <div class="mt-8">
-
-        <div class="mb-4">
-
-            <h2 class="text-lg font-semibold">
-                Recent Bookings
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-500">
-                The latest customer bookings.
-            </p>
-
-        </div>
-
-
-        <div class="overflow-hidden rounded-xl bg-white shadow-sm">
-
-            <div class="overflow-x-auto">
-
-                <table class="w-full text-left">
-
-                    <thead class="border-b bg-gray-50">
-
-                        <tr>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
-                                Booking
-                            </th>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
-                                Customer
-                            </th>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
-                                Treatment
-                            </th>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
-                                Branch
-                            </th>
-
-                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
-                                Status
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody class="divide-y divide-gray-100">
-
-                        @forelse ($recentBookings as $booking)
-
-                            <tr class="transition hover:bg-gray-50">
-
-                                {{-- Booking --}}
-                                <td class="px-6 py-4">
-
-                                    <a
-                                        href="{{ route('admin.bookings.show', $booking) }}"
-                                        wire:navigate
-                                        class="font-medium text-blue-600 hover:underline"
-                                    >
-                                        {{ $booking->booking_code }}
-                                    </a>
-
-                                    <div class="mt-1 text-xs text-gray-500">
-                                        {{ $booking->created_at?->format('d M Y H:i') }}
-                                    </div>
-
-                                </td>
-
-
-                                {{-- Customer --}}
-                                <td class="px-6 py-4">
-
-                                    <div class="font-medium text-gray-900">
-                                        {{ $booking->name }}
-                                    </div>
-
-                                    <div class="mt-1 text-sm text-gray-500">
-                                        {{ $booking->phone }}
-                                    </div>
-
-                                </td>
-
-
-                                {{-- Treatment --}}
-                                <td class="px-6 py-4 text-sm text-gray-700">
-
-                                    {{ $booking->treatment?->name ?? 'Treatment deleted' }}
-
-                                </td>
-
-
-                                {{-- Branch --}}
-                                <td class="px-6 py-4 text-sm text-gray-700">
-
-                                    {{ $booking->branch?->name ?? 'Branch deleted' }}
-
-                                </td>
-
-
-                                {{-- Status --}}
-                                <td class="px-6 py-4">
-
-                                    @switch($booking->status)
-
-                                        @case('pending')
-
-                                            <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700">
-                                                Pending
-                                            </span>
-
-                                            @break
-
-
-                                        @case('confirmed')
-
-                                            <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                                                Confirmed
-                                            </span>
-
-                                            @break
-
-
-                                        @case('completed')
-
-                                            <span class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
-                                                Completed
-                                            </span>
-
-                                            @break
-
-
-                                        @case('cancelled')
-
-                                            <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                                                Cancelled
-                                            </span>
-
-                                            @break
-
-
-                                        @default
-
-                                            <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                                                {{ ucfirst($booking->status) }}
-                                            </span>
-
-                                    @endswitch
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="px-6 py-12 text-center"
-                                >
-
-                                    <div class="text-3xl">
-                                        📋
-                                    </div>
-
-                                    <p class="mt-3 font-medium text-gray-900">
-                                        No bookings yet
-                                    </p>
-
-                                    <p class="mt-1 text-sm text-gray-500">
-                                        Customer bookings will appear here.
-                                    </p>
-
-                                    <a
-                                        href="{{ route('admin.bookings.create') }}"
-                                        wire:navigate
-                                        class="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline"
-                                    >
-                                        Create a booking
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
 </div>
-
