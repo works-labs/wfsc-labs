@@ -148,10 +148,10 @@
     /* Navbar - Scrolled State                                                */
     /* ---------------------------------------------------------------------- */
     #public-navbar.is-scrolled {
-        background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.85);
 
-        @apply border-b border-neutral-100/60 shadow-[0_4px_20px_-2px_rgba(0, 0, 0, 0.05)] backdrop-blur-xl;
-    }
+    @apply border-b border-neutral-100/60 shadow-[0_4px_20px_-2px_rgba(0,_0,_0,_0.05)] backdrop-blur-xl;
+}
 
     #public-navbar.is-scrolled .mx-auto {
         height: 4.25rem;
