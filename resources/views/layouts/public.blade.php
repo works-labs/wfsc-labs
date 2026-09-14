@@ -10,11 +10,15 @@
         'resources/css/public.css',
         'resources/js/public.js',
     ])
+
+    @stack('styles')
 </head>
 
 <body class="@yield('body_class')">
     @include('public.components.navbar')
     @yield('content')
     @include('public.components.floating-whatsapp')
+
+    @stack('scripts')
 </body>
 </html>

@@ -39,22 +39,26 @@
 /* 7. Admin UI Refinements                                                    */
 /* -------------------------------------------------------------------------- */
 @layer utilities {
+
     /* Bayangan elegan yang sangat halus untuk card */
     .elegant-shadow {
         box-shadow: 0 4px 24px -4px rgba(42, 43, 46, 0.04), 0 2px 8px -2px rgba(42, 43, 46, 0.02);
     }
-    
+
     /* Scrollbar khusus yang tipis dan bersih untuk Sidebar */
     .elegant-scrollbar::-webkit-scrollbar {
         width: 4px;
     }
+
     .elegant-scrollbar::-webkit-scrollbar-track {
         background: transparent;
     }
+
     .elegant-scrollbar::-webkit-scrollbar-thumb {
         background-color: #f3f4f6;
         border-radius: 10px;
     }
+
     .elegant-scrollbar:hover::-webkit-scrollbar-thumb {
         background-color: #e5e7eb;
     }
@@ -118,7 +122,8 @@
         transform: translateX(-50%);
     }
 
-    .public-nav-link:hover::after {
+    .public-nav-link:hover::after,
+    .public-nav-link.is-active::after {
         width: 100%;
     }
 
@@ -134,11 +139,9 @@
     /* Transparent dengan subtle coral gradient agar menyatu dengan hero      */
     /* ---------------------------------------------------------------------- */
     #public-navbar {
-        background: linear-gradient(
-            to bottom,
-            rgba(255, 82, 82, 0.35),
-            rgba(255, 82, 82, 0)
-        );
+        background: linear-gradient(to bottom,
+                rgba(255, 82, 82, 0.35),
+                rgba(255, 82, 82, 0));
     }
 
     /* ---------------------------------------------------------------------- */
@@ -147,7 +150,7 @@
     #public-navbar.is-scrolled {
         background: rgba(255, 255, 255, 0.85);
 
-        @apply border-b border-neutral-100/60 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] backdrop-blur-xl;
+        @apply border-b border-neutral-100/60 shadow-[0_4px_20px_-2px_rgba(0, 0, 0, 0.05)] backdrop-blur-xl;
     }
 
     #public-navbar.is-scrolled .mx-auto {
@@ -159,7 +162,7 @@
     }
 
     #public-navbar.is-scrolled .public-nav-cta {
-        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)] hover:shadow-[0_4px_15px_rgba(255,82,82,0.3)];
+        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)] hover:shadow-[0_4px_15px_rgba(255, 82, 82, 0.3)];
     }
 
     /* ---------------------------------------------------------------------- */
@@ -213,6 +216,7 @@
 /* -------------------------------------------------------------------------- */
 /* Floating animation untuk Doctor Card Hero */
 @keyframes floatSoft {
+
     0%,
     100% {
         transform: translateY(0px);

@@ -7,6 +7,8 @@ use App\Http\Controllers\PublicTreatmentController;
 use App\Http\Controllers\PublicNewsController;
 use App\Http\Controllers\PublicBeforeAfterController;
 use App\Http\Controllers\PublicPromoController;
+use App\Http\Controllers\PublicSkincareController;
+use App\Http\Controllers\PublicContactUsController;
 //Route::view('/', 'welcome')->name('home');
 // Route::view('/', 'public.home')->name('home');
 
@@ -267,7 +269,7 @@ Route::livewire(
     'admin/news/{news}/related',
     'admin.news.related'
 )->name('admin.news.related');
-    
+
 /// ------------ home route ublics ///
     
 });
@@ -295,5 +297,14 @@ Route::get('/promos', [PublicPromoController::class, 'index'])
 
 Route::get('/news', [PublicNewsController::class, 'index'])
     ->name('news.index');
+
+Route::get('/skincare', [PublicSkincareController::class, 'index'])
+    ->name('skincare.index');
+
+Route::get('/skincare/{slug}', [PublicSkincareController::class, 'show'])
+    ->name('skincare.show');
+
+Route::get('/contact-us', [PublicContactUsController::class, 'index'])
+    ->name('contact-us.index');
 
 require __DIR__.'/settings.php';
