@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-/* -------------------------------------------------------------------------- */
-/* 1. Custom Font Face (DIN Pro)                                              */
-/* -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   1. Custom Font Face (DIN Pro)
+   -------------------------------------------------------------------------- */
+
 @font-face {
     font-family: "DIN Pro";
     src: url("/fonts/din-pro/dinpro.otf") format("opentype");
@@ -35,14 +36,18 @@
     font-display: swap;
 }
 
-/* -------------------------------------------------------------------------- */
-/* 7. Admin UI Refinements                                                    */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   7. Admin UI Refinements
+   -------------------------------------------------------------------------- */
+
 @layer utilities {
 
     /* Bayangan elegan yang sangat halus untuk card */
     .elegant-shadow {
-        box-shadow: 0 4px 24px -4px rgba(42, 43, 46, 0.04), 0 2px 8px -2px rgba(42, 43, 46, 0.02);
+        box-shadow:
+            0 4px 24px -4px rgba(42, 43, 46, 0.04),
+            0 2px 8px -2px rgba(42, 43, 46, 0.02);
     }
 
     /* Scrollbar khusus yang tipis dan bersih untuk Sidebar */
@@ -64,14 +69,17 @@
     }
 }
 
+
 /* Menyembunyikan elemen Alpine.js sebelum termuat agar tidak berkedip */
 [x-cloak] {
     display: none !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* 2. Theme Configuration                                                     */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   2. Theme Configuration
+   -------------------------------------------------------------------------- */
+
 @theme {
     --font-sans: "DIN Pro", ui-sans-serif, system-ui, sans-serif;
 
@@ -82,10 +90,13 @@
     --color-wfsc-soft: #FFF8F8;
 }
 
-/* -------------------------------------------------------------------------- */
-/* 3. Base Styles                                                             */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   3. Base Styles
+   -------------------------------------------------------------------------- */
+
 @layer base {
+
     html {
         scroll-behavior: smooth;
     }
@@ -95,16 +106,20 @@
         font-family: var(--font-sans);
         color: var(--color-wfsc-dark);
     }
+
 }
 
-/* -------------------------------------------------------------------------- */
-/* 4. Navbar Component Styles & State                                         */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   4. Navbar Component Styles & State
+   -------------------------------------------------------------------------- */
+
 @layer components {
 
-    /* ---------------------------------------------------------------------- */
-    /* Desktop Navigation Links                                               */
-    /* ---------------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------
+       Desktop Navigation Links
+       ---------------------------------------------------------------------- */
+
     .public-nav-link {
         @apply relative py-1 text-sm font-medium text-white/90 transition-colors duration-300 hover:text-white;
     }
@@ -127,31 +142,42 @@
         width: 100%;
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* CTA Button - Default State                                             */
-    /* ---------------------------------------------------------------------- */
+
+    /* ----------------------------------------------------------------------
+       CTA Button - Default State
+       ---------------------------------------------------------------------- */
+
     .public-nav-cta {
         @apply border border-white/80 text-white transition-all duration-300 hover:bg-white hover:text-neutral-900 hover:shadow-lg active:scale-95;
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* Navbar - Initial State                                                 */
-    /* Transparent dengan subtle coral gradient agar menyatu dengan hero      */
-    /* ---------------------------------------------------------------------- */
+
+    /* ----------------------------------------------------------------------
+       Navbar - Initial State
+       Transparent dengan subtle coral gradient agar menyatu dengan hero
+       ---------------------------------------------------------------------- */
+
     #public-navbar {
-        background: linear-gradient(to bottom,
-                rgba(255, 82, 82, 0.35),
-                rgba(255, 82, 82, 0));
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 82, 82, 0.35),
+            rgba(255, 82, 82, 0)
+        );
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* Navbar - Scrolled State                                                */
-    /* ---------------------------------------------------------------------- */
-    #public-navbar.is-scrolled {
-    background: rgba(255, 255, 255, 0.85);
 
-    @apply border-b border-neutral-100/60 shadow-[0_4px_20px_-2px_rgba(0,_0,_0,_0.05)] backdrop-blur-xl;
-}
+    /* ----------------------------------------------------------------------
+       Navbar - Scrolled State
+       ---------------------------------------------------------------------- */
+
+    #public-navbar.is-scrolled {
+        background: rgba(255, 255, 255, 0.85);
+
+        @apply border-b border-neutral-100/60 backdrop-blur-xl;
+
+        box-shadow:
+            0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
 
     #public-navbar.is-scrolled .mx-auto {
         height: 4.25rem;
@@ -162,12 +188,22 @@
     }
 
     #public-navbar.is-scrolled .public-nav-cta {
-        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)] hover:shadow-[0_4px_15px_rgba(255, 82, 82, 0.3)];
+        @apply border-[var(--color-wfsc-coral)]
+            bg-[var(--color-wfsc-coral)]
+            text-white
+            hover:border-[var(--color-wfsc-coral-hover)]
+            hover:bg-[var(--color-wfsc-coral-hover)];
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* Navbar - Light Page State                                              */
-    /* ---------------------------------------------------------------------- */
+    #public-navbar.is-scrolled .public-nav-cta:hover {
+        box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+    }
+
+
+    /* ----------------------------------------------------------------------
+       Navbar - Light Page State
+       ---------------------------------------------------------------------- */
+
     .public-page-light #public-navbar,
     .public-page-light #public-navbar.is-scrolled {
         @apply bg-white text-neutral-900;
@@ -178,19 +214,32 @@
     }
 
     .public-page-light #public-navbar .public-nav-cta {
-        @apply border-[var(--color-wfsc-coral)] bg-[var(--color-wfsc-coral)] text-white hover:border-[var(--color-wfsc-coral-hover)] hover:bg-[var(--color-wfsc-coral-hover)];
+        @apply border-[var(--color-wfsc-coral)]
+            bg-[var(--color-wfsc-coral)]
+            text-white
+            hover:border-[var(--color-wfsc-coral-hover)]
+            hover:bg-[var(--color-wfsc-coral-hover)];
     }
+
+    .public-page-light #public-navbar .public-nav-cta:hover {
+        box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+    }
+
 }
 
-/* -------------------------------------------------------------------------- */
-/* 5. Entrance & Scroll Reveal Animations                                     */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   5. Entrance & Scroll Reveal Animations
+   -------------------------------------------------------------------------- */
+
 .reveal-hidden {
     opacity: 0;
     transform: translateY(30px);
+
     transition:
         opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
         transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
     will-change: opacity, transform;
 }
 
@@ -211,10 +260,13 @@
     transform: translate(0, 0) scale(1) !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* 6. Floating Animation                                                     */
-/* -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   6. Floating Animation
+   -------------------------------------------------------------------------- */
+
 /* Floating animation untuk Doctor Card Hero */
+
 @keyframes floatSoft {
 
     0%,
@@ -225,6 +277,7 @@
     50% {
         transform: translateY(-10px);
     }
+
 }
 
 .animate-float-soft {
