@@ -3,7 +3,7 @@
 @endphp
 
 @if ($promos->isNotEmpty())
-    <section id="promos" class="relative overflow-hidden bg-[#FAF9F6] py-16 sm:py-20 lg:py-32">
+    <section id="promos" class="relative overflow-hidden bg-[#FAF9F6] py-10 sm:py-14 lg:py-20">
 
         {{-- Ambient Glow Background --}}
         <div class="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
@@ -12,7 +12,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
             {{-- Header & Navigation --}}
-            <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-6 text-center sm:mb-14 lg:mb-16">
+            <div class="mx-auto mb-8 flex max-w-2xl flex-col items-center gap-4 text-center sm:mb-10 lg:mb-12">
 
                 {{-- Text Header --}}
                 <div>
@@ -71,7 +71,7 @@
             </div>
 
 
-            {{-- Slider Container (-my-8 py-8 mencegah shadow/scale terpotong) --}}
+            {{-- Slider Container --}}
             <div
                 data-reveal="zoom"
                 data-delay="500"
@@ -113,7 +113,11 @@
                             {{-- Inner Wrapper untuk penanganan Scale & Shadow --}}
                             <div class="promo-card-inner transition-all duration-500 ease-out">
                                 <article
-                                    class="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3 shadow-lg transition-all duration-300 hover:shadow-xl"
+                                    data-promo-lightbox-trigger
+                                    data-promo-image="{{ $imageUrl }}"
+                                    data-promo-title="{{ $promo->title }}"
+                                    data-promo-description="{{ $promo->description }}"
+                                    class="group cursor-pointer flex h-full flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-[#FF5252]/30"
                                 >
 
                                     {{-- Image (Presisi 1000x1000px dengan aspect-square) --}}
@@ -184,20 +188,18 @@
                                             </p>
                                         @endif
 
-                                        @if ($promo->cta_text && $promo->cta_url)
-                                            <div class="mt-auto pt-4">
-                                                <a
-                                                    href="{{ $promo->cta_url }}"
-                                                    class="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-sm"
-                                                >
-                                                    <span>{{ $promo->cta_text }}</span>
+                                        <div class="mt-auto pt-4">
+                                            <button
+                                                type="button"
+                                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-sm"
+                                            >
+                                                <span>{{ $promo->cta_text ?: 'Lihat Detail Promo' }}</span>
 
-                                                    <span class="transition-transform duration-300 group-hover:translate-x-1">
-                                                        →
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        @endif
+                                                <span class="transition-transform duration-300 group-hover:translate-x-1">
+                                                    →
+                                                </span>
+                                            </button>
+                                        </div>
 
                                     </div>
 
@@ -222,5 +224,9 @@
             @endif
 
         </div>
+
+        {{-- Include Modal Promo Lightbox --}}
+        @include('public.promos.sections.modal')
+
     </section>
 @endif

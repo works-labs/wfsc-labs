@@ -4,11 +4,18 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ __('Welcome') }} - {{ config('app.name', 'Laravel') }}</title>
+        <title>{{ __('Welcome') }} - {{ config('app.name', 'WFSC Clinic') }}</title>
 
-        <link rel="icon" type="image/png" href="{{ asset('assets/logo.PNG') }}">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/png" href="{{ asset('logo.PNG') }}">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+
+        <!-- Open Graph / Meta Thumbnail -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ config('app.name', 'WFSC Clinic') }}">
+        <meta property="og:image" content="{{ asset('logo.PNG') }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ asset('logo.PNG') }}">
 
         @fonts
 

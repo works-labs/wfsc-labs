@@ -32,7 +32,14 @@ class PublicTreatmentController extends Controller
             ->take(5)
             ->get();
 
+        $banner = \App\Models\Banner::query()
+            ->where('placement', 'treatments')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->first();
+
         return view('public.treatments.index', [
+            'banner' => $banner,
             'categories' => $categories,
             'news' => $news,
         ]);
@@ -69,8 +76,19 @@ class PublicTreatmentController extends Controller
             },
         ]);
 
+        $settings = \App\Models\SiteSetting::query()
+            ->whereIn('key', ['whatsapp_number'])
+            ->pluck('value', 'key');
+
+        $whatsappUrl = null;
+        if (!empty($settings['whatsapp_number'])) {
+            $cleanNumber = preg_replace('/[^0-9]/', '', $settings['whatsapp_number']);
+            $whatsappUrl = $cleanNumber ? "https://wa.me/{$cleanNumber}" : null;
+        }
+
         return view('public.treatments.show', [
             'treatment' => $treatment,
+            'whatsappUrl' => $whatsappUrl,
         ]);
     }
 }

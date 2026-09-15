@@ -104,12 +104,12 @@
         </div>
     </div>
 
-    {{-- Statistics Bar --}}
+    {{-- Statistics Bar (Centered Layout) --}}
     @if ($statistics->isNotEmpty())
-        <div data-reveal="zoom" data-delay="700" class="reveal-hidden relative z-20 mx-auto w-full max-w-[1440px] px-5 pb-8 sm:px-8 lg:absolute lg:bottom-8 lg:right-12 lg:w-auto lg:px-0 lg:pb-0">
-            <div class="grid grid-cols-2 gap-2 rounded-2xl border border-white/20 bg-white/10 p-2.5 backdrop-blur-xl sm:grid-cols-4 sm:gap-3 sm:rounded-3xl sm:p-3 lg:flex lg:flex-row-reverse lg:items-center lg:gap-0 lg:p-2.5">
+        <div data-reveal="zoom" data-delay="700" class="reveal-hidden relative z-20 mx-auto w-full max-w-[1440px] px-5 pb-8 sm:px-8 lg:absolute lg:bottom-8 lg:left-1/2 lg:-translate-x-1/2 lg:w-auto lg:px-0 lg:pb-0">
+            <div class="grid grid-cols-2 gap-2 rounded-2xl border border-white/20 bg-white/10 p-2.5 backdrop-blur-xl sm:grid-cols-4 sm:gap-3 sm:rounded-3xl sm:p-3 lg:flex lg:flex-row lg:items-center lg:justify-center lg:gap-0 lg:p-2.5">
                 @foreach ($statistics as $statistic)
-                    <div class="min-w-[100px] px-3 py-2 text-center sm:px-4 lg:min-w-[125px] lg:border-r lg:border-white/15 lg:py-2 lg:text-left lg:first:border-r-0">
+                    <div class="min-w-[100px] px-3 py-2 text-center sm:px-4 lg:min-w-[130px] lg:border-r lg:border-white/15 lg:py-2 lg:last:border-r-0">
                         <div class="text-lg font-bold text-white sm:text-xl lg:text-2xl">
                             {{ $statistic->value }}{{ $statistic->suffix }}
                         </div>

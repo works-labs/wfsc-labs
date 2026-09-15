@@ -2,13 +2,13 @@
     use Illuminate\Support\Facades\Storage;
 @endphp
 
-<section class="relative overflow-hidden bg-neutral-100/80 py-16 sm:py-20 lg:py-32">
+<section class="relative overflow-hidden bg-neutral-100/80 py-10 sm:py-14 lg:py-20">
     {{-- Decorative Glow Background (Soft Ambient) --}}
     <div class="pointer-events-none absolute right-0 top-1/4 h-72 w-72 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
     <div class="pointer-events-none absolute bottom-0 left-0 h-72 w-72 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
         {{-- Section Heading (Fade-In Down) --}}
-        <div class="mb-12 text-center sm:mb-16">
+        <div class="mb-8 text-center sm:mb-12">
             <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                 <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
                 <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
@@ -106,17 +106,40 @@
                         @endforeach
                     </div>
 
-                    {{-- Facility Indicators --}}
+                    {{-- Facility Navigation & Indicators (Centered Layout) --}}
                     @if ($facilities->count() > 1)
-                        <div class="mt-5 flex items-center justify-center gap-2 sm:mt-6">
-                            @foreach ($facilities as $index => $facility)
-                                <button
-                                    type="button"
-                                    data-facility-dot="{{ $index }}"
-                                    class="h-1.5 rounded-full transition-all duration-300 sm:h-2 {{ $index === 0 ? 'w-6 bg-[#FF5252] sm:w-8' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400 sm:w-2' }}"
-                                    aria-label="Go to facility {{ $index + 1 }}"
-                                ></button>
-                            @endforeach
+                        <div class="mt-5 flex items-center justify-center gap-3 sm:mt-6">
+                            {{-- Prev Button --}}
+                            <button
+                                type="button"
+                                data-facility-prev
+                                class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-sm transition-all duration-300 hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white sm:h-10 sm:w-10"
+                                aria-label="Previous facility"
+                            >
+                                ←
+                            </button>
+
+                            {{-- Dots Indikator --}}
+                            <div class="flex items-center gap-2 px-1">
+                                @foreach ($facilities as $index => $facility)
+                                    <button
+                                        type="button"
+                                        data-facility-dot="{{ $index }}"
+                                        class="h-1.5 rounded-full transition-all duration-300 sm:h-2 {{ $index === 0 ? 'w-6 bg-[#FF5252] sm:w-8' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400 sm:w-2' }}"
+                                        aria-label="Go to facility {{ $index + 1 }}"
+                                    ></button>
+                                @endforeach
+                            </div>
+
+                            {{-- Next Button --}}
+                            <button
+                                type="button"
+                                data-facility-next
+                                class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-900 shadow-sm transition-all duration-300 hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white sm:h-10 sm:w-10"
+                                aria-label="Next facility"
+                            >
+                                →
+                            </button>
                         </div>
                     @endif
                 @else

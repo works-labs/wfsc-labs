@@ -1,8 +1,8 @@
-<section id="doctors" class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32">
+<section id="doctors" class="relative overflow-hidden bg-white py-10 sm:py-14 lg:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
         {{-- Header & Navigation --}}
-        <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-6 sm:mb-14 lg:mb-16">
+        <div class="mx-auto mb-8 flex max-w-2xl flex-col items-center text-center gap-4 sm:mb-10 lg:mb-12">
             <div>
                 <p data-reveal="fade-up" data-delay="100" class="reveal-hidden text-xs font-semibold uppercase tracking-[0.25em] text-[#FF5252] sm:text-sm">
                     Our Doctors
@@ -40,7 +40,7 @@
 
             {{-- Slider Container: Diberi py-8 dan -my-8 agar shadow & scale tidak terpotong --}}
             <div data-doctor-slider class="relative -my-8 overflow-hidden py-8">
-                <div data-doctor-track class="flex items-center transition-transform duration-500 ease-out">
+                <div data-doctor-track class="flex items-center transition-transform duration-500 ease-out {{ $homeDoctors->count() < 3 ? 'lg:justify-center' : '' }}">
 
                     @foreach ($homeDoctors as $index => $item)
                         @php $doctor = $item->doctor; @endphp
@@ -52,57 +52,99 @@
                                 data-delay="{{ 100 + ($index * 100) }}"
                                 class="reveal-hidden w-full shrink-0 px-4 sm:w-1/2 lg:w-1/3"
                             >
-                                {{-- Card Wrapper: Mengakomodasi animasi scale dan shadow yang mulus --}}
+                                {{-- Card Wrapper --}}
                                 <div class="doctor-card-inner transition-all duration-500 ease-out">
-                                    <a
-                                        href="{{ route('doctor.show', $doctor->slug) }}"
-                                        class="group block rounded-[2rem] bg-white p-3 border border-neutral-100 shadow-lg transition-all duration-300 hover:shadow-xl"
-                                    >
-                                        {{-- Container Foto (Aspect Ratio 4:5 = 1080x1350px) --}}
-                                        <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
-                                            
-                                            {{-- Founder Badge --}}
-                                            @if ($doctor->isFounder())
+                                    @if ($doctor->isFounder())
+                                        {{-- JIKA FOUNDER: Diarahkan ke halaman detail dokter --}}
+                                        <a
+                                            href="{{ route('doctor.show', $doctor->slug) }}"
+                                            class="group relative block rounded-[2rem] bg-white p-3.5 border transition-all duration-500 border-[#FF5252]/40 shadow-[0_10px_30px_rgba(255,82,82,0.15)] hover:border-[#FF5252] hover:shadow-[0_15px_40px_rgba(255,82,82,0.25)]"
+                                        >
+                                            <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
                                                 <div class="absolute left-3 top-3 z-10">
-                                                    <div class="inline-flex items-center gap-1.5 rounded-full border border-[#FF5252]/20 bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#FF5252] backdrop-blur-md">
-                                                        <span>♛</span>
+                                                    <div class="inline-flex items-center gap-1.5 rounded-full border border-amber-300/60 bg-gradient-to-r from-amber-500 via-[#FF5252] to-rose-600 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-rose-500/30 backdrop-blur-md">
+                                                        <span class="text-amber-200">♛</span>
                                                         <span>Founder</span>
                                                     </div>
                                                 </div>
-                                            @endif
 
-                                            {{-- Doctor Image --}}
-                                            @if ($doctor->photo)
-                                                <img
-                                                    src="{{ asset('storage/' . $doctor->photo) }}"
-                                                    alt="{{ $doctor->name }}"
-                                                    class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                                @if ($doctor->photo)
+                                                    <img
+                                                        src="{{ asset('storage/' . $doctor->photo) }}"
+                                                        alt="{{ $doctor->name }}"
+                                                        class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                                    >
+                                                @else
+                                                    <div class="flex h-full w-full items-center justify-center text-sm text-neutral-400">
+                                                        No photo
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="p-4 text-center">
+                                                @if ($doctor->specialization)
+                                                    <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
+                                                        {{ $doctor->specialization }}
+                                                    </p>
+                                                @endif
+
+                                                <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                                    {{ $doctor->title }} {{ $doctor->name }}
+                                                </h3>
+
+                                                <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]">
+                                                    <span>View Profile</span>
+                                                    <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    @else
+                                        {{-- JIKA BUKAN FOUNDER: Membuka Pop-up Lightbox Modal --}}
+                                        <article
+                                            data-doctor-lightbox-trigger
+                                            data-doctor-photo="{{ $doctor->photo ? asset('storage/' . $doctor->photo) : '' }}"
+                                            data-doctor-name="{{ $doctor->title }} {{ $doctor->name }}"
+                                            data-doctor-specialization="{{ $doctor->specialization }}"
+                                            data-doctor-bio="{{ $doctor->short_bio ?: $doctor->bio }}"
+                                            data-doctor-education="{{ $doctor->education }}"
+                                            data-doctor-experience="{{ $doctor->experience }}"
+                                            class="group relative cursor-pointer block rounded-[2rem] bg-white p-3.5 border border-neutral-100 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/30"
+                                        >
+                                            <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
+                                                @if ($doctor->photo)
+                                                    <img
+                                                        src="{{ asset('storage/' . $doctor->photo) }}"
+                                                        alt="{{ $doctor->name }}"
+                                                        class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                                    >
+                                                @else
+                                                    <div class="flex h-full w-full items-center justify-center text-sm text-neutral-400">
+                                                        No photo
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="p-4 text-center">
+                                                @if ($doctor->specialization)
+                                                    <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
+                                                        {{ $doctor->specialization }}
+                                                    </p>
+                                                @endif
+
+                                                <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                                    {{ $doctor->title }} {{ $doctor->name }}
+                                                </h3>
+
+                                                <button
+                                                    type="button"
+                                                    class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]"
                                                 >
-                                            @else
-                                                <div class="flex h-full w-full items-center justify-center text-sm text-neutral-400">
-                                                    No photo
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        {{-- Info Dokter --}}
-                                        <div class="p-4 text-center">
-                                            @if ($doctor->specialization)
-                                                <p class="text-xs font-medium uppercase tracking-[0.15em] text-[#FF5252]">
-                                                    {{ $doctor->specialization }}
-                                                </p>
-                                            @endif
-
-                                            <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
-                                                {{ $doctor->title }} {{ $doctor->name }}
-                                            </h3>
-
-                                            <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]">
-                                                <span>View Profile</span>
-                                                <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                                            </span>
-                                        </div>
-                                    </a>
+                                                    <span>Quick View</span>
+                                                    <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                                                </button>
+                                            </div>
+                                        </article>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -123,4 +165,8 @@
         @endif
 
     </div>
+
+    {{-- Include Modal Lightbox Dokter (Non-Founder) --}}
+    @include('public.components.doctor-modal')
+
 </section>

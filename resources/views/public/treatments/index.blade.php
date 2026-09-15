@@ -5,30 +5,93 @@
 
 @section('content')
 
-{{-- Category Navigation (Centered) --}}
-<section class="relative border-b border-neutral-200/80 bg-[#FAF9F6] pt-32 lg:pt-40">
-    <div class="mx-auto max-w-7xl px-6 lg:px-12">
+{{-- Banner Hero Section (Jika diset di Admin Banners placement: treatments) --}}
+@if (isset($banner) && $banner)
+    <section class="relative isolate overflow-hidden text-white">
+        {{-- Background Image --}}
+        <div class="absolute inset-0 -z-20">
+            <img
+                src="{{ \Illuminate\Support\Facades\Storage::url($banner->image) }}"
+                alt="{{ $banner->title }}"
+                class="h-full w-full object-cover"
+            >
+        </div>
 
+        {{-- Overlay --}}
+        <div class="absolute inset-0 -z-10 bg-black/50" aria-hidden="true"></div>
+
+        {{-- Decorative Glow --}}
+        <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
+        <div class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
+
+        {{-- Hero Content --}}
+        <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md">
+                    <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
+                    Treatments
+                </span>
+                <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    {{ $banner->title }}
+                </h1>
+                @if ($banner->subtitle)
+                    <p class="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">
+                        {{ $banner->subtitle }}
+                    </p>
+                @endif
+
+                {{-- Action Buttons (Konsultasi Gratis & Book Now) --}}
+                <div class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+                    {{-- Konsultasi Gratis (WhatsApp) --}}
+                    @if (isset($whatsappUrl) && $whatsappUrl)
+                        <a
+                            href="{{ $whatsappUrl }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group inline-flex items-center gap-2.5 rounded-full border border-rose-500 bg-rose-600 px-6 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:border-rose-400 hover:bg-rose-700 sm:px-7 sm:py-3.5 sm:text-sm"
+                        >
+                            <svg class="h-4 w-4 fill-current text-white sm:h-4.5 sm:w-4.5" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.198.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                            <span>Konsultasi Gratis</span>
+                        </a>
+                    @endif
+
+                    {{-- Book Now --}}
+                    <a
+                        href="{{ route('contact-us.index') }}"
+                        class="group inline-flex items-center gap-2.5 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-xs font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black sm:px-7 sm:py-3.5 sm:text-sm"
+                    >
+                        <span>Book Now</span>
+                        <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{-- Sticky Category Navigation Chips --}}
+<section class="sticky top-0 z-40 border-y border-neutral-200/70 bg-white/90 backdrop-blur-xl sm:top-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
         <div
-            class="flex items-center justify-center overflow-x-auto scrollbar-hide gap-2 md:gap-6"
+            class="flex items-center gap-2 overflow-x-auto py-2.5 sm:py-4"
+            style="scrollbar-width: none;"
             data-treatment-tabs
         >
-
             @foreach ($categories as $index => $category)
                 <button
                     type="button"
                     data-treatment-tab="{{ $category->id }}"
-                    class="treatment-tab shrink-0 border-b-2 px-4 py-5 font-medium transition-all duration-300 focus:outline-none
+                    class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
                         {{ $index === 0
-                            ? 'border-[#FF5252] text-xl md:text-2xl font-bold text-neutral-900'
-                            : 'border-transparent text-sm md:text-base font-normal text-neutral-400 hover:text-neutral-700' }}"
+                            ? 'bg-[#FF5252] text-white border-[#FF5252]'
+                            : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"
                 >
                     {{ $category->name }}
                 </button>
             @endforeach
-
         </div>
-
     </div>
 </section>
 
@@ -52,14 +115,7 @@
                 {{-- Category Heading (Centered & Dibatasi Lebarnya) --}}
                 <div class="mx-auto mb-10 flex max-w-2xl flex-col items-center text-center gap-2 sm:mb-14 lg:mb-16">
 
-                    <div class="inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1">
-                        <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
-                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#FF5252]">
-                            Category {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                        </span>
-                    </div>
-
-                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+                    <h2 class="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                         {{ $category->name }}
                     </h2>
 

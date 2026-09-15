@@ -57,25 +57,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const panels = document.querySelectorAll('[data-treatment-panel]');
         if (!tabs.length || !panels.length) return;
 
-        const activeClasses = ['border-neutral-900', 'text-neutral-900'];
-        const inactiveClasses = ['border-transparent', 'text-neutral-400'];
+        const activeClasses = ['bg-[#FF5252]', 'text-white', 'border-[#FF5252]'];
+        const inactiveClasses = ['bg-white', 'text-neutral-600', 'border-neutral-200'];
 
-        document.addEventListener('click', (e) => {
-            const tab = e.target.closest('[data-treatment-tab]');
-            if (!tab) return;
-
-            const categoryId = tab.dataset.treatmentTab;
-
+        const switchTab = (categoryId, updateUrl = true) => {
             tabs.forEach(item => {
-                const isActive = item.dataset.treatmentTab === categoryId;
+                const isActive = item.dataset.treatmentTab === String(categoryId);
                 activeClasses.forEach(cls => item.classList.toggle(cls, isActive));
                 inactiveClasses.forEach(cls => item.classList.toggle(cls, !isActive));
             });
 
             panels.forEach(panel => {
-                panel.classList.toggle('hidden', panel.dataset.treatmentPanel !== categoryId);
+                panel.classList.toggle('hidden', panel.dataset.treatmentPanel !== String(categoryId));
             });
+
+            if (updateUrl) {
+                history.replaceState(null, '', `#category-${categoryId}`);
+                sessionStorage.setItem('active_treatment_category', categoryId);
+            }
+        };
+
+        document.addEventListener('click', (e) => {
+            const tab = e.target.closest('[data-treatment-tab]');
+            if (!tab) return;
+            switchTab(tab.dataset.treatmentTab);
         });
+
+        // Cek URL Hash (#category-X) atau SessionStorage saat halaman di-load
+        const hashMatch = window.location.hash.match(/#category-(\d+)/);
+        const storedCategory = sessionStorage.getItem('active_treatment_category');
+
+        if (hashMatch && hashMatch[1]) {
+            switchTab(hashMatch[1], false);
+        } else if (storedCategory) {
+            switchTab(storedCategory, false);
+        }
     };
 
 
@@ -89,58 +105,106 @@ document.addEventListener('DOMContentLoaded', () => {
 
             this.slides = Array.from(this.slider.querySelectorAll(`[data-${prefix}-slide]`));
             this.dots = Array.from(this.slider.querySelectorAll(`[data-${prefix}-dot]`));
-            this.prevButton = this.slider.querySelector(`[data-${prefix}-prev]`);
-            this.nextButton = this.slider.querySelector(`[data-${prefix}-next]`);
+            this.prevButton = document.querySelector(`[data-${prefix}-prev]`) || this.slider.querySelector(`[data-${prefix}-prev]`);
+            this.nextButton = document.querySelector(`[data-${prefix}-next]`) || this.slider.querySelector(`[data-${prefix}-next]`);
 
             if (this.slides.length <= 1) return;
 
-            this.autoSlide = options.autoSlide || false;
+            this.autoSlide = options.autoSlide !== undefined ? options.autoSlide : true;
+            this.autoSlideInterval = options.interval || 4000;
             this.activeDotClass = options.activeDotClass || 'bg-[#FF5252]';
             this.inactiveDotClass = options.inactiveDotClass || 'bg-neutral-300';
-            
+
             this.currentIndex = 0;
             this.interval = null;
+
+            // Touch Swipe Tracking
+            this.startX = 0;
+            this.currentX = 0;
+            this.isDragging = false;
 
             this.init();
         }
 
         showSlide(index) {
-    this.currentIndex = (index + this.slides.length) % this.slides.length;
+            this.currentIndex = (index + this.slides.length) % this.slides.length;
 
-    this.slides.forEach((slide, i) => {
-        const active = i === this.currentIndex;
+            this.slides.forEach((slide, i) => {
+                const active = i === this.currentIndex;
 
-        slide.classList.toggle('opacity-100', active);
-        slide.classList.toggle('opacity-0', !active);
+                if (active) {
+                    slide.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        slide.classList.add('opacity-100');
+                        slide.classList.remove('opacity-0');
+                    });
+                } else {
+                    slide.classList.remove('opacity-100');
+                    slide.classList.add('opacity-0');
+                    slide.classList.add('hidden');
+                }
 
-        slide.classList.toggle('pointer-events-auto', active);
-        slide.classList.toggle('pointer-events-none', !active);
-    });
+                slide.classList.toggle('pointer-events-auto', active);
+                slide.classList.toggle('pointer-events-none', !active);
+            });
 
-    this.dots.forEach((dot, i) => {
-        const active = i === this.currentIndex;
-        const isScale = dot.dataset.dotType === 'scale';
+            this.dots.forEach((dot, i) => {
+                const active = i === this.currentIndex;
+                const isScale = dot.dataset.dotType === 'scale';
 
-        if (!isScale) {
-            dot.classList.toggle('w-8', active);
-            dot.classList.toggle('w-2', !active);
-        } else {
-            dot.classList.toggle('scale-125', active);
+                if (!isScale) {
+                    dot.classList.toggle('w-8', active);
+                    dot.classList.toggle('w-2', !active);
+                } else {
+                    dot.classList.toggle('scale-125', active);
+                }
+
+                dot.classList.toggle(this.activeDotClass, active);
+                dot.classList.toggle(this.inactiveDotClass, !active);
+            });
         }
 
-        dot.classList.toggle(this.activeDotClass, active);
-        dot.classList.toggle(this.inactiveDotClass, !active);
-    });
-}
-
         startAutoSlide() {
-            if (!this.autoSlide) return;
+            if (!this.autoSlide || this.slides.length <= 1) return;
             this.stopAutoSlide();
-            this.interval = setInterval(() => this.showSlide(this.currentIndex + 1), 5000);
+            this.interval = setInterval(() => this.showSlide(this.currentIndex + 1), this.autoSlideInterval);
         }
 
         stopAutoSlide() {
             if (this.interval) clearInterval(this.interval);
+        }
+
+        initTouch() {
+            const handleTouchStart = (e) => {
+                this.isDragging = true;
+                this.startX = e.touches ? e.touches[0].clientX : e.clientX;
+                this.stopAutoSlide();
+            };
+
+            const handleTouchMove = (e) => {
+                if (!this.isDragging) return;
+                this.currentX = e.touches ? e.touches[0].clientX : e.clientX;
+            };
+
+            const handleTouchEnd = () => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                const diffX = this.startX - this.currentX;
+                if (Math.abs(diffX) > 40 && this.currentX !== 0) {
+                    if (diffX > 0) {
+                        this.showSlide(this.currentIndex + 1);
+                    } else {
+                        this.showSlide(this.currentIndex - 1);
+                    }
+                }
+                this.startX = 0;
+                this.currentX = 0;
+                this.startAutoSlide();
+            };
+
+            this.slider.addEventListener('touchstart', handleTouchStart, { passive: true });
+            this.slider.addEventListener('touchmove', handleTouchMove, { passive: true });
+            this.slider.addEventListener('touchend', handleTouchEnd);
         }
 
         init() {
@@ -161,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.slider.addEventListener('mouseleave', () => this.startAutoSlide());
             }
 
+            this.initTouch();
             this.showSlide(0);
             this.startAutoSlide();
         }
@@ -168,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
-       5. Track Carousel Slider
+       5. Track Carousel Slider (Multi-card Slider with Touch Drag & Navigation)
        ========================================================================== */
     class TrackSlider {
         constructor(prefix, options = {}) {
@@ -177,19 +242,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             this.track = this.slider.querySelector(`[data-${prefix}-track]`);
             this.slides = Array.from(this.slider.querySelectorAll(`[data-${prefix}-slide]`));
-            this.prevButton = document.querySelector(`[data-${prefix}-prev]`);
-            this.nextButton = document.querySelector(`[data-${prefix}-next]`);
-            this.dotsContainer = document.querySelector(`[data-${prefix}-dots]`);
+            this.prevButton = document.querySelector(`[data-${prefix}-prev]`) || this.slider.querySelector(`[data-${prefix}-prev]`);
+            this.nextButton = document.querySelector(`[data-${prefix}-next]`) || this.slider.querySelector(`[data-${prefix}-next]`);
+            this.dotsContainer = document.querySelector(`[data-${prefix}-dots]`) || this.slider.querySelector(`[data-${prefix}-dots]`);
 
             if (!this.track || !this.slides.length) return;
 
             this.breakpoints = options.breakpoints || { lg: 3, sm: 2, default: 1 };
-            this.autoSlide = options.autoSlide || false;
-            this.autoSlideInterval = options.interval || 3000;
+            this.autoSlide = options.autoSlide !== undefined ? options.autoSlide : true;
+            this.autoSlideInterval = options.interval || 3500;
             this.centerScale = options.centerScale || false;
 
             this.currentIndex = 0;
             this.interval = null;
+
+            // Drag / Touch State
+            this.isDragging = false;
+            this.startPos = 0;
+            this.currentTranslate = 0;
+            this.prevTranslate = 0;
+            this.animationID = 0;
 
             this.init();
         }
@@ -209,6 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.dotsContainer.innerHTML = '';
 
             const maxIndex = this.getMaxIndex();
+            if (maxIndex <= 0) return;
+
             for (let i = 0; i <= maxIndex; i++) {
                 const dot = document.createElement('button');
                 dot.type = 'button';
@@ -228,7 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const visible = this.getVisibleSlides();
 
             this.slides.forEach((slide, index) => {
-                const cardInner = slide.querySelector('.doctor-card-inner') || slide.firstElementChild;
+                const cardInner = slide.querySelector('.doctor-card-inner') ||
+                    slide.querySelector('.news-card-inner') ||
+                    slide.querySelector('.promo-card-inner') ||
+                    slide.querySelector('.before-after-card-inner') ||
+                    slide.firstElementChild;
                 if (!cardInner) return;
 
                 let isCenter = false;
@@ -236,23 +314,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (visible === 1) isCenter = index === this.currentIndex;
 
                 cardInner.classList.toggle('scale-105', isCenter);
-                cardInner.classList.toggle('scale-90', !isCenter);
+                cardInner.classList.toggle('scale-95', !isCenter && visible > 1);
             });
         }
 
-        updateSlider() {
+        updateSlider(withAnimation = true) {
             const maxIndex = this.getMaxIndex();
             if (this.currentIndex > maxIndex) this.currentIndex = 0;
             if (this.currentIndex < 0) this.currentIndex = maxIndex;
 
             const visible = this.getVisibleSlides();
-            const slideWidth = 100 / visible;
-            this.track.style.transform = `translateX(-${this.currentIndex * slideWidth}%)`;
+            const slideWidthPercent = 100 / visible;
+            this.currentTranslate = -this.currentIndex * slideWidthPercent;
+            this.prevTranslate = this.currentTranslate;
 
-            if (this.prevButton) this.prevButton.disabled = this.currentIndex === 0 && !this.autoSlide;
-            if (this.nextButton) this.nextButton.disabled = this.currentIndex >= maxIndex && !this.autoSlide;
+            if (withAnimation) {
+                this.track.style.transition = 'transform 0.5s ease-out';
+            } else {
+                this.track.style.transition = 'none';
+            }
+            this.track.style.transform = `translateX(${this.currentTranslate}%)`;
 
-            if (this.dotsContainer) {
+            // Update Navigation Button States
+            if (this.prevButton) {
+                this.prevButton.disabled = false;
+            }
+            if (this.nextButton) {
+                this.nextButton.disabled = false;
+            }
+
+            // Update Dots
+            if (this.dotsContainer && this.dotsContainer.children.length > 0) {
                 Array.from(this.dotsContainer.children).forEach((dot, index) => {
                     const active = index === this.currentIndex;
                     dot.classList.toggle('w-8', active);
@@ -266,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         startAutoSlide() {
-            if (!this.autoSlide) return;
+            if (!this.autoSlide || this.slides.length <= this.getVisibleSlides()) return;
             this.stopAutoSlide();
             this.interval = setInterval(() => {
                 const maxIndex = this.getMaxIndex();
@@ -277,6 +369,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
         stopAutoSlide() {
             if (this.interval) clearInterval(this.interval);
+        }
+
+        getPositionX(event) {
+            return event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
+        }
+
+        initTouchDrag() {
+            const touchStart = (event) => {
+                this.isDragging = true;
+                this.startPos = this.getPositionX(event);
+                this.stopAutoSlide();
+                this.track.style.transition = 'none';
+            };
+
+            const touchMove = (event) => {
+                if (!this.isDragging) return;
+                const currentPosition = this.getPositionX(event);
+                const diffX = currentPosition - this.startPos;
+                const sliderWidth = this.slider.clientWidth || 1;
+                const diffPercent = (diffX / sliderWidth) * 100;
+
+                this.currentTranslate = this.prevTranslate + diffPercent;
+                this.track.style.transform = `translateX(${this.currentTranslate}%)`;
+            };
+
+            const touchEnd = () => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                const movedBy = this.currentTranslate - this.prevTranslate;
+
+                if (movedBy < -5) {
+                    this.currentIndex = Math.min(this.currentIndex + 1, this.getMaxIndex());
+                } else if (movedBy > 5) {
+                    this.currentIndex = Math.max(this.currentIndex - 1, 0);
+                }
+
+                this.updateSlider(true);
+                this.startAutoSlide();
+            };
+
+            this.slider.addEventListener('touchstart', touchStart, { passive: true });
+            this.slider.addEventListener('touchmove', touchMove, { passive: true });
+            this.slider.addEventListener('touchend', touchEnd);
+
+            this.slider.addEventListener('mousedown', touchStart);
+            this.slider.addEventListener('mousemove', touchMove);
+            this.slider.addEventListener('mouseup', touchEnd);
+            this.slider.addEventListener('mouseleave', () => {
+                if (this.isDragging) touchEnd();
+            });
         }
 
         init() {
@@ -291,8 +433,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.startAutoSlide();
             };
 
-            this.prevButton?.addEventListener('click', () => handleNav('prev'));
-            this.nextButton?.addEventListener('click', () => handleNav('next'));
+            this.prevButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleNav('prev');
+            });
+
+            this.nextButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleNav('next');
+            });
 
             if (this.autoSlide) {
                 const wrapper = this.slider.parentElement || this.slider;
@@ -305,12 +454,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(() => {
                     this.createDots();
-                    this.updateSlider();
+                    this.updateSlider(false);
                 }, 150);
             });
 
             this.createDots();
-            this.updateSlider();
+            this.updateSlider(false);
+            this.initTouchDrag();
             this.startAutoSlide();
         }
     }
@@ -381,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isVideo) {
                 Object.assign(el, { autoplay: true, muted: true, loop: true, playsInline: true });
-                el.play().catch(() => {});
+                el.play().catch(() => { });
             } else {
                 el.alt = label;
             }
@@ -548,6 +698,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
+       10. Doctor Lightbox (Non-Founder)
+       ========================================================================== */
+    const initDoctorLightbox = () => {
+        const triggers = document.querySelectorAll('[data-doctor-lightbox-trigger]');
+        const modal = document.getElementById('doctor-lightbox');
+        if (!triggers.length || !modal) return;
+
+        const modalCtrl = createModalController(modal);
+        const closeBtn = document.getElementById('doctor-lightbox-close');
+        const backdrop = document.getElementById('doctor-lightbox-backdrop');
+        const photo = document.getElementById('doctor-lightbox-photo');
+        const name = document.getElementById('doctor-lightbox-name');
+        const specialization = document.getElementById('doctor-lightbox-specialization');
+        const bio = document.getElementById('doctor-lightbox-bio');
+        const educationContainer = document.getElementById('doctor-lightbox-education-container');
+        const education = document.getElementById('doctor-lightbox-education');
+        const experienceContainer = document.getElementById('doctor-lightbox-experience-container');
+        const experience = document.getElementById('doctor-lightbox-experience');
+
+        const openModal = (card) => {
+            const { doctorPhoto, doctorName, doctorSpecialization, doctorBio, doctorEducation, doctorExperience } = card.dataset;
+
+            modalCtrl.open(() => {
+                if (doctorPhoto) {
+                    photo.src = doctorPhoto;
+                    photo.alt = doctorName || 'Doctor';
+                    photo.parentElement.classList.remove('hidden');
+                } else {
+                    photo.src = '';
+                    photo.alt = '';
+                    photo.parentElement.classList.add('hidden');
+                }
+
+                name.textContent = doctorName || 'Doctor Profile';
+                specialization.textContent = doctorSpecialization || 'Specialist';
+                bio.textContent = doctorBio || '';
+
+                const hasEdu = Boolean(doctorEducation && doctorEducation.trim());
+                educationContainer.classList.toggle('hidden', !hasEdu);
+                if (hasEdu) education.textContent = doctorEducation;
+
+                const hasExp = Boolean(doctorExperience && doctorExperience.trim());
+                experienceContainer.classList.toggle('hidden', !hasExp);
+                if (hasExp) experience.textContent = doctorExperience;
+            });
+        };
+
+        const closeModal = () => modalCtrl.close();
+
+        triggers.forEach(trigger => trigger.addEventListener('click', () => openModal(trigger)));
+        closeBtn?.addEventListener('click', closeModal);
+        backdrop?.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+    };
+
+
+    /* ==========================================================================
        Execute Initializations
        ========================================================================== */
     initScrollReveal();
@@ -556,12 +765,56 @@ document.addEventListener('DOMContentLoaded', () => {
     initBeforeAfterLightbox();
     initBeforeAfterNavigation();
     initPromoLightbox();
+    initDoctorLightbox();
+
+    // 1. Hero Banner Slider
     new FadeSlider('hero', {
-    autoSlide: true,
-    activeDotClass: 'bg-[#FF5252]',
-    inactiveDotClass: 'bg-white/50'
-});
-    // Inisialisasi Class Slider jika dibutuhkan
-    new FadeSlider('hero', { autoSlide: true });
-    new TrackSlider('doctor', { centerScale: true });
+        autoSlide: true,
+        interval: 2000,
+        activeDotClass: 'bg-[#FF5252]',
+        inactiveDotClass: 'bg-white/50'
+    });
+
+    // 2. Treatments Slider (Mobile & Desktop)
+    new TrackSlider('treatments', {
+        autoSlide: true,
+        interval: 2000,
+        breakpoints: { lg: 4, sm: 2, default: 1 }
+    });
+
+    // 3. Before & After Slider
+    new TrackSlider('before-after', {
+        autoSlide: true,
+        interval: 2000,
+        breakpoints: { lg: 3, sm: 2, default: 1 }
+    });
+
+    // 4. Why Choose / Facility Slider
+    new FadeSlider('facility', {
+        autoSlide: true,
+        interval: 2000
+    });
+
+    // 5. Doctors Slider
+    new TrackSlider('doctor', {
+        autoSlide: true,
+        interval: 2000,
+        centerScale: true,
+        breakpoints: { lg: 3, sm: 2, default: 1 }
+    });
+
+    // 6. Promos Slider
+    new TrackSlider('promo', {
+        autoSlide: true,
+        interval: 2500,
+        breakpoints: { lg: 3, sm: 2, default: 1 }
+    });
+
+    // 7. News Slider
+    new TrackSlider('news', {
+        autoSlide: true,
+        interval: 2000,
+        breakpoints: { lg: 3, sm: 2, default: 1 }
+    });
+
 });

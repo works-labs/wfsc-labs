@@ -2,7 +2,7 @@
     use Illuminate\Support\Facades\Storage;
 @endphp
 
-<section id="before-after" class="relative overflow-hidden bg-[#FAF9F6] py-16 sm:py-20 lg:py-32">
+<section id="before-after" class="relative overflow-hidden bg-[#FAF9F6] py-10 sm:py-14 lg:py-20">
     {{-- Ambient Glow Background --}}
     <div class="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
     <div class="pointer-events-none absolute -right-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#FF5252]/5 blur-3xl sm:h-96 sm:w-96"></div>
@@ -10,7 +10,7 @@
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
         {{-- Heading & Navigation Section --}}
-        <div class="mb-10 flex flex-col items-center text-center gap-6 sm:mb-14 lg:mb-16">
+        <div class="mb-8 flex flex-col items-center text-center gap-4 sm:mb-10 lg:mb-12">
             <div>
                 <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                     <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
