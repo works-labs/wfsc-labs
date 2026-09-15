@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin', 'admin.dashboard')
     ->name('admin.dashboard');
 
+    Route::livewire('/admin/profile', 'admin.profile')
+        ->name('admin.profile');
+
     Route::livewire('/admin/doctors', 'admin.doctors.index')
         ->name('admin.doctors.index');
 

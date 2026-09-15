@@ -214,6 +214,13 @@
                 <div class="pt-6">
                     <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">System</p>
 
+                    <a href="{{ route('admin.profile') }}" wire:navigate
+                        class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
+                            {{ request()->routeIs('admin.profile') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.967 8.967 0 0112 15c2.21 0 4.236.798 5.804 2.121M15 11a3 3 0 11-6 0 3 3 0 016 0zm6 1a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Profile
+                    </a>
+
                     <a href="{{ route('admin.settings.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.settings.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
@@ -235,6 +242,13 @@
                     </div>
                 </div>
                 
+                <a href="{{ route('admin.profile') }}" wire:navigate
+                    class="mb-3 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition-colors
+                        {{ request()->routeIs('admin.profile') ? 'bg-rose-50 text-[var(--color-wfsc-coral)]' : 'bg-gray-50 text-gray-500 hover:bg-rose-50 hover:text-[var(--color-wfsc-coral)]' }}">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M4 20h4.586a1 1 0 00.707-.293L19.5 9.5a2.121 2.121 0 00-3-3L6.293 16.707A1 1 0 006 17.414V20z"/></svg>
+                    Profile
+                </a>
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-50 py-2.5 text-xs font-bold text-gray-500 transition-colors hover:bg-rose-50 hover:text-red-600">
