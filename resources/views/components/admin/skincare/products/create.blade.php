@@ -20,7 +20,7 @@ class extends Component
     public string $description = '';
     public $image;
     public $price = null;
-    public string $shopee_url = '';
+    public ?string $shopee_url = '';
     public int $sort_order = 0;
     public bool $is_active = true;
 
