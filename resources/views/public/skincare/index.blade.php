@@ -228,22 +228,24 @@
 
                                 <div class="flex items-center justify-between border-t border-neutral-100 pt-4">
 
-                                    <div>
+                                    @if ($product->price !== null)
+                                        <div>
 
-                                        <p class="text-xs font-medium uppercase tracking-wider text-neutral-400">
-                                            Price
-                                        </p>
+                                            <p class="text-xs font-medium uppercase tracking-wider text-neutral-400">
+                                                Price
+                                            </p>
 
-                                        <p class="mt-0.5 text-lg font-black text-neutral-900">
-                                            Rp {{ number_format($product->price, 0, ',', '.') }}
-                                        </p>
+                                            <p class="mt-0.5 text-lg font-black text-neutral-900">
+                                                Rp {{ number_format((float) $product->price, 0, ',', '.') }}
+                                            </p>
 
-                                    </div>
+                                        </div>
+                                    @endif
 
 
                                     <a
                                         href="{{ route('skincare.show', $product->slug) }}"
-                                        class="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-900 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FF5252] group-hover:text-white"
+                                        class="ml-auto flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-900 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FF5252] group-hover:text-white"
                                         aria-label="Lihat {{ $product->name }}"
                                     >
                                         →

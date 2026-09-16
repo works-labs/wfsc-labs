@@ -67,6 +67,9 @@ class extends Component
 
     public function update()
     {
+        $this->price = $this->price !== '' ? $this->price : null;
+        $this->shopee_url = $this->shopee_url !== '' ? $this->shopee_url : null;
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => [
@@ -101,6 +104,9 @@ class extends Component
                 'public'
             );
         }
+
+        $validated['price'] = $validated['price'] !== '' ? $validated['price'] : null;
+        $validated['shopee_url'] = $validated['shopee_url'] !== '' ? $validated['shopee_url'] : null;
 
         unset(
             $validated['category_ids'],
@@ -187,7 +193,7 @@ class extends Component
                 </div>
 
                 <div>
-                    <label class="mb-2 block text-sm font-bold text-gray-600">Harga</label>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Harga <span class="text-xs font-medium text-gray-400">(opsional)</span></label>
                     <input type="number" wire:model="price" min="0" step="100" 
                         class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
                     @error('price') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
@@ -201,7 +207,7 @@ class extends Component
                 </div>
 
                 <div>
-                    <label class="mb-2 block text-sm font-bold text-gray-600">Link Shopee</label>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Link Shopee <span class="text-xs font-medium text-gray-400">(opsional)</span></label>
                     <input type="url" wire:model="shopee_url" 
                         class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
                     @error('shopee_url') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror

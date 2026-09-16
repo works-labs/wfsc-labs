@@ -106,18 +106,20 @@
                 @endif
 
 
-                {{-- Price --}}
-                <div class="mt-8">
+                @if ($product->price !== null)
+                    {{-- Price --}}
+                    <div class="mt-8">
 
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
-                        Harga
-                    </p>
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
+                            Harga
+                        </p>
 
-                    <p class="mt-1 text-3xl font-black text-[#FF5252]">
-                        Rp {{ number_format($product->price, 0, ',', '.') }}
-                    </p>
+                        <p class="mt-1 text-3xl font-black text-[#FF5252]">
+                            Rp {{ number_format((float) $product->price, 0, ',', '.') }}
+                        </p>
 
-                </div>
+                    </div>
+                @endif
 
 
                 {{-- Description --}}
