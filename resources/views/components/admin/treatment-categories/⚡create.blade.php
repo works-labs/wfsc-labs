@@ -19,13 +19,13 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function updatedName(): void
     {
-        if ($this->slug === '') {
-            $this->slug = Str::slug($this->name);
-        }
+        $this->slug = Str::slug($this->name);
     }
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:treatment_categories,slug'],

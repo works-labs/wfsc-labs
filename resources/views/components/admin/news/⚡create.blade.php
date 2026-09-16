@@ -29,6 +29,7 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->title);
         $this->category_id = $this->category_id ?: null;
         $this->baca_juga_id = $this->baca_juga_id ?: null;
 
@@ -138,7 +139,9 @@ new #[Layout('layouts.admin')] class extends Component
                         id="slug"
                         type="text"
                         wire:model="slug"
-                        class="w-full rounded-xl border-gray-200 bg-gray-100 px-4 py-3 font-mono text-sm text-gray-500"
+                        readonly
+                        tabindex="-1"
+                        class="w-full cursor-not-allowed rounded-xl border-gray-200 bg-gray-100 px-4 py-3 font-mono text-sm text-gray-500"
                         placeholder="slug-artikel"
                     >
                     @error('slug')

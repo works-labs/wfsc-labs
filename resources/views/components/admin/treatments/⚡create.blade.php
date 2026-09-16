@@ -23,13 +23,13 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function updatedName(string $value): void
     {
-        if ($this->slug === '') {
-            $this->slug = Str::slug($value);
-        }
+        $this->slug = Str::slug($value);
     }
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate([
             'category_id' => ['required', 'exists:treatment_categories,id'],
             'name' => ['required', 'string', 'max:255'],

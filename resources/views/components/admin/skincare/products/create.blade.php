@@ -29,13 +29,12 @@ class extends Component
 
     public function updatedName(string $value): void
     {
-        if ($this->slug === '' || $this->slug === Str::slug($this->name)) {
-            $this->slug = Str::slug($value);
-        }
+        $this->slug = Str::slug($value);
     }
 
     public function save()
     {
+        $this->slug = Str::slug($this->name);
         $this->price = $this->price !== '' ? $this->price : null;
         $this->shopee_url = $this->shopee_url !== '' ? $this->shopee_url : null;
 
@@ -140,8 +139,8 @@ class extends Component
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Slug</label>
-                    <input type="text" wire:model="slug" placeholder="wfsc-sunscreen-brightener-acne" 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                    <input type="text" wire:model="slug" readonly tabindex="-1" placeholder="wfsc-sunscreen-brightener-acne"
+                        class="w-full cursor-not-allowed rounded-xl border-gray-200 bg-gray-100 px-4 py-3 font-mono text-sm text-gray-500">
                     @error('slug') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 

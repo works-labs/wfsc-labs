@@ -104,6 +104,8 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->title);
+
         $validated = $this->validate([
             'treatment_product_id' => ['nullable', 'exists:treatment_products,id'],
             'title' => ['required', 'string', 'max:255'],

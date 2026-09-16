@@ -44,6 +44,8 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function update(): void
     {
+        $this->slug = Str::slug($this->name, '-');
+
         $validated = $this->validate([
             'category_id' => ['required', 'exists:treatment_categories,id'],
             'name' => ['required', 'string', 'max:255'],

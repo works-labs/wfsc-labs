@@ -19,6 +19,8 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:news_categories,slug'],

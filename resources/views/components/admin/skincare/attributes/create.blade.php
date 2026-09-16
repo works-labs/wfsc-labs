@@ -22,6 +22,8 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function save(): void
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate([
             'name' => [
                 'required',
@@ -109,9 +111,9 @@ new #[Layout('layouts.admin')] class extends Component
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Slug</label>
-                    <input type="text" wire:model="slug" placeholder="sunscreen" 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 font-mono text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
-                    <p class="mt-1.5 text-xs font-medium text-gray-400">Used for filtering products and public URLs.</p>
+                    <input type="text" wire:model="slug" readonly tabindex="-1" placeholder="sunscreen"
+                        class="w-full cursor-not-allowed rounded-xl border-gray-200 bg-gray-100 px-4 py-3 font-mono text-sm text-gray-500">
+                    <p class="mt-1.5 text-xs font-medium text-gray-400">Slug dibuat otomatis berdasarkan nama attribute.</p>
                     @error('slug') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 

@@ -52,8 +52,12 @@ new #[Layout('layouts.admin')] class extends Component
         $this->slug = Str::slug($this->name);
     }
 
-    public function update(): void
+public function update(): void
 {
+    if (! $this->doctor->isFounder()) {
+        $this->slug = Str::slug($this->name);
+    }
+
     $validated = $this->validate([
         'name' => ['required', 'string', 'max:255'],
         'slug' => [
@@ -142,7 +146,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="grid gap-6 md:grid-cols-2">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Name</label>
-                    <input type="text" wire:model="name" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                    <input type="text" wire:model.live="name" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
                     @error('name') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
@@ -154,7 +158,7 @@ new #[Layout('layouts.admin')] class extends Component
 
                 <div class="md:col-span-2">
                     <label class="mb-2 block text-sm font-bold text-gray-600">Slug</label>
-                    <input type="text" wire:model="slug" @disabled($isFounder) class="w-full rounded-xl border-gray-200 px-4 py-3 text-sm transition-colors focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)] disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:opacity-70">
+                    <input type="text" wire:model="slug" readonly tabindex="-1" @disabled($isFounder) class="w-full cursor-not-allowed rounded-xl border-gray-200 bg-gray-100 px-4 py-3 font-mono text-sm text-gray-500 opacity-70">
                     
                     @if ($isFounder)
                         <div class="mt-2 flex items-center gap-2 text-xs font-bold text-amber-600">
