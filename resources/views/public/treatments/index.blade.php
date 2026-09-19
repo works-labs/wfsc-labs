@@ -83,9 +83,9 @@
                 <button
                     type="button"
                     data-treatment-tab="{{ $category->id }}"
-                    class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
+                    class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-colors duration-300 sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
                         {{ $index === 0
-                            ? 'bg-[#FF5252] text-white border-[#FF5252]'
+                            ? 'bg-[#FF5252] text-white border-[#FF5252] hover:border-[#FF5252] hover:text-white'
                             : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"
                 >
                     {{ $category->name }}

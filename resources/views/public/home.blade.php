@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'WFSC Clinic')
+@section('body_class', 'public-page-light')
 
 @section('content')
     @include('public.components.hero')

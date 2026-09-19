@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Berita & Artikel - WFSC Clinic')
+@section('body_class', 'public-page-light')
 
 @section('content')
 

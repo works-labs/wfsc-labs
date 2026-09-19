@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const panels = document.querySelectorAll('[data-treatment-panel]');
         if (!tabs.length || !panels.length) return;
 
-        const activeClasses = ['bg-[#FF5252]', 'text-white', 'border-[#FF5252]'];
-        const inactiveClasses = ['bg-white', 'text-neutral-600', 'border-neutral-200'];
+        const activeClasses = ['bg-[#FF5252]', 'text-white', 'border-[#FF5252]', 'hover:text-white', 'hover:border-[#FF5252]'];
+        const inactiveClasses = ['bg-white', 'text-neutral-600', 'border-neutral-200', 'hover:text-[#FF5252]', 'hover:border-[#FF5252]'];
 
         const switchTab = (categoryId, updateUrl = true) => {
             tabs.forEach(item => {

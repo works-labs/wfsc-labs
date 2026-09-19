@@ -11,7 +11,7 @@
 {{-- Desktop Top Navigation --}}
 <nav
     id="public-navbar"
-    class="fixed inset-x-0 top-0 z-50 hidden text-white transition-all duration-500 lg:block"
+    class="fixed inset-x-0 top-0 z-50 hidden bg-white/90 backdrop-blur-xl transition-all duration-500 lg:block"
 >
     <div class="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-6 transition-all duration-500 lg:px-12">
 
