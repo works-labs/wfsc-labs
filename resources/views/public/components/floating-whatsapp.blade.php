@@ -15,12 +15,25 @@
         {{-- Gift / Promo Icon --}}
         <svg
             class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 sm:h-6 sm:w-6"
+            viewBox="0 0 500 500"
             fill="none"
-            viewBox="0 0 24 24"
             stroke="currentColor"
-            stroke-width="2"
         >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V6a2 2 0 10-2 2h2zm0 13-4-4m4 4 4-4M4 11h16a1 1 0 011 1v7a1 1 0 01-1 1H4a1 1 0 01-1-1v-7a1 1 0 011-1z" />
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="50" y="190" width="400" height="270" rx="20" stroke-width="24" />
+                <line x1="220" y1="190" x2="220" y2="460" stroke-width="22" />
+                <line x1="280" y1="190" x2="280" y2="460" stroke-width="22" />
+                <circle cx="90" cy="345" r="10" fill="currentColor" />
+                <line x1="90" y1="375" x2="90" y2="425" stroke-width="22" />
+                <rect x="30" y="100" width="440" height="90" rx="12" stroke-width="24" />
+                <path d="M220,150 L130,285 L180,265 L190,300 L250,150" stroke-width="24" />
+                <path d="M250,150 L310,300 L320,265 L370,285 L280,150" stroke-width="24" />
+                <path d="M220,110 C150,110 100,50 145,20 C190,-10 240,70 245,110" stroke-width="24" />
+                <line x1="160" y1="85" x2="200" y2="85" stroke-width="20" />
+                <path d="M280,110 C350,110 400,50 355,20 C310,-10 260,70 255,110" stroke-width="24" />
+                <line x1="300" y1="85" x2="340" y2="85" stroke-width="20" />
+                <circle cx="250" cy="100" r="42" fill="none" stroke="currentColor" stroke-width="24" />
+            </g>
         </svg>
 
         {{-- Tooltip Promo --}}

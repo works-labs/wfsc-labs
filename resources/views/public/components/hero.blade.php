@@ -47,22 +47,7 @@
                             <span>Konsultasi Gratis</span>
                         </a>
                     @endif
-
                         {{-- Primary CTA Button (Dipindah ke Kanan) --}}
-                        @if ($hero->cta_text && $hero->getCtaUrl())
-                            <a
-                                href="{{ $hero->getCtaUrl() }}"
-                                class="group inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-xs font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black sm:px-7 sm:py-3.5 sm:text-sm"
-                                @if ($hero->cta_type === 'external' || $hero->cta_type === 'whatsapp')
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                @endif
-                            >
-                                <span>{{ $hero->cta_text }}</span>
-                                <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-                            </a>
-                        @endif
-
                     </div>
                 @endif
             </div>

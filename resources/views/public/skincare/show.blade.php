@@ -141,7 +141,22 @@
 
 
                 {{-- CTA --}}
-                <div class="mt-8">
+                <div class="mt-8 flex flex-wrap items-center gap-4">
+
+                    @if (isset($whatsappUrl) && $whatsappUrl)
+                        <a
+                            href="{{ $whatsappUrl }}?text={{ urlencode('Halo WFSC Clinic, saya mau order produk skincare: ' . $product->name) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#FF5252] px-7 py-4 text-sm font-bold text-white shadow-lg shadow-[#FF5252]/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-xl sm:w-auto"
+                        >
+                            {{-- Shopping Cart Icon --}}
+                            <svg class="h-5 w-5 fill-none stroke-current" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>Order Now</span>
+                        </a>
+                    @endif
 
                     @if ($product->shopee_url)
 
@@ -149,18 +164,18 @@
                             href="{{ $product->shopee_url }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#FF5252] px-6 py-4 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#FF5252]/20 sm:w-auto"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-4 text-sm font-bold text-neutral-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#FF5252] hover:text-[#FF5252] sm:w-auto"
                         >
-                            Beli Produk
+                            <span>Beli di Shopee</span>
                             <span>↗</span>
                         </a>
 
-                    @else
+                    @endif
 
+                    @if (!isset($whatsappUrl) && !$product->shopee_url)
                         <div class="rounded-2xl border border-dashed border-neutral-300 bg-white px-5 py-4 text-sm text-neutral-500">
                             Informasi pembelian produk dapat ditanyakan langsung kepada WFSC Clinic.
                         </div>
-
                     @endif
 
                 </div>

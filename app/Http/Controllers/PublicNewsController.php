@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\NewsCategory;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PublicNewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $categories = NewsCategory::query()
+            ->where('is_active', true)
+            ->withCount([
+                'news' => function ($query) {
+                    $query->where('is_active', true);
+                },
+            ])
+            ->orderBy('name')
+            ->get();
+
         $featuredNews = News::query()
             ->where('is_active', true)
             ->with([
@@ -26,13 +38,24 @@ class PublicNewsController extends Controller
                 'category',
                 'author',
             ])
+            ->when($request->filled('category'), function ($query) use ($request) {
+                $query->whereHas('category', function ($categoryQuery) use ($request) {
+                    $categoryQuery->where('is_active', true)
+                        ->where('slug', $request->category);
+                });
+            })
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->paginate(9);
+            ->paginate(9)
+            ->withQueryString();
+
+        $activeCategory = $request->category;
 
         return view('public.news.index', [
+            'categories' => $categories,
             'featuredNews' => $featuredNews,
             'news' => $news,
+            'activeCategory' => $activeCategory,
         ]);
     }
 

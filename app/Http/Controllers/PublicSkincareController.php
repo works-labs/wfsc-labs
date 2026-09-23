@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
+use App\Models\SiteSetting;
 use App\Models\SkincareCategory;
 use App\Models\SkincareProduct;
 use Illuminate\Http\Request;
@@ -48,10 +50,17 @@ class PublicSkincareController extends Controller
 
         $activeCategory = $request->category;
 
+        $banner = Banner::query()
+            ->where('placement', 'skincare')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->first();
+
         return view('public.skincare.index', compact(
             'categories',
             'products',
-            'activeCategory'
+            'activeCategory',
+            'banner'
         ));
     }
 
@@ -70,6 +79,16 @@ class PublicSkincareController extends Controller
             ])
             ->firstOrFail();
 
-        return view('public.skincare.show', compact('product'));
+        $whatsappNumber = SiteSetting::query()
+            ->where('key', 'whatsapp_number')
+            ->value('value');
+
+        $whatsappUrl = null;
+        if ($whatsappNumber) {
+            $cleanNumber = preg_replace('/[^0-9]/', '', $whatsappNumber);
+            $whatsappUrl = $cleanNumber ? "https://wa.me/{$cleanNumber}" : null;
+        }
+
+        return view('public.skincare.show', compact('product', 'whatsappUrl'));
     }
 }

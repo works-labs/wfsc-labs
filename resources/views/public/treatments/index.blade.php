@@ -56,15 +56,6 @@
                             <span>Konsultasi Gratis</span>
                         </a>
                     @endif
-
-                    {{-- Book Now --}}
-                    <a
-                        href="{{ route('contact-us.index') }}"
-                        class="group inline-flex items-center gap-2.5 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-xs font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black sm:px-7 sm:py-3.5 sm:text-sm"
-                    >
-                        <span>Book Now</span>
-                        <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -74,23 +65,33 @@
 {{-- Sticky Category Navigation Chips --}}
 <section class="sticky top-0 z-40 border-y border-neutral-200/70 bg-white/90 backdrop-blur-xl sm:top-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
-        <div
-            class="flex items-center gap-2 overflow-x-auto py-2.5 sm:py-4"
-            style="scrollbar-width: none;"
-            data-treatment-tabs
-        >
-            @foreach ($categories as $index => $category)
-                <button
-                    type="button"
-                    data-treatment-tab="{{ $category->id }}"
-                    class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-colors duration-300 sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
-                        {{ $index === 0
-                            ? 'bg-[#FF5252] text-white border-[#FF5252] hover:border-[#FF5252] hover:text-white'
-                            : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"
-                >
-                    {{ $category->name }}
-                </button>
-            @endforeach
+        <div class="py-2.5 sm:py-3" data-chip-scroll-container>
+            <div
+                class="flex items-center gap-2 overflow-x-auto scrollbar-hide"
+                style="scrollbar-width: none;"
+                data-treatment-tabs
+                data-chip-scroll-track
+            >
+                @foreach ($categories as $index => $category)
+                    <button
+                        type="button"
+                        data-treatment-tab="{{ $category->id }}"
+                        class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-colors duration-300 sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
+                            {{ $index === 0
+                                ? 'bg-[#FF5252] text-white border-[#FF5252] hover:border-[#FF5252] hover:text-white'
+                                : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"
+                    >
+                        {{ $category->name }}
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Scroll Indicator Dots --}}
+            <div class="mt-2 flex items-center justify-center gap-1.5 opacity-60">
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-[#FF5252] transition-colors duration-300"></span>
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+            </div>
         </div>
     </div>
 </section>

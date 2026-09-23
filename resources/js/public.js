@@ -757,6 +757,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
+       11. Scrollable Chips Bar Sync with Indicator Dots
+       ========================================================================== */
+    const initScrollableChips = () => {
+        const containers = document.querySelectorAll('[data-chip-scroll-container]');
+        if (!containers.length) return;
+
+        containers.forEach(container => {
+            const track = container.querySelector('[data-chip-scroll-track]');
+            const dots = container.querySelectorAll('[data-chip-dot]');
+            if (!track || !dots.length) return;
+
+            const updateDots = () => {
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                if (maxScroll <= 0) {
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('bg-[#FF5252]', i === 0);
+                        dot.classList.toggle('bg-neutral-300', i !== 0);
+                    });
+                    return;
+                }
+
+                const percentage = Math.min(Math.max(track.scrollLeft / maxScroll, 0), 1);
+                const activeIndex = Math.min(
+                    Math.floor(percentage * dots.length),
+                    dots.length - 1
+                );
+
+                dots.forEach((dot, i) => {
+                    const isActive = i === activeIndex;
+                    dot.classList.toggle('bg-[#FF5252]', isActive);
+                    dot.classList.toggle('bg-neutral-300', !isActive);
+                });
+            };
+
+            // Click dot to scroll to section
+            dots.forEach((dot, index) => {
+                dot.style.cursor = 'pointer';
+                dot.addEventListener('click', () => {
+                    const maxScroll = track.scrollWidth - track.clientWidth;
+                    const targetScroll = (index / (dots.length - 1)) * maxScroll;
+                    track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+                });
+            });
+
+            track.addEventListener('scroll', updateDots, { passive: true });
+            window.addEventListener('resize', updateDots, { passive: true });
+            updateDots();
+        });
+    };
+
+
+    /* ==========================================================================
        Execute Initializations
        ========================================================================== */
     initScrollReveal();
@@ -766,6 +818,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBeforeAfterNavigation();
     initPromoLightbox();
     initDoctorLightbox();
+    initScrollableChips();
 
     // 1. Hero Banner Slider
     new FadeSlider('hero', {
@@ -799,7 +852,6 @@ document.addEventListener('DOMContentLoaded', () => {
     new TrackSlider('doctor', {
         autoSlide: true,
         interval: 2000,
-        centerScale: true,
         breakpoints: { lg: 3, sm: 2, default: 1 }
     });
 

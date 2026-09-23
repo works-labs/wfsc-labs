@@ -33,6 +33,47 @@
 
         </div>
 
+        {{-- Category Navigation Chips with Scroll Dots --}}
+        @if (isset($categories) && $categories->isNotEmpty())
+            <div class="mt-6 border-y border-neutral-200/80 bg-white py-3" data-chip-scroll-container>
+                <div class="relative group/chip-container">
+                    <div class="flex gap-2 overflow-x-auto scrollbar-hide py-1 px-1" data-chip-scroll-track style="scrollbar-width: none;">
+                        <a
+                            href="{{ route('news.index') }}"
+                            class="shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-300 sm:px-5 sm:py-2.5 sm:text-sm
+                                {{ !$activeCategory
+                                    ? 'border-[#FF5252] bg-[#FF5252] text-white'
+                                    : 'border-neutral-200 bg-white text-neutral-600 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
+                        >
+                            Semua Berita
+                        </a>
+
+                        @foreach ($categories as $category)
+                            <a
+                                href="{{ route('news.index', ['category' => $category->slug]) }}"
+                                class="shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-300 sm:px-5 sm:py-2.5 sm:text-sm
+                                    {{ $activeCategory === $category->slug
+                                        ? 'border-[#FF5252] bg-[#FF5252] text-white'
+                                        : 'border-neutral-200 bg-white text-neutral-600 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
+                            >
+                                {{ $category->name }}
+                                @if ($category->news_count > 0)
+                                    <span class="ml-1 text-xs opacity-70">({{ $category->news_count }})</span>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
+
+                    {{-- Scroll Indicator Dots --}}
+                    <div class="mt-2 flex items-center justify-center gap-1.5 opacity-60">
+                        <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-[#FF5252] transition-colors duration-300"></span>
+                        <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+                        <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+                    </div>
+                </div>
+            </div>
+        @endif
+
 
         {{-- News Cards --}}
         @if ($news->isNotEmpty())

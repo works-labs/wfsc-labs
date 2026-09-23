@@ -128,7 +128,7 @@ class HomeController extends Controller
                 ->reject(fn ($item) => $item->id === $founder->id)
                 ->values();
 
-            $homeDoctors->splice(1, 0, [$founder]);
+            $homeDoctors->prepend($founder);
         }
 
         return view('public.home', [

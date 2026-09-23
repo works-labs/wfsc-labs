@@ -6,37 +6,75 @@
 @section('content')
 
 {{-- Hero --}}
-<section class="relative overflow-hidden bg-[#FAF9F6] pt-32 pb-14 lg:pt-40 lg:pb-20">
-
-    {{-- Decorative Glow --}}
-    <div class="pointer-events-none absolute -left-32 top-20 h-96 w-96 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
-    <div class="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
-
-    <div class="relative mx-auto max-w-7xl px-6 lg:px-12">
-
-        <div
-            data-reveal="up"
-            data-delay="0"
-            class="reveal-hidden mx-auto max-w-3xl text-center"
-        >
-
-            <span class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral">
-                Skincare
-            </span>
-
-            <h1 class="mt-3 text-4xl font-black tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
-                Perawatan Untuk Kulitmu
-            </h1>
-
-            <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
-                Temukan berbagai produk skincare pilihan untuk membantu
-                merawat dan menjaga kesehatan kulitmu.
-            </p>
-
+@if (isset($banner) && $banner)
+    <section class="relative isolate overflow-hidden text-white">
+        {{-- Background Image --}}
+        <div class="absolute inset-0 -z-20">
+            <img
+                src="{{ \Illuminate\Support\Facades\Storage::url($banner->image) }}"
+                alt="{{ $banner->title }}"
+                class="h-full w-full object-cover"
+            >
         </div>
 
-    </div>
-</section>
+        {{-- Overlay --}}
+        <div class="absolute inset-0 -z-10 bg-black/50" aria-hidden="true"></div>
+
+        {{-- Decorative Glow --}}
+        <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
+        <div class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
+
+        {{-- Hero Content --}}
+        <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md">
+                    <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
+                    Skincare
+                </span>
+                <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    {{ $banner->title }}
+                </h1>
+                @if ($banner->subtitle)
+                    <p class="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">
+                        {{ $banner->subtitle }}
+                    </p>
+                @endif
+            </div>
+        </div>
+    </section>
+@else
+    <section class="relative overflow-hidden bg-[#FAF9F6] pt-32 pb-14 lg:pt-40 lg:pb-20">
+
+        {{-- Decorative Glow --}}
+        <div class="pointer-events-none absolute -left-32 top-20 h-96 w-96 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#FF5252]/5 blur-3xl"></div>
+
+        <div class="relative mx-auto max-w-7xl px-6 lg:px-12">
+
+            <div
+                data-reveal="up"
+                data-delay="0"
+                class="reveal-hidden mx-auto max-w-3xl text-center"
+            >
+
+                <span class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral">
+                    Skincare
+                </span>
+
+                <h1 class="mt-3 text-4xl font-black tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+                    Perawatan Untuk Kulitmu
+                </h1>
+
+                <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+                    Temukan berbagai produk skincare pilihan untuk membantu
+                    merawat dan menjaga kesehatan kulitmu.
+                </p>
+
+            </div>
+
+        </div>
+    </section>
+@endif
 
 
 {{-- Category Navigation --}}

@@ -60,8 +60,19 @@
 
         {{-- Treatment --}}
         <a href="{{ route('treatments.index') }}" class="group flex flex-col items-center gap-1 text-[10px] {{ $isTreatments ? 'font-semibold text-[#FF5252]' : 'font-medium text-neutral-500 hover:text-[#FF5252]' }} transition-colors duration-300">
-            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 512 512" fill="none" stroke="currentColor">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M 125 15 H 207 A 10 10 0 0 1 217 25 V 39 A 10 10 0 0 1 207 49 H 125 A 10 10 0 0 1 115 39 V 25 A 10 10 0 0 1 125 15 Z" stroke-width="24"/>
+                    <path d="M 166 49 V 110" stroke-width="24"/>
+                    <rect x="115" y="110" width="102" height="270" rx="18" ry="18" stroke-width="24"/>
+                    <path d="M 115 170 H 155" stroke-width="20"/>
+                    <path d="M 115 220 H 145" stroke-width="20"/>
+                    <path d="M 115 270 H 155" stroke-width="20"/>
+                    <path d="M 115 320 H 145" stroke-width="20"/>
+                    <path d="M 115 195 H 217" stroke-width="20"/>
+                    <rect x="148" y="380" width="36" height="30" rx="6" ry="6" stroke-width="20"/>
+                    <path d="M 166 410 V 492" stroke-width="20"/>
+                </g>
             </svg>
             <span>Treatment</span>
         </a>
@@ -76,18 +87,29 @@
 
         {{-- Skincare --}}
         <a href="{{ route('skincare.index') }}" class="group flex flex-col items-center gap-1 text-[10px] {{ $isSkincare ? 'font-semibold text-[#FF5252]' : 'font-medium text-neutral-500 hover:text-[#FF5252]' }} transition-colors duration-300">
-            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 512 512" fill="none" stroke="currentColor">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    <path d="M72,60 L72,120 M42,90 L102,90" />
+                    <path d="M448,370 L448,430 M418,400 L478,400" />
+                    <path d="M200,105 A135,135 0 1,1 410,310" />
+                    <path d="M235,120 A100,100 0 1,1 395,275" />
+                    <path d="M110,215 C110,180 145,170 150,150 C160,110 200,115 215,140 C230,160 270,165 315,180 C325,183 330,195 330,215" />
+                    <rect x="95" y="215" width="240" height="45" rx="15" />
+                    <rect x="50" y="260" width="330" height="190" rx="35" />
+                    <line x1="175" y1="360" x2="255" y2="360" stroke-width="24" />
+                    <line x1="175" y1="395" x2="255" y2="395" stroke-width="24" />
+                </g>
             </svg>
             <span>Skincare</span>
         </a>
 
-        {{-- Before After --}}
+        {{-- Before After / Result --}}
         <a href="{{ route('before-after.index') }}" class="group flex flex-col items-center gap-1 text-[10px] {{ $isBeforeAfter ? 'font-semibold text-[#FF5252]' : 'font-medium text-neutral-500 hover:text-[#FF5252]' }} transition-colors duration-300">
             <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                {{-- Face half acne half clean icon --}}
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a9 9 0 100 18 9 9 0 000-18zM12 3v18M7.5 9.5h.01M6.5 13h.01M8.5 15.5h.01M16.5 10a1.5 1.5 0 01-1.5-1.5M14.5 15a2.5 2.5 0 003 0"/>
             </svg>
-            <span>B&A</span>
+            <span>Result</span>
         </a>
 
         {{-- News --}}

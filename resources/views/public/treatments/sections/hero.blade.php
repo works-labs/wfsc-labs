@@ -1,20 +1,32 @@
-<section class="relative isolate overflow-hidden bg-wfsc-coral text-white">
+<section class="relative isolate overflow-hidden bg-neutral-900 text-white">
 
-    {{-- Decorative background --}}
-    <div
-        class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"
-        aria-hidden="true"
-    ></div>
-
-    <div
-        class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"
-        aria-hidden="true"
-    ></div>
-
+    {{-- Background Image --}}
+    @if ($treatment->cover_image)
+        <div class="absolute inset-0 z-0">
+            <img
+                src="{{ Storage::url($treatment->cover_image) }}"
+                alt="{{ $treatment->name }}"
+                class="h-full w-full object-cover object-center"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/65 to-black/40"></div>
+        </div>
+    @else
+        <div class="absolute inset-0 z-0 bg-wfsc-coral">
+            {{-- Decorative background --}}
+            <div
+                class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+                aria-hidden="true"
+            ></div>
+            <div
+                class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+                aria-hidden="true"
+            ></div>
+        </div>
+    @endif
 
     {{-- Hero Content --}}
     <div
-        class="relative mx-auto max-w-7xl px-6 pb-28 pt-36 sm:px-8 lg:px-12 lg:pb-36 lg:pt-44"
+        class="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-36 sm:px-8 lg:px-12 lg:pb-36 lg:pt-44"
     >
 
         <div class="max-w-4xl">
@@ -57,7 +69,7 @@
             @endif
 
 
-            {{-- Action Buttons (Konsultasi Gratis & Book Now) --}}
+            {{-- Action Buttons (Konsultasi Gratis) --}}
             <div
                 data-reveal="left"
                 data-delay="300"
@@ -77,44 +89,6 @@
                         <span>Konsultasi Gratis</span>
                     </a>
                 @endif
-
-                {{-- Book Now --}}
-                <a
-                    href="{{ route('contact-us.index') }}"
-                    class="group inline-flex items-center gap-2.5 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-xs font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black sm:px-7 sm:py-3.5 sm:text-sm"
-                >
-                    <span>Book Now</span>
-                    <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-                </a>
-            </div>
-
-            {{-- Back Button --}}
-            <div
-                data-reveal="left"
-                data-delay="400"
-                class="reveal-hidden mt-6"
-            >
-                <a
-                    href="{{ route('treatments.index') }}{{ $treatment->treatment_category_id ? '#category-' . $treatment->treatment_category_id : '' }}"
-                    class="inline-flex items-center gap-2 text-sm font-medium text-white/90 transition hover:text-white"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
-
-                    Kembali ke Treatments
-                </a>
             </div>
 
         </div>

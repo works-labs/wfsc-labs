@@ -20,6 +20,8 @@
     ========================================================== --}}
     @include('public.news.sections.latest', [
         'news' => $news,
+        'categories' => $categories ?? collect(),
+        'activeCategory' => $activeCategory ?? null,
     ])
 
 </main>
