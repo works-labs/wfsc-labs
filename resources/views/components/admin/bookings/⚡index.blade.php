@@ -51,7 +51,7 @@ new #[Layout('layouts.admin')] class extends Component
             wire:navigate
             class="rounded-lg bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
         >
-            Add Booking
+            Tambah Booking
         </a>
 
     </div>
@@ -228,7 +228,7 @@ new #[Layout('layouts.admin')] class extends Component
                                     @case('cancelled')
 
                                         <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                                            Cancelled
+                                            Batalled
                                         </span>
 
                                         @break
@@ -254,7 +254,7 @@ new #[Layout('layouts.admin')] class extends Component
                             </td>
 
 
-                            {{-- Actions --}}
+                            {{-- Aksi --}}
                             <td class="px-6 py-4">
 
                                 <div class="flex items-center gap-3">
@@ -279,14 +279,14 @@ new #[Layout('layouts.admin')] class extends Component
                                     </a>
 
 
-                                    {{-- Delete --}}
+                                    {{-- Hapus --}}
                                     <button
                                         type="button"
                                         wire:click="delete({{ $booking->id }})"
-                                        wire:confirm="Are you sure you want to delete this booking?"
+                                        wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                         class="text-sm font-medium text-red-600 hover:underline"
                                     >
-                                        Delete
+                                        Hapus
                                     </button>
 
                                 </div>

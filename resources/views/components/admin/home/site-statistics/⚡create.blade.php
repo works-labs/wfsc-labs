@@ -47,14 +47,14 @@ new #[Layout('layouts.admin')] class extends Component
         <a href="{{ route('admin.home.site-statistics.index') }}" wire:navigate 
             class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to Site Statistics
+            Kembali ke Statistik Situs
         </a>
         <div class="mt-4 flex items-center gap-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-[var(--color-wfsc-coral)] shadow-sm">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Add Statistic</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Statistik</h1>
                 <p class="text-sm font-medium text-gray-500">Add a statistic displayed on the WFSC website.</p>
             </div>
         </div>
@@ -162,7 +162,7 @@ new #[Layout('layouts.admin')] class extends Component
                                 class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]"
                             >
                             <div>
-                                <span class="block text-sm font-bold text-gray-800">Active</span>
+                                <span class="block text-sm font-bold text-gray-800">Aktif</span>
                                 <span class="block text-xs font-medium text-gray-500">Visible on the website.</span>
                             </div>
                         </label>
@@ -171,14 +171,14 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a
                 href="{{ route('admin.home.site-statistics.index') }}"
                 wire:navigate
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
-                Cancel
+                Batal
             </a>
 
             <button

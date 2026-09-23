@@ -255,7 +255,7 @@ class extends Component
             </label>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a href="{{ route('admin.skincare.products.index') }}" wire:navigate 
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">

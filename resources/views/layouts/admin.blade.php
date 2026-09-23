@@ -44,54 +44,54 @@
 
                 {{-- Clinic Management --}}
                 <div>
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Clinic Management</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Manajemen Klinik</p>
 
                     <a href="{{ route('admin.doctors.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.doctors.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        Doctors
+                        Dokter
                     </a>
 
                     <a href="{{ route('admin.treatment-categories.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.treatment-categories.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                        Treatment Categories
+                        Kategori Perawatan
                     </a>
 
                     <a href="{{ route('admin.treatments.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.treatments.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-                        Treatments
+                        Perawatan
                     </a>
 
                     <a href="{{ route('admin.facilities.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.facilities.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                        Facilities
+                        Fasilitas
                     </a>
 
                     <a href="{{ route('admin.branches.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.branches.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Branches
+                        Cabang
                     </a>
 
                     <a href="{{ route('admin.bookings.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.bookings.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        Bookings
+                        Reservasi / Booking
                     </a>
                 </div>
 
                 {{-- Products (Skincare) --}}
                 <div class="pt-6">
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Products</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Produk</p>
 
                     <div x-data="{ open: {{ request()->routeIs('admin.skincare.*') ? 'true' : 'false' }} }">
                         <button @click="open = !open" 
@@ -111,17 +111,17 @@
                                 <a href="{{ route('admin.skincare.categories.index') }}" wire:navigate
                                     class="block rounded-lg px-3 py-2 text-[13px] transition-all duration-200
                                         {{ request()->routeIs('admin.skincare.categories.*') ? 'text-[var(--color-wfsc-coral)] font-semibold bg-rose-50' : 'text-gray-500 hover:text-[var(--color-wfsc-coral)]' }}">
-                                    Categories
+                                    Kategori
                                 </a>
                                 <a href="{{ route('admin.skincare.attributes.index') }}" wire:navigate
                                     class="block rounded-lg px-3 py-2 text-[13px] transition-all duration-200
                                         {{ request()->routeIs('admin.skincare.attributes.*') ? 'text-[var(--color-wfsc-coral)] font-semibold bg-rose-50' : 'text-gray-500 hover:text-[var(--color-wfsc-coral)]' }}">
-                                    Attributes
+                                    Atribut
                                 </a>
                                 <a href="{{ route('admin.skincare.products.index') }}" wire:navigate
                                     class="block rounded-lg px-3 py-2 text-[13px] transition-all duration-200
                                         {{ request()->routeIs('admin.skincare.products.*') ? 'text-[var(--color-wfsc-coral)] font-semibold bg-rose-50' : 'text-gray-500 hover:text-[var(--color-wfsc-coral)]' }}">
-                                    Products
+                                    Daftar Produk
                                 </a>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
 
                 {{-- Content & Marketing (News & Promos) --}}
                 <div class="pt-6">
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Content & Marketing</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Konten & Pemasaran</p>
                     
                     {{-- News Dropdown --}}
                     <div x-data="{ open: {{ request()->routeIs('admin.news.*') ? 'true' : 'false' }} }" class="mb-1">
@@ -139,7 +139,7 @@
                             {{ request()->routeIs('admin.news.*') ? 'text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                             <div class="flex items-center gap-3">
                                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3m0 0l3-3m-3 3V8"/></svg>
-                                <span>News & Articles</span>
+                                <span>Berita & Artikel</span>
                             </div>
                             <svg :class="open ? 'rotate-180 text-[var(--color-wfsc-coral)]' : 'text-gray-400'" class="h-4 w-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -151,12 +151,12 @@
                                 <a href="{{ route('admin.news.index') }}" wire:navigate
                                     class="block rounded-lg px-3 py-2 text-[13px] transition-all duration-200
                                         {{ request()->routeIs('admin.news.index', 'admin.news.create', 'admin.news.edit', 'admin.news.related') ? 'text-[var(--color-wfsc-coral)] font-semibold bg-rose-50' : 'text-gray-500 hover:text-[var(--color-wfsc-coral)]' }}">
-                                    Articles
+                                    Artikel
                                 </a>
                                 <a href="{{ route('admin.news.categories.index') }}" wire:navigate
                                     class="block rounded-lg px-3 py-2 text-[13px] transition-all duration-200
                                         {{ request()->routeIs('admin.news.categories.*') ? 'text-[var(--color-wfsc-coral)] font-semibold bg-rose-50' : 'text-gray-500 hover:text-[var(--color-wfsc-coral)]' }}">
-                                    Categories
+                                    Kategori
                                 </a>
                             </div>
                         </div>
@@ -166,66 +166,66 @@
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.home.promos.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
-                        Promos
+                        Promo
                     </a>
                 </div>
 
                 {{-- Website Pages / Appearance --}}
                 <div class="pt-6">
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Appearance</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Tampilan Website</p>
 
                     <a href="{{ route('admin.home.hero-banners.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.home.hero-banners.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        Hero Banners
+                        Hero Banner
                     </a>
 
                     <a href="{{ route('admin.banners.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.banners.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg>
-                        General Banners
+                        Banner Umum
                     </a>
 
                     <a href="{{ route('admin.home.doctor-home-sections.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.home.doctor-home-sections.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                        Doctor Home Sections
+                        Seksi Dokter Beranda
                     </a>
 
                     <a href="{{ route('admin.home.why-choose-items.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.home.why-choose-items.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Why Choose Us
+                        Mengapa Memilih Kami
                     </a>
 
                     <a href="{{ route('admin.home.site-statistics.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.home.site-statistics.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                        Site Statistics
+                        Statistik Situs
                     </a>
                 </div>
 
                 {{-- System --}}
                 <div class="pt-6">
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">System</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Sistem</p>
 
                     <a href="{{ route('admin.profile') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.profile') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.967 8.967 0 0112 15c2.21 0 4.236.798 5.804 2.121M15 11a3 3 0 11-6 0 3 3 0 016 0zm6 1a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Profile
+                        Profil
                     </a>
 
                     <a href="{{ route('admin.settings.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
                             {{ request()->routeIs('admin.settings.*') ? 'bg-rose-50 text-[var(--color-wfsc-coral)] font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-wfsc-dark)]' }}">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Site Settings
+                        Pengaturan Situs
                     </a>
                 </div>
             </nav>
@@ -246,14 +246,14 @@
                     class="mb-3 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition-colors
                         {{ request()->routeIs('admin.profile') ? 'bg-rose-50 text-[var(--color-wfsc-coral)]' : 'bg-gray-50 text-gray-500 hover:bg-rose-50 hover:text-[var(--color-wfsc-coral)]' }}">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M4 20h4.586a1 1 0 00.707-.293L19.5 9.5a2.121 2.121 0 00-3-3L6.293 16.707A1 1 0 006 17.414V20z"/></svg>
-                    Profile
+                    Profil Saya
                 </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-50 py-2.5 text-xs font-bold text-gray-500 transition-colors hover:bg-rose-50 hover:text-red-600">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                        Log out
+                        Keluar (Logout)
                     </button>
                 </form>
             </div>

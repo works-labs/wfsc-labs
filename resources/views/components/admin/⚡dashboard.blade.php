@@ -31,10 +31,10 @@ new #[Layout('layouts.admin')] class extends Component
     <div class="mb-10 flex items-center justify-between bg-white p-8 rounded-2xl elegant-shadow border border-gray-100/50">
         <div>
             <h1 class="text-3xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
-                Overview
+                Ringkasan
             </h1>
             <p class="mt-2 text-sm font-medium text-gray-500">
-                Welcome back, <span class="text-[var(--color-wfsc-coral)]">{{ auth()->user()->name }}</span>. Here is what's happening at WFSC today.
+                Selamat datang kembali, <span class="text-[var(--color-wfsc-coral)]">{{ auth()->user()->name }}</span>. Berikut ringkasan aktivitas WFSC hari ini.
             </p>
         </div>
         <div class="hidden sm:block">
@@ -53,7 +53,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-blue-500/70 uppercase">
-                        Doctors
+                        Dokter
                     </p>
                     <p class="mt-4 text-5xl font-black text-blue-950">
                         {{ $doctorsCount }}
@@ -71,7 +71,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-[var(--color-wfsc-coral)]/70 uppercase">
-                        Treatments
+                        Perawatan
                     </p>
                     <p class="mt-4 text-5xl font-black text-rose-950">
                         {{ $treatmentsCount }}
@@ -89,7 +89,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-emerald-500/70 uppercase">
-                        Facilities
+                        Fasilitas
                     </p>
                     <p class="mt-4 text-5xl font-black text-emerald-950">
                         {{ $facilitiesCount }}
@@ -107,7 +107,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-amber-500/70 uppercase">
-                        Branches
+                        Cabang
                     </p>
                     <p class="mt-4 text-5xl font-black text-amber-950">
                         {{ $branchesCount }}
@@ -125,7 +125,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-purple-500/70 uppercase">
-                        News & Articles
+                        Berita & Artikel
                     </p>
                     <p class="mt-4 text-5xl font-black text-purple-950">
                         {{ $newsCount }}
@@ -143,7 +143,7 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="flex items-start justify-between">
                 <div>
                     <p class="text-sm font-bold tracking-wider text-pink-500/70 uppercase">
-                        Active Promos
+                        Promo Aktif
                     </p>
                     <p class="mt-4 text-5xl font-black text-pink-950">
                         {{ $promosCount }}

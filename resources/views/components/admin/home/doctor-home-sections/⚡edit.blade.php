@@ -117,7 +117,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Edit Doctor Home Section</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Edit Dokter Home Section</h1>
                 <p class="text-sm font-medium text-gray-500">Update the doctor's Home page assignment.</p>
             </div>
         </div>
@@ -148,7 +148,7 @@ new #[Layout('layouts.admin')] class extends Component
                                     {{ $doctorHomeSection->doctor->name }}
                                 </div>
                                 <div class="mt-0.5 text-xs font-bold text-amber-700">
-                                    ♛ Protected Founder
+                                    ♛ Dilindungi Founder
                                 </div>
                             </div>
                             <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-extrabold text-amber-800">
@@ -227,7 +227,7 @@ new #[Layout('layouts.admin')] class extends Component
                                 <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
                                 <div>
                                     <div class="text-xs font-bold text-emerald-700">
-                                        Active
+                                        Aktif
                                     </div>
                                     <div class="text-[11px] font-medium text-emerald-600">
                                         Founder is always visible on the Home page.
@@ -244,7 +244,7 @@ new #[Layout('layouts.admin')] class extends Component
                                         class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]"
                                     >
                                     <div>
-                                        <span class="block text-sm font-bold text-gray-800">Active</span>
+                                        <span class="block text-sm font-bold text-gray-800">Aktif</span>
                                         <span class="block text-xs font-medium text-gray-500">Visible on homepage.</span>
                                     </div>
                                 </label>
@@ -255,14 +255,14 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a
                 href="{{ route('admin.home.doctor-home-sections.index') }}"
                 wire:navigate
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
-                Cancel
+                Batal
             </a>
 
             <button

@@ -31,15 +31,15 @@
                                 <img
                                     src="{{ asset('storage/' . $doctor->photo) }}"
                                     alt="{{ $doctor->name }}"
-                                    class="max-h-[600px] w-full object-cover object-top transition duration-700 hover:scale-105"
+                                    class="aspect-[4/5] w-full object-cover object-top transition duration-700 hover:scale-105"
                                 >
                             @else
-                                <div class="flex h-[450px] w-full items-center justify-center bg-neutral-100 text-xs text-neutral-400">
+                                <div class="flex aspect-[4/5] w-full items-center justify-center bg-neutral-100 text-xs text-neutral-400">
                                     (Doctor Photo)
                                 </div>
                             @endif
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
                         </div>
                     </div>
                 </div>

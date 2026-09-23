@@ -145,7 +145,7 @@ class extends Component
                                 </button>
                             </td>
 
-                            {{-- Actions --}}
+                            {{-- Aksi --}}
                             <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
                                 <div class="flex items-center justify-end gap-2">
                                     <a
@@ -159,7 +159,7 @@ class extends Component
                                     <button
                                         type="button"
                                         wire:click="delete({{ $banner->id }})"
-                                        wire:confirm="Yakin ingin menghapus banner ini?"
+                                        wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                         class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
                                     >
                                         Hapus

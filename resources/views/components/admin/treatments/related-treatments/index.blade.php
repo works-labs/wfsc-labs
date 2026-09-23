@@ -70,7 +70,7 @@ new #[Layout('layouts.admin')] class extends Component
             <a href="{{ route('admin.treatments.index') }}" wire:navigate 
                 class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]">
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Back to Treatments
+                Kembali ke Daftar Perawatan
             </a>
             
             <div class="mt-3 flex items-center gap-3">
@@ -132,11 +132,11 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
     </div>
 
-    {{-- Actions --}}
+    {{-- Aksi --}}
     <div class="flex items-center justify-end gap-4">
         <a href="{{ route('admin.treatments.index') }}" wire:navigate 
             class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">
-            Cancel
+            Batal
         </a>
 
         <button type="button" wire:click="save" wire:loading.attr="disabled"

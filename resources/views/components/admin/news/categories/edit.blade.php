@@ -72,7 +72,7 @@ new #[Layout('layouts.admin')] class extends Component
             class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]"
         >
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to Categories
+            Kembali ke Daftar Kategori
         </a>
         <div class="mt-4 flex items-center gap-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-500 shadow-sm">
@@ -80,7 +80,7 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
             <div>
                 <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
-                    Edit News Category
+                    Edit Berita Category
                 </h1>
                 <p class="mt-1 text-sm font-medium text-gray-500">
                     Perbarui informasi category berita.
@@ -179,7 +179,7 @@ new #[Layout('layouts.admin')] class extends Component
                         >
                         <div>
                             <span class="block text-sm font-bold text-gray-800">
-                                Active
+                                Aktif
                             </span>
                             <span class="block text-xs font-medium text-gray-500">
                                 Category aktif dapat digunakan pada artikel berita.
@@ -190,14 +190,14 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a
                 href="{{ route('admin.news.categories.index') }}"
                 wire:navigate
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
-                Cancel
+                Batal
             </a>
 
             <button
@@ -206,7 +206,7 @@ new #[Layout('layouts.admin')] class extends Component
                 class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-8 py-3 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40 disabled:opacity-70 disabled:hover:scale-100"
             >
                 <span wire:loading.remove>
-                    Save Changes
+                    Simpan Perubahan
                 </span>
 
                 <span wire:loading>

@@ -142,7 +142,7 @@ new #[Layout('layouts.admin')] class extends Component
                                 class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]"
                             >
                             <div>
-                                <span class="block text-sm font-bold text-gray-800">Active</span>
+                                <span class="block text-sm font-bold text-gray-800">Aktif</span>
                                 <span class="block text-xs font-medium text-gray-500">Visible on the website.</span>
                             </div>
                         </label>
@@ -151,14 +151,14 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a
                 href="{{ route('admin.home.why-choose-items.index') }}"
                 wire:navigate
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
-                Cancel
+                Batal
             </a>
 
             <button

@@ -222,7 +222,7 @@ new #[Layout('layouts.admin')] class extends Component
                         </option>
 
                         <option value="cancelled">
-                            Cancelled
+                            Batalled
                         </option>
 
                         <option value="completed">
@@ -484,7 +484,7 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
 
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center gap-3">
 
             <button
@@ -499,7 +499,7 @@ new #[Layout('layouts.admin')] class extends Component
                 wire:navigate
                 class="rounded-lg border px-5 py-2 font-medium hover:bg-gray-50"
             >
-                Cancel
+                Batal
             </a>
 
         </div>

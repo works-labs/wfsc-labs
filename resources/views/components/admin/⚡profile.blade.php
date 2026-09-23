@@ -58,7 +58,7 @@ new #[Layout('layouts.admin')] class extends Component
 
             <a href="{{ route('admin.dashboard') }}" wire:navigate
                 class="inline-flex items-center justify-center rounded-xl bg-gray-50 px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-rose-50 hover:text-[var(--color-wfsc-coral)]">
-                Back to Dashboard
+                Kembali ke Dashboard
             </a>
         </div>
     </div>

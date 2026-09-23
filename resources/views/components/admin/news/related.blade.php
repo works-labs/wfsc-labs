@@ -72,7 +72,7 @@ new #[Layout('layouts.admin')] class extends Component
             class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]"
         >
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to News
+            Kembali ke Daftar Berita
         </a>
 
         <div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -98,7 +98,7 @@ new #[Layout('layouts.admin')] class extends Component
                 wire:navigate
                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-bold text-gray-700 shadow-sm transition-all hover:bg-gray-50"
             >
-                Edit News
+                Edit Berita
             </a>
         </div>
     </div>
@@ -177,11 +177,11 @@ new #[Layout('layouts.admin')] class extends Component
 
                                 @if ($item->is_active)
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Active
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Aktif
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600 ring-1 ring-inset ring-red-600/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Inactive
+                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Nonaktif
                                     </span>
                                 @endif
 

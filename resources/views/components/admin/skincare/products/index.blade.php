@@ -182,7 +182,7 @@ new #[Layout('layouts.admin')] class extends Component
                                         Edit
                                     </a>
 
-                                    <button type="button" wire:click="delete({{ $product->id }})" wire:confirm="Yakin ingin menghapus produk {{ $product->name }}?"
+                                    <button type="button" wire:click="delete({{ $product->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                         class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
                                     >
                                         Hapus

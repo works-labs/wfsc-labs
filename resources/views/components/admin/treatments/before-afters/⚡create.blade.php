@@ -122,7 +122,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Add Before & After</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Sebelum & Sesudah</h1>
                 <p class="text-sm font-medium text-gray-500">
                     Add comparison media for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
                 </p>
@@ -201,18 +201,18 @@ new #[Layout('layouts.admin')] class extends Component
                 <label class="inline-flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
                     <input type="checkbox" wire:model="is_active" class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]">
                     <div>
-                        <span class="block text-sm font-bold text-gray-800">Set as Active Comparison</span>
+                        <span class="block text-sm font-bold text-gray-800">Set as Aktif Comparison</span>
                         <span class="block text-xs font-medium text-gray-500">Media will be visible in the treatment showcase.</span>
                     </div>
                 </label>
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a href="{{ route('admin.treatments.before-afters.index', $treatment) }}" wire:navigate 
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">
-                Cancel
+                Batal
             </a>
 
             <button type="submit" wire:loading.attr="disabled" 

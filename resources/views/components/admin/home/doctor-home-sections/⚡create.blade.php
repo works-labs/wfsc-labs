@@ -90,7 +90,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Add Doctor Home Section</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Dokter Home Section</h1>
                 <p class="text-sm font-medium text-gray-500">Select a doctor and assign them to a Home section.</p>
             </div>
         </div>
@@ -163,7 +163,7 @@ new #[Layout('layouts.admin')] class extends Component
                         @enderror
                     </div>
 
-                    {{-- Active --}}
+                    {{-- Aktif --}}
                     <div class="flex items-center pt-8">
                         <label class="inline-flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 w-full transition-colors hover:bg-gray-100 cursor-pointer">
                             <input
@@ -173,7 +173,7 @@ new #[Layout('layouts.admin')] class extends Component
                                 class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]"
                             >
                             <div>
-                                <span class="block text-sm font-bold text-gray-800">Active</span>
+                                <span class="block text-sm font-bold text-gray-800">Aktif</span>
                                 <span class="block text-xs font-medium text-gray-500">Visible on homepage.</span>
                             </div>
                         </label>
@@ -182,14 +182,14 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a
                 href="{{ route('admin.home.doctor-home-sections.index') }}"
                 wire:navigate
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
-                Cancel
+                Batal
             </a>
 
             <button

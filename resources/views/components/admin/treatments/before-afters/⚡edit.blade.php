@@ -281,18 +281,18 @@ new #[Layout('layouts.admin')] class extends Component
                 <label class="inline-flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
                     <input type="checkbox" wire:model="is_active" class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]">
                     <div>
-                        <span class="block text-sm font-bold text-gray-800">Set as Active Comparison</span>
+                        <span class="block text-sm font-bold text-gray-800">Set as Aktif Comparison</span>
                         <span class="block text-xs font-medium text-gray-500">Media will be visible in the treatment showcase.</span>
                     </div>
                 </label>
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a href="{{ route('admin.treatments.before-afters.index', $treatment) }}" wire:navigate 
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">
-                Cancel
+                Batal
             </a>
 
             <button type="submit" wire:loading.attr="disabled" 

@@ -89,7 +89,7 @@ new #[Layout('layouts.admin')] class extends Component
 <div>
     <div class="mb-8">
         <h1 class="text-2xl font-bold">
-            Add Booking
+            Tambah Booking
         </h1>
 
         <p class="mt-2 text-gray-600">
@@ -139,7 +139,7 @@ new #[Layout('layouts.admin')] class extends Component
                     >
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirmed</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="cancelled">Batalled</option>
                         <option value="completed">Completed</option>
                     </select>
 
@@ -360,14 +360,14 @@ new #[Layout('layouts.admin')] class extends Component
             @enderror
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center gap-3">
 
             <button
                 type="submit"
                 class="rounded-lg bg-black px-5 py-2 font-semibold text-white"
             >
-                Save Booking
+                Simpan Booking
             </button>
 
             <a
@@ -375,7 +375,7 @@ new #[Layout('layouts.admin')] class extends Component
                 wire:navigate
                 class="rounded-lg border px-5 py-2 font-medium"
             >
-                Cancel
+                Batal
             </a>
 
         </div>

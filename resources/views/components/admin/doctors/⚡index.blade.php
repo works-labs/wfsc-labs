@@ -70,10 +70,10 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
             <div>
                 <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">
-                    Doctors
+                    Dokter
                 </h1>
                 <p class="mt-1 text-sm font-medium text-gray-500">
-                    Manage doctors displayed on the WFSC website.
+                    Kelola data dokter yang ditampilkan pada situs WFSC.
                 </p>
             </div>
         </div>
@@ -82,7 +82,7 @@ new #[Layout('layouts.admin')] class extends Component
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40"
         >
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Add Doctor
+            Tambah Dokter
         </a>
     </div>
 
@@ -94,7 +94,7 @@ new #[Layout('layouts.admin')] class extends Component
         <input
             type="search"
             wire:model.live.debounce.300ms="search"
-            placeholder="Search doctors by name or specialization..."
+            placeholder="Cari dokter berdasarkan nama atau spesialisasi..."
             class="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm elegant-shadow transition-all focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
         >
     </div>
@@ -106,11 +106,11 @@ new #[Layout('layouts.admin')] class extends Component
             <table class="min-w-full divide-y divide-gray-100">
                 <thead class="bg-[#F4F6F9]">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Doctor</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Specialization</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Experience</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Dokter</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Spesialisasi</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Pengalaman</th>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Actions</th>
+                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Aksi</th>
                     </tr>
                 </thead>
 
@@ -159,11 +159,11 @@ new #[Layout('layouts.admin')] class extends Component
                             <td class="whitespace-nowrap px-6 py-4">
                                 @if ($doctor->is_active)
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Active
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Aktif
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-50 px-3 py-1 text-xs font-bold text-gray-500 ring-1 ring-inset ring-gray-500/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span> Inactive
+                                        <span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span> Nonaktif
                                     </span>
                                 @endif
                             </td>
@@ -179,13 +179,13 @@ new #[Layout('layouts.admin')] class extends Component
                                     @if ($doctor->isFounder())
                                         <span class="inline-flex items-center gap-1 rounded-lg bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700 opacity-70">
                                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                                            Protected
+                                            Dilindungi
                                         </span>
                                     @else
-                                        <button type="button" wire:click="delete({{ $doctor->id }})" wire:confirm="Are you sure you want to delete this doctor?"
+                                        <button type="button" wire:click="delete({{ $doctor->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                             class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700">
                                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                            Delete
+                                            Hapus
                                         </button>
                                     @endif
                                 </div>
@@ -197,8 +197,8 @@ new #[Layout('layouts.admin')] class extends Component
                                 <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
                                     <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
                                 </div>
-                                <p class="mt-4 text-sm font-medium text-gray-900">No doctors found</p>
-                                <p class="mt-1 text-sm text-gray-500">Get started by creating a new doctor profile.</p>
+                                <p class="mt-4 text-sm font-medium text-gray-900">Tidak ada data dokter ditemukan</p>
+                                <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan profil dokter baru.</p>
                             </td>
                         </tr>
                     @endforelse

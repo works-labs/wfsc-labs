@@ -114,7 +114,7 @@ new #[Layout('layouts.admin')] class extends Component
 
                 @case('cancelled')
                     <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                        Cancelled
+                        Batalled
                     </span>
                     @break
 

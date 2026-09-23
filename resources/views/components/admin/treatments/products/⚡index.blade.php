@@ -31,7 +31,7 @@ new #[Layout('layouts.admin')] class extends Component
             <a href="{{ route('admin.treatments.index') }}" wire:navigate 
                 class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]">
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Back to Treatments
+                Kembali ke Daftar Perawatan
             </a>
             
             <div class="mt-3 flex items-center gap-3">
@@ -52,7 +52,7 @@ new #[Layout('layouts.admin')] class extends Component
         <a href="{{ route('admin.treatments.products.create', $treatment) }}" wire:navigate
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Add Product
+            Tambah Produk
         </a>
     </div>
 
@@ -66,7 +66,7 @@ new #[Layout('layouts.admin')] class extends Component
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Description</th>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Sort Order</th>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Actions</th>
+                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Aksi</th>
                     </tr>
                 </thead>
 
@@ -111,16 +111,16 @@ new #[Layout('layouts.admin')] class extends Component
                             <td class="whitespace-nowrap px-6 py-4">
                                 @if ($product->is_active)
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Active
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Aktif
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600 ring-1 ring-inset ring-red-600/20">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Inactive
+                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Nonaktif
                                     </span>
                                 @endif
                             </td>
 
-                            {{-- Actions --}}
+                            {{-- Aksi --}}
                             <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
                                 <div class="flex items-center justify-end gap-2">
                                     <a href="{{ route('admin.treatments.products.edit', [$treatment, $product]) }}" wire:navigate
@@ -129,10 +129,10 @@ new #[Layout('layouts.admin')] class extends Component
                                         Edit
                                     </a>
 
-                                    <button type="button" wire:click="delete({{ $product->id }})" wire:confirm="Delete this product?"
+                                    <button type="button" wire:click="delete({{ $product->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                         class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700">
                                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        Delete
+                                        Hapus
                                     </button>
                                 </div>
                             </td>

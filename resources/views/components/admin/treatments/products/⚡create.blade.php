@@ -54,14 +54,14 @@ new #[Layout('layouts.admin')] class extends Component
         <a href="{{ route('admin.treatments.products.index', $treatment) }}" wire:navigate 
             class="inline-flex items-center gap-2 text-sm font-bold text-gray-400 transition-colors hover:text-[var(--color-wfsc-coral)]">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to Products
+            Kembali ke Daftar Produk
         </a>
         <div class="mt-4 flex items-center gap-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-[var(--color-wfsc-coral)] shadow-sm">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Add Product</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Produk</h1>
                 <p class="text-sm font-medium text-gray-500">
                     Add a skincare product for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
                 </p>
@@ -138,23 +138,23 @@ new #[Layout('layouts.admin')] class extends Component
                 <label class="inline-flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
                     <input type="checkbox" wire:model="is_active" class="h-5 w-5 rounded-md border-gray-300 text-[var(--color-wfsc-coral)] focus:ring-[var(--color-wfsc-coral)]">
                     <div>
-                        <span class="block text-sm font-bold text-gray-800">Set as Active Product</span>
+                        <span class="block text-sm font-bold text-gray-800">Set as Aktif Product</span>
                         <span class="block text-xs font-medium text-gray-500">Product will be visible in the treatment details.</span>
                     </div>
                 </label>
             </div>
         </div>
 
-        {{-- Actions --}}
+        {{-- Aksi --}}
         <div class="flex items-center justify-end gap-4 pt-4">
             <a href="{{ route('admin.treatments.products.index', $treatment) }}" wire:navigate 
                 class="rounded-xl px-5 py-3 text-sm font-bold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800">
-                Cancel
+                Batal
             </a>
 
             <button type="submit" wire:loading.attr="disabled" 
                 class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-8 py-3 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40 disabled:opacity-70 disabled:hover:scale-100">
-                <span wire:loading.remove>Save Product</span>
+                <span wire:loading.remove>Simpan Produk</span>
                 <span wire:loading>
                     <svg class="h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     Saving...

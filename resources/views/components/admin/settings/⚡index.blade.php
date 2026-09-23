@@ -39,7 +39,7 @@ new #[Layout('layouts.admin')] class extends Component
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40"
         >
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Add Setting
+            Tambah Pengaturan
         </a>
     </div>
 
@@ -86,7 +86,7 @@ new #[Layout('layouts.admin')] class extends Component
                                 Value
                             </th>
                             <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">
-                                Actions
+                                Aksi
                             </th>
                         </tr>
                     </thead>
@@ -116,10 +116,10 @@ new #[Layout('layouts.admin')] class extends Component
                                         <button
                                             type="button"
                                             wire:click="delete({{ $setting->id }})"
-                                            wire:confirm="Yakin ingin menghapus setting ini?"
+                                            wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
                                             class="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
                                         >
-                                            Delete
+                                            Hapus
                                         </button>
                                     </div>
                                 </td>
