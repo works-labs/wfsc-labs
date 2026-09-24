@@ -147,19 +147,6 @@ Route::middleware('auth')->group(function () {
         ->name('admin.branches.edit');
         // end of branh routes
 
-        // booking route
-    Route::livewire('/admin/bookings/create', 'admin.bookings.create')
-    ->name('admin.bookings.create');
-    
-    Route::livewire('/admin/bookings', 'admin.bookings.index')
-    ->name('admin.bookings.index');
-
-    Route::livewire('/admin/bookings/{booking}/edit', 'admin.bookings.edit')
-    ->name('admin.bookings.edit');
-
-    Route::livewire('/admin/bookings/{booking}', 'admin.bookings.show')
-    ->name('admin.bookings.show');
-
     // before-after routes
     Route::livewire(
         '/admin/treatments/{treatment}/before-afters',
