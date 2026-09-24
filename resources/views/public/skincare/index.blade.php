@@ -101,15 +101,6 @@
                             : 'border-neutral-200 bg-white text-neutral-500 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
                 >
                     {{ $category->name }}
-
-                    @if ($category->products_count > 0)
-                        <span
-                            class="ml-1.5 text-xs opacity-70"
-                        >
-                            {{ $category->products_count }}
-                        </span>
-                    @endif
-
                 </a>
 
             @endforeach

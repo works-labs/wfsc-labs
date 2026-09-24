@@ -57,9 +57,6 @@
                                         : 'border-neutral-200 bg-white text-neutral-600 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
                             >
                                 {{ $category->name }}
-                                @if ($category->news_count > 0)
-                                    <span class="ml-1 text-xs opacity-70">({{ $category->news_count }})</span>
-                                @endif
                             </a>
                         @endforeach
                     </div>
