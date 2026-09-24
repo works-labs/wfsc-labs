@@ -40,7 +40,7 @@
 
             {{-- Slider Container: Diberi py-8 dan -my-8 agar shadow & scale tidak terpotong --}}
             <div data-doctor-slider class="relative -my-8 overflow-hidden py-8">
-                <div data-doctor-track class="flex items-center transition-transform duration-500 ease-out {{ $homeDoctors->count() < 3 ? 'lg:justify-center' : '' }}">
+                <div data-doctor-track class="flex transition-transform duration-500 ease-out {{ $homeDoctors->count() < 3 ? 'lg:justify-center' : '' }}">
 
                     @foreach ($homeDoctors as $index => $item)
                         @php $doctor = $item->doctor; @endphp
@@ -50,15 +50,15 @@
                                 data-doctor-slide 
                                 data-reveal="up"
                                 data-delay="{{ 100 + ($index * 100) }}"
-                                class="reveal-hidden w-full shrink-0 px-4 sm:w-1/2 lg:w-1/3"
+                                class="reveal-hidden w-full shrink-0 basis-full sm:basis-1/2 lg:basis-1/3"
                             >
                                 {{-- Card Wrapper --}}
-                                <div class="doctor-card-inner transition-all duration-500 ease-out">
+                                <div class="doctor-card-inner flex h-full w-full px-4 transition-all duration-500 ease-out">
                                     @if ($doctor->isFounder())
                                         {{-- JIKA FOUNDER: Diarahkan ke halaman detail dokter --}}
                                         <a
                                             href="{{ route('doctor.show', $doctor->slug) }}"
-                                            class="group relative block rounded-[2rem] bg-white p-3.5 border transition-all duration-300 border-[#FF5252]/40 shadow-lg hover:shadow-xl hover:border-[#FF5252]"
+                                            class="group relative flex h-full w-full flex-col rounded-[2rem] bg-white p-3.5 border transition-all duration-300 border-[#FF5252]/40 shadow-lg hover:shadow-xl hover:border-[#FF5252]"
                                         >
                                             <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
                                                 <div class="absolute left-3 top-3 z-10">
@@ -81,18 +81,20 @@
                                                 @endif
                                             </div>
 
-                                            <div class="p-4 text-center">
-                                                @if ($doctor->specialization)
-                                                    <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
-                                                        {{ $doctor->specialization }}
-                                                    </p>
-                                                @endif
+                                            <div class="flex flex-col flex-1 justify-between p-4 text-center">
+                                                <div>
+                                                    @if ($doctor->specialization)
+                                                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
+                                                            {{ $doctor->specialization }}
+                                                        </p>
+                                                    @endif
 
-                                                <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
-                                                    {{ $doctor->title }} {{ $doctor->name }}
-                                                </h3>
+                                                    <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                                        {{ $doctor->title }} {{ $doctor->name }}
+                                                    </h3>
+                                                </div>
 
-                                                <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]">
+                                                <span class="mt-3 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]">
                                                     <span>View Profile</span>
                                                     <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
                                                 </span>
@@ -108,7 +110,7 @@
                                             data-doctor-bio="{{ $doctor->short_bio ?: $doctor->bio }}"
                                             data-doctor-education="{{ $doctor->education }}"
                                             data-doctor-experience="{{ $doctor->experience }}"
-                                            class="group relative cursor-pointer block rounded-[2rem] bg-white p-3.5 border border-neutral-200 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/40"
+                                            class="group relative cursor-pointer flex h-full w-full flex-col rounded-[2rem] bg-white p-3.5 border border-neutral-200 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/40"
                                         >
                                             <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
                                                 @if ($doctor->photo)
@@ -124,20 +126,22 @@
                                                 @endif
                                             </div>
 
-                                            <div class="p-4 text-center">
-                                                @if ($doctor->specialization)
-                                                    <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
-                                                        {{ $doctor->specialization }}
-                                                    </p>
-                                                @endif
+                                            <div class="flex flex-col flex-1 justify-between p-4 text-center">
+                                                <div>
+                                                    @if ($doctor->specialization)
+                                                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF5252]">
+                                                            {{ $doctor->specialization }}
+                                                        </p>
+                                                    @endif
 
-                                                <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
-                                                    {{ $doctor->title }} {{ $doctor->name }}
-                                                </h3>
+                                                    <h3 class="mt-1 text-lg font-bold text-neutral-900 transition duration-300 group-hover:text-[#FF5252] sm:text-xl">
+                                                        {{ $doctor->title }} {{ $doctor->name }}
+                                                    </h3>
+                                                </div>
 
                                                 <button
                                                     type="button"
-                                                    class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]"
+                                                    class="mt-3 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-500 transition duration-300 group-hover:text-[#FF5252]"
                                                 >
                                                     <span>Quick View</span>
                                                     <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
