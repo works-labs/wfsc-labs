@@ -14,7 +14,7 @@
                     <a
                         href="#treatment-{{ $treatment->id }}"
                         data-treatment-chip="{{ $treatment->id }}"
-                        class="before-after-chip shrink-0 rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs font-medium text-neutral-600 transition hover:border-wfsc-coral hover:text-wfsc-coral sm:px-5 sm:py-2.5 sm:text-sm"
+                        class="before-after-chip shrink-0 rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs font-medium text-neutral-600 transition hover:border-wfsc-coral hover:text-wfsc-coral [&.bg-wfsc-coral]:hover:text-white sm:px-5 sm:py-2.5 sm:text-sm"
                     >
                         {{ $treatment->name }}
                     </a>

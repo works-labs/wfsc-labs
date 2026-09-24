@@ -58,7 +58,7 @@
                                         {{-- JIKA FOUNDER: Diarahkan ke halaman detail dokter --}}
                                         <a
                                             href="{{ route('doctor.show', $doctor->slug) }}"
-                                            class="group relative block rounded-[2rem] bg-white p-3.5 border transition-all duration-500 border-[#FF5252]/40 shadow-[0_10px_30px_rgba(255,82,82,0.15)] hover:border-[#FF5252] hover:shadow-[0_15px_40px_rgba(255,82,82,0.25)]"
+                                            class="group relative block rounded-[2rem] bg-white p-3.5 border transition-all duration-300 border-[#FF5252]/40 shadow-lg hover:shadow-xl hover:border-[#FF5252]"
                                         >
                                             <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
                                                 <div class="absolute left-3 top-3 z-10">
@@ -108,7 +108,7 @@
                                             data-doctor-bio="{{ $doctor->short_bio ?: $doctor->bio }}"
                                             data-doctor-education="{{ $doctor->education }}"
                                             data-doctor-experience="{{ $doctor->experience }}"
-                                            class="group relative cursor-pointer block rounded-[2rem] bg-white p-3.5 border border-neutral-100 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/30"
+                                            class="group relative cursor-pointer block rounded-[2rem] bg-white p-3.5 border border-neutral-200 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/40"
                                         >
                                             <div class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-neutral-100">
                                                 @if ($doctor->photo)

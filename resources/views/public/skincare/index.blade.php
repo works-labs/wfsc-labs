@@ -27,10 +27,6 @@
         {{-- Hero Content --}}
         <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44">
             <div class="max-w-3xl">
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md">
-                    <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
-                    Skincare
-                </span>
                 <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                     {{ $banner->title }}
                 </h1>
