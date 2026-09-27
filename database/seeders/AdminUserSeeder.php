@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
 class AdminUserSeeder extends Seeder
 {
     /**
@@ -13,11 +13,10 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // jangan dipakai di prod yahhh
         User::updateOrCreate(
-            ['email' => 'admin@wfsc.local'],
+            ['email' => 'admin@wfsc-labs.id'],
             [
-                'name' => 'WFSC Administrator',
+                'name'     => 'Admin WFSC',
                 'password' => Hash::make('password'),
             ]
         );

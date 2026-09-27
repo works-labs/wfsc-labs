@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             TreatmentSeeder::class,
             TreatmentProductSeeder::class,
             SiteContentSeeder::class,
+            PromoSeeder::class,
+            NewsSeeder::class,
         ]);
     }
 }
