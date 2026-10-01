@@ -24,8 +24,17 @@
                         {{ $treatment->name }}
                     </h2>
 
-                    <div class="mt-6 text-lg leading-8 text-neutral-600">
-                        {{ $treatment->description }}
+                    <div class="mt-6 text-lg leading-8 text-neutral-600
+                        [&_p]:my-4 [&_h2]:my-6 [&_h2]:text-2xl [&_h2]:font-bold
+                        [&_h3]:my-5 [&_h3]:text-xl [&_h3]:font-semibold
+                        [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6
+                        [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6
+                        [&_blockquote]:my-5 [&_blockquote]:border-l-4 [&_blockquote]:border-neutral-300 [&_blockquote]:pl-4">
+                        @if (str_contains($treatment->description, '<'))
+                            {!! $treatment->description !!}
+                        @else
+                            {!! nl2br(e($treatment->description)) !!}
+                        @endif
                     </div>
 
                 </div>

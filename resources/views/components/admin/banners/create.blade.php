@@ -22,12 +22,9 @@ class extends Component
 
     public array $placements = [
         'treatments' => 'Treatment',
-        'treatment-detail' => 'Treatment Detail',
-        'before-after' => 'Before After',
         'promos' => 'Promo',
-        'news' => 'News',
         'skincare' => 'Skincare',
-        'contact' => 'Contact',
+        'contact-us' => 'Contact',
     ];
 
     protected function rules(): array

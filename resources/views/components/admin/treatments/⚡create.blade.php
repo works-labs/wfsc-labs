@@ -133,8 +133,13 @@ new #[Layout('layouts.admin')] class extends Component
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Full Description</label>
-                    <textarea wire:model="description" rows="6" placeholder="Detailed treatment explanation..." 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor
+                        wire:model="description"
+                        placeholder="Tulis penjelasan treatment di sini..."
+                    />
+                    <p class="mt-1.5 text-xs font-medium text-gray-400">
+                        Gunakan Enter untuk membuat paragraf baru dan toolbar untuk membuat bullet atau nomor.
+                    </p>
                     @error('description') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
             </div>
