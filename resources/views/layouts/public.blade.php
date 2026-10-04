@@ -6,6 +6,10 @@
 
     <title>@yield('title', 'WFSC Clinic')</title>
 
+    <!-- SEO -->
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="robots" content="index, follow">
+
     <!-- Favicon & Icon Tab -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="icon" type="image/png" href="{{ asset('logo.PNG') }}">

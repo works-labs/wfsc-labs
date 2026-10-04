@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicBeforeAfterController;
 use App\Http\Controllers\PublicPromoController;
 use App\Http\Controllers\PublicSkincareController;
 use App\Http\Controllers\PublicContactUsController;
+use App\Http\Controllers\SitemapController;
 //Route::view('/', 'welcome')->name('home');
 // Route::view('/', 'public.home')->name('home');
 
@@ -263,6 +264,9 @@ Route::livewire(
 /// ------------ home route ublics ///
     
 });
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])
+    ->name('sitemap');
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
