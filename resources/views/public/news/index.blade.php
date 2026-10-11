@@ -26,4 +26,6 @@
 
 </main>
 
+@include('public.components.footer')
+
 @endsection

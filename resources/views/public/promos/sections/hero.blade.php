@@ -1,6 +1,6 @@
 @if ($banner)
 
-<section class="relative isolate overflow-hidden text-white">
+<section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
 
     {{-- Background Image --}}
     <div class="absolute inset-0 -z-20">
@@ -8,7 +8,7 @@
         <img
             src="{{ Storage::url($banner->image) }}"
             alt="{{ $banner->title }}"
-            class="h-full w-full object-cover"
+            class="h-full w-full object-contain"
         >
 
     </div>
@@ -35,7 +35,7 @@
 
     {{-- Hero Content --}}
     <div
-        class="relative mx-auto max-w-7xl px-6 pb-28 pt-36 sm:px-8 lg:px-12 lg:pb-36 lg:pt-44"
+        class="relative mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20"
     >
 
         <div class="max-w-4xl">
@@ -58,7 +58,7 @@
                 <p
                     data-reveal="left"
                     data-delay="200"
-                    class="reveal-hidden mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
+                    class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
                 >
                     {{ $banner->subtitle }}
                 </p>

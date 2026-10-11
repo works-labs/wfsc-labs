@@ -6,7 +6,7 @@
 
 <section
     data-hero-slider
-    class="relative isolate h-[520px] overflow-hidden text-white lg:h-[560px]"
+    class="relative isolate h-[420px] overflow-hidden text-white"
 >
 
     {{-- ========================================================= --}}
@@ -69,7 +69,7 @@
             >
 
                 <div
-                    class="mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12"
+                    class="mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20"
                 >
 
                     <div class="max-w-4xl">
@@ -92,7 +92,7 @@
 
                         {{-- Title --}}
                         <h1
-                            class="mt-3 line-clamp-3 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+                            class="mt-3 line-clamp-2 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
                         >
                             {{ $item->title }}
                         </h1>
@@ -102,7 +102,7 @@
                         @if ($item->excerpt)
 
                             <p
-                                class="mt-6 line-clamp-3 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
+                                class="mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
                             >
                                 {{ $item->excerpt }}
                             </p>

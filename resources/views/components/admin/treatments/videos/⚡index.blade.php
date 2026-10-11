@@ -55,17 +55,23 @@ new #[Layout('layouts.admin')] class extends Component
                         Procedure Videos
                     </h1>
                     <p class="text-xs font-medium text-gray-500">
-                        Manage videos for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
+                        Manage up to 2 videos for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
                     </p>
                 </div>
             </div>
         </div>
 
-        <a href="{{ route('admin.treatments.videos.create', $treatment) }}" wire:navigate
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Tambah Video
-        </a>
+        @if ($videos->count() < 2)
+            <a href="{{ route('admin.treatments.videos.create', $treatment) }}" wire:navigate
+                class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--color-wfsc-coral)] to-[#ff7676] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[var(--color-wfsc-coral)]/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--color-wfsc-coral)]/40">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah Video
+            </a>
+        @else
+            <span class="inline-flex items-center justify-center rounded-xl bg-gray-100 px-5 py-2.5 text-sm font-bold text-gray-400">
+                Maksimal 2 Video
+            </span>
+        @endif
     </div>
 
     {{-- Alert Notification --}}

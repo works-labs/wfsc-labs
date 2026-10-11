@@ -7,13 +7,13 @@
 
 {{-- Banner Hero Section (Jika diset di Admin Banners placement: treatments) --}}
 @if (isset($banner) && $banner)
-    <section class="relative isolate overflow-hidden text-white">
+    <section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
         {{-- Background Image --}}
         <div class="absolute inset-0 -z-20">
             <img
                 src="{{ \Illuminate\Support\Facades\Storage::url($banner->image) }}"
                 alt="{{ $banner->title }}"
-                class="h-full w-full object-cover"
+                class="h-full w-full object-contain"
             >
         </div>
 
@@ -25,13 +25,13 @@
         <div class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
 
         {{-- Hero Content --}}
-        <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44">
+        <div class="relative mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20">
             <div class="max-w-3xl">
                 <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                     {{ $banner->title }}
                 </h1>
                 @if ($banner->subtitle)
-                    <p class="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">
+                    <p class="mt-4 line-clamp-2 text-base leading-relaxed text-white/85">
                         {{ $banner->subtitle }}
                     </p>
                 @endif
@@ -117,7 +117,7 @@
                     </h2>
 
                     @if ($category->description)
-                        <p class="mt-3 text-sm leading-relaxed text-neutral-500 sm:mt-4 sm:text-base">
+                        <p class="mt-3 text-base leading-relaxed text-neutral-500">
                             {{ $category->description }}
                         </p>
                     @endif
@@ -146,12 +146,12 @@
                                             <img
                                                 src="{{ asset('storage/' . $treatment->cover_image) }}"
                                                 alt="{{ $treatment->name }}"
-                                                class="aspect-[4/3] w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                                class="aspect-[5/4] w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                                             >
 
                                         @else
 
-                                            <div class="flex aspect-[4/3] items-center justify-center bg-neutral-100">
+                                            <div class="flex aspect-[5/4] items-center justify-center bg-neutral-100">
                                                 <span class="text-sm text-neutral-400">
                                                     {{ $treatment->name }}
                                                 </span>

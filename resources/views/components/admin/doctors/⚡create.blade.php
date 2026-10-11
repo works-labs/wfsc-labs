@@ -35,7 +35,7 @@ new #[Layout('layouts.admin')] class extends Component
     #[Validate('nullable|string')]
     public string $certifications = '';
 
-    #[Validate('nullable|image|max:5120')]
+    #[Validate('nullable|image|mimes:jpg,jpeg,png,webp|max:5120|dimensions:width=1080,height=1440')]
     public $photo = null;
 
     public bool $is_active = true;
@@ -215,7 +215,7 @@ new #[Layout('layouts.admin')] class extends Component
                         <div class="w-full">
                             <input type="file" wire:model="photo" accept="image/jpeg,image/png,image/webp" 
                                 class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
-                            <p class="mt-2 text-xs font-medium text-gray-400">Rekomendasi: JPG, PNG, atau WebP. Maksimal 5MB.</p>
+                            <p class="mt-2 text-xs font-medium leading-relaxed text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1440 px · maksimal 5 MB · rasio 3:4 portrait.</p>
                             @error('photo') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                         </div>
                     </div>

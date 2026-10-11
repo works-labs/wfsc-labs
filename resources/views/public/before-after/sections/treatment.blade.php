@@ -32,6 +32,13 @@
 
             @foreach ($treatment->beforeAfters as $index => $beforeAfter)
 
+                @php
+                    $displayMedia = $beforeAfter->after_media ?: $beforeAfter->before_media;
+                    $displayMediaType = $beforeAfter->after_media
+                        ? $beforeAfter->after_media_type
+                        : $beforeAfter->before_media_type;
+                @endphp
+
                 <button
                     type="button"
                     data-lightbox-trigger
@@ -39,8 +46,8 @@
                     data-before-src="{{ Storage::url($beforeAfter->before_media) }}"
                     data-before-type="{{ $beforeAfter->before_media_type }}"
 
-                    data-after-src="{{ Storage::url($beforeAfter->after_media) }}"
-                    data-after-type="{{ $beforeAfter->after_media_type }}"
+                    data-after-src="{{ Storage::url($displayMedia) }}"
+                    data-after-type="{{ $displayMediaType }}"
 
                     data-caption="{{ $beforeAfter->caption }}"
                     data-treatment="{{ $treatment->name }}"
@@ -48,83 +55,42 @@
                     data-reveal="up"
                     data-delay="{{ ($index + 1) * 100 }}"
 
-                    class="reveal-hidden group overflow-hidden rounded-2xl border border-neutral-200 bg-white text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                    class="reveal-hidden group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
 
-                    {{-- Media --}}
-                    <div class="grid grid-cols-2">
-
-                        {{-- Before --}}
-                        <div
-                            class="relative aspect-[4/5] overflow-hidden bg-neutral-100"
-                        >
-
-                            @if ($beforeAfter->before_media_type === 'video')
-
-                                <video
-                                    src="{{ Storage::url($beforeAfter->before_media) }}"
-                                    muted
-                                    loop
-                                    autoplay
-                                    playsinline
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                ></video>
-
-                            @else
-
-                                <img
-                                    src="{{ Storage::url($beforeAfter->before_media) }}"
-                                    alt="Before {{ $treatment->name }}"
-                                    loading="lazy"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                >
-
-                            @endif
-
-                            <span
-                                class="absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm"
+                    {{-- Single Result Media --}}
+                    <div class="relative aspect-[4/5] overflow-hidden bg-neutral-100">
+                        @if ($displayMediaType === 'video')
+                            <video
+                                src="{{ Storage::url($displayMedia) }}"
+                                muted
+                                loop
+                                autoplay
+                                playsinline
+                                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                            ></video>
+                        @else
+                            <img
+                                src="{{ Storage::url($displayMedia) }}"
+                                alt="Hasil {{ $treatment->name }}"
+                                loading="lazy"
+                                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                             >
-                                Before
-                            </span>
+                        @endif
 
-                        </div>
+                        <span class="absolute left-3 top-3 rounded-full bg-wfsc-coral px-3 py-1 text-xs font-semibold text-white">
+                            Hasil
+                        </span>
 
-
-                        {{-- After --}}
-                        <div
-                            class="relative aspect-[4/5] overflow-hidden bg-neutral-100"
+                        {{-- Popup Indicator --}}
+                        <span
+                            class="pointer-events-none absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-neutral-700 shadow-lg ring-1 ring-white/80 transition duration-300 group-hover:scale-110 group-hover:bg-wfsc-coral group-hover:text-white"
+                            aria-hidden="true"
                         >
-
-                            @if ($beforeAfter->after_media_type === 'video')
-
-                                <video
-                                    src="{{ Storage::url($beforeAfter->after_media) }}"
-                                    muted
-                                    loop
-                                    autoplay
-                                    playsinline
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                ></video>
-
-                            @else
-
-                                <img
-                                    src="{{ Storage::url($beforeAfter->after_media) }}"
-                                    alt="After {{ $treatment->name }}"
-                                    loading="lazy"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                >
-
-                            @endif
-
-                            <span
-                                class="absolute right-3 top-3 rounded-full bg-wfsc-coral px-3 py-1 text-xs font-semibold text-white"
-                            >
-                                After
-                            </span>
-
-                        </div>
-
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
+                            </svg>
+                        </span>
                     </div>
 
 
@@ -160,7 +126,7 @@
                         </div>
 
 
-                        @if ($beforeAfter->caption)
+                    @if ($beforeAfter->caption)
 
                             <p
                                 class="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-500"
@@ -169,6 +135,7 @@
                             </p>
                         @endif
                     </div>
+
                 </button>
             @endforeach
         </div>

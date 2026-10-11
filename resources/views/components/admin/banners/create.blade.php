@@ -32,10 +32,17 @@ class extends Component
         return [
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string'],
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:min_width=1890,min_height=420,ratio=9/2'],
             'placement' => ['required', 'in:' . implode(',', array_keys($this->placements))],
             'sort_order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'image.dimensions' => 'Ukuran gambar minimal 1890 × 420 px dengan rasio 9:2. Resolusi lebih tinggi diperbolehkan selama rasionya tetap sama.',
         ];
     }
 
@@ -196,7 +203,7 @@ class extends Component
                     >
 
                     <p class="mt-1.5 text-xs font-medium text-gray-400">
-                        JPG, JPEG, PNG atau WEBP. Maksimal 5 MB.
+                        JPG, PNG, atau WebP · minimal 1890 × 420 px · rasio 9:2 · maksimal 5 MB. Resolusi HD lebih tinggi diperbolehkan.
                     </p>
 
                     @error('image')

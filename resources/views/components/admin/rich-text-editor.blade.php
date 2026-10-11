@@ -7,6 +7,8 @@
     x-data="{
         value: @entangle($attributes->wire('model')),
         editor: null,
+        activeFormats: {},
+        activeBlock: 'p',
 
         init() {
             this.editor = this.$refs.editor;
@@ -17,7 +19,16 @@
             }
 
             this.editor.addEventListener('input', () => {
+                this.refreshToolbar();
                 this.sync();
+            });
+
+            this.editor.addEventListener('keyup', () => this.refreshToolbar());
+            this.editor.addEventListener('mouseup', () => this.refreshToolbar());
+            document.addEventListener('selectionchange', () => {
+                if (document.activeElement === this.editor || this.editor.contains(document.activeElement)) {
+                    this.refreshToolbar();
+                }
             });
 
             this.editor.addEventListener('keydown', (e) => {
@@ -36,8 +47,11 @@
             this.$watch('value', (newVal) => {
                 if (newVal !== this.editor.innerHTML) {
                     this.editor.innerHTML = newVal || '';
+                    this.refreshToolbar();
                 }
             });
+
+            this.refreshToolbar();
         },
 
         sync() {
@@ -48,6 +62,7 @@
             this.editor.focus();
             document.execCommand(cmd, false, val);
             this.normalizeBlocks();
+            this.refreshToolbar();
             this.sync();
         },
 
@@ -55,6 +70,7 @@
             this.editor.focus();
             document.execCommand('formatBlock', false, tag);
             this.normalizeBlocks();
+            this.refreshToolbar();
             this.sync();
         },
 
@@ -62,6 +78,7 @@
             this.editor.focus();
             document.execCommand('formatBlock', false, 'p');
             this.normalizeBlocks();
+            this.refreshToolbar();
             this.sync();
         },
 
@@ -70,7 +87,36 @@
             if (!url) return;
             this.editor.focus();
             document.execCommand('createLink', false, url);
+            this.refreshToolbar();
             this.sync();
+        },
+
+        refreshToolbar() {
+            if (!this.editor) return;
+
+            this.activeFormats = {
+                bold: document.queryCommandState('bold'),
+                italic: document.queryCommandState('italic'),
+                underline: document.queryCommandState('underline'),
+                insertUnorderedList: document.queryCommandState('insertUnorderedList'),
+                insertOrderedList: document.queryCommandState('insertOrderedList'),
+                createLink: document.queryCommandState('createLink'),
+            };
+
+            const selection = window.getSelection();
+            let node = selection?.anchorNode;
+            if (node?.nodeType === Node.TEXT_NODE) node = node.parentElement;
+            const block = node?.closest?.('p,h2,h3,blockquote,li');
+            this.activeBlock = block?.tagName?.toLowerCase() || 'p';
+            this.activeFormats.createLink = Boolean(node?.closest?.('a')) || this.activeFormats.createLink;
+        },
+
+        isActive(command) {
+            return Boolean(this.activeFormats[command]);
+        },
+
+        isBlock(tag) {
+            return this.activeBlock === tag;
         },
 
         cleanPaste(event) {
@@ -143,7 +189,8 @@
         <button
             type="button"
             @click="command('bold')"
-            class="rounded-lg px-3 py-1.5 text-sm font-bold text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('bold') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm font-bold transition"
             title="Bold"
         >
             B
@@ -152,7 +199,8 @@
         <button
             type="button"
             @click="command('italic')"
-            class="rounded-lg px-3 py-1.5 text-sm italic text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('italic') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm italic transition"
             title="Italic"
         >
             I
@@ -161,7 +209,8 @@
         <button
             type="button"
             @click="command('underline')"
-            class="rounded-lg px-3 py-1.5 text-sm underline text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('underline') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm underline transition"
             title="Underline"
         >
             U
@@ -173,7 +222,8 @@
         <button
             type="button"
             @click="makeParagraph()"
-            class="rounded-lg px-3 py-1.5 text-xs font-bold text-neutral-700 transition hover:bg-neutral-200"
+            :class="isBlock('p') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-xs font-bold transition"
             title="Paragraph"
         >
             P
@@ -182,7 +232,8 @@
         <button
             type="button"
             @click="formatBlock('h2')"
-            class="rounded-lg px-3 py-1.5 text-xs font-bold text-neutral-700 transition hover:bg-neutral-200"
+            :class="isBlock('h2') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-xs font-bold transition"
             title="Heading 2"
         >
             H2
@@ -191,7 +242,8 @@
         <button
             type="button"
             @click="formatBlock('h3')"
-            class="rounded-lg px-3 py-1.5 text-xs font-bold text-neutral-700 transition hover:bg-neutral-200"
+            :class="isBlock('h3') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-xs font-bold transition"
             title="Heading 3"
         >
             H3
@@ -203,7 +255,8 @@
         <button
             type="button"
             @click="command('insertUnorderedList')"
-            class="rounded-lg px-3 py-1.5 text-sm text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('insertUnorderedList') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm transition"
             title="Bullet List"
         >
             • List
@@ -212,7 +265,8 @@
         <button
             type="button"
             @click="command('insertOrderedList')"
-            class="rounded-lg px-3 py-1.5 text-sm text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('insertOrderedList') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm transition"
             title="Numbered List"
         >
             1. List
@@ -224,7 +278,8 @@
         <button
             type="button"
             @click="formatBlock('blockquote')"
-            class="rounded-lg px-3 py-1.5 text-sm text-neutral-700 transition hover:bg-neutral-200"
+            :class="isBlock('blockquote') ? 'bg-neutral-800 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm transition"
             title="Blockquote"
         >
             “
@@ -233,7 +288,8 @@
         <button
             type="button"
             @click="createLink()"
-            class="rounded-lg px-3 py-1.5 text-sm text-neutral-700 transition hover:bg-neutral-200"
+            :class="isActive('createLink') ? 'bg-blue-600 text-white' : 'text-neutral-700 hover:bg-neutral-200'"
+            class="rounded-lg px-3 py-1.5 text-sm transition"
             title="Insert Link"
         >
             🔗

@@ -14,8 +14,7 @@ new #[Layout('layouts.admin')] class extends Component
     public Treatment $treatment;
     public TreatmentBeforeAfter $beforeAfter;
 
-    public $before_media = null;
-    public $after_media = null;
+    public $result_media = null;
 
     public string $caption = '';
     public int $sort_order = 0;
@@ -36,18 +35,13 @@ new #[Layout('layouts.admin')] class extends Component
     public function update(): void
     {
         $validated = $this->validate([
-            'before_media' => [
+            'result_media' => [
                 'nullable',
                 'file',
-                'mimes:jpg,jpeg,png,webp,avif,mp4,webm,mov',
-                'max:51200',
-            ],
-
-            'after_media' => [
-                'nullable',
-                'file',
-                'mimes:jpg,jpeg,png,webp,avif,mp4,webm,mov',
-                'max:51200',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120',
+                'dimensions:width=1080,height=1350',
             ],
 
             'caption' => ['nullable', 'string'],
@@ -61,50 +55,33 @@ new #[Layout('layouts.admin')] class extends Component
             'is_active' => ['boolean'],
         ]);
 
-        if ($this->before_media) {
-            if (
-                $this->beforeAfter->before_media &&
-                Storage::disk('public')->exists(
-                    $this->beforeAfter->before_media
-                )
-            ) {
-                Storage::disk('public')->delete(
-                    $this->beforeAfter->before_media
-                );
+        if ($this->result_media) {
+            $oldMedia = array_unique(array_filter([
+                $this->beforeAfter->before_media,
+                $this->beforeAfter->after_media,
+            ]));
+
+            foreach ($oldMedia as $media) {
+                if (Storage::disk('public')->exists($media)) {
+                    Storage::disk('public')->delete($media);
+                }
             }
 
-            $validated['before_media'] = $this->before_media->store(
+            $validated['result_media'] = $this->result_media->store(
                 'treatments/before-after',
                 'public'
             );
         }
 
-        if ($this->after_media) {
-            if (
-                $this->beforeAfter->after_media &&
-                Storage::disk('public')->exists(
-                    $this->beforeAfter->after_media
-                )
-            ) {
-                Storage::disk('public')->delete(
-                    $this->beforeAfter->after_media
-                );
-            }
-
-            $validated['after_media'] = $this->after_media->store(
-                'treatments/before-after',
-                'public'
-            );
-        }
+        $resultPath = $validated['result_media']
+            ?? $this->beforeAfter->after_media
+            ?? $this->beforeAfter->before_media;
 
         $this->beforeAfter->update([
-            'before_media' =>
-                $validated['before_media']
-                ?? $this->beforeAfter->before_media,
-
-            'after_media' =>
-                $validated['after_media']
-                ?? $this->beforeAfter->after_media,
+            'before_media' => $resultPath,
+            'before_media_type' => 'image',
+            'after_media' => $resultPath,
+            'after_media_type' => 'image',
 
             'caption' => $validated['caption'],
             'sort_order' => $validated['sort_order'],
@@ -141,7 +118,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Edit Before & After</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Edit Foto Hasil Treatment</h1>
                 <p class="text-sm font-medium text-gray-500">
                     Update comparison media for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
                 </p>
@@ -159,7 +136,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <div class="rounded-lg bg-purple-50 p-2 text-purple-500">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
-                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Media Files</h2>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Foto Hasil Treatment</h2>
             </div>
             <p class="mb-6 text-xs font-medium text-gray-400">Pilih file baru hanya jika ingin mengganti media saat ini.</p>
 
@@ -167,13 +144,14 @@ new #[Layout('layouts.admin')] class extends Component
 
                 {{-- BEFORE --}}
                 <div class="space-y-3">
-                    <label class="block text-sm font-bold text-gray-600">Before Media</label>
+                    <label class="block text-sm font-bold text-gray-600">Foto Hasil</label>
 
                     {{-- Current Media --}}
                     <div class="overflow-hidden rounded-2xl bg-gray-50 shadow-sm ring-2 ring-gray-100">
                         @php
-                            $url = Storage::url($beforeAfter->before_media);
-                            $extension = strtolower(pathinfo($beforeAfter->before_media, PATHINFO_EXTENSION));
+                            $currentMedia = $beforeAfter->after_media ?: $beforeAfter->before_media;
+                            $url = Storage::url($currentMedia);
+                            $extension = strtolower(pathinfo($currentMedia, PATHINFO_EXTENSION));
                         @endphp
 
                         @if (in_array($extension, ['mp4', 'webm', 'mov']))
@@ -186,28 +164,30 @@ new #[Layout('layouts.admin')] class extends Component
                     </div>
 
                     <p class="text-xs font-medium text-gray-400 truncate">
-                        Current: {{ basename($beforeAfter->before_media) }}
+                        Current: {{ basename($currentMedia) }}
                     </p>
 
                     {{-- New File --}}
-                    <input type="file" wire:model="before_media" accept="image/*,video/*" 
+                    <input type="file" wire:model="result_media" accept="image/jpeg,image/png,image/webp"
                         class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-1.5 file:text-xs file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
 
-                    @if ($before_media)
+                    @if ($result_media)
                         <p class="text-xs font-bold text-[var(--color-wfsc-coral)]">
-                            File baru: {{ $before_media->getClientOriginalName() }}
+                            File baru: {{ $result_media->getClientOriginalName() }}
                         </p>
                     @endif
 
-                    <div wire:loading wire:target="before_media" class="text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
+                    <div wire:loading wire:target="result_media" class="text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
                         <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         Uploading preview...
                     </div>
 
-                    @error('before_media') <p class="text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                    <p class="text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1350 px · maksimal 5 MB · rasio 4:5</p>
+                    @error('result_media') <p class="text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- AFTER --}}
+                @if (false)
+                {{-- Legacy AFTER --}}
                 <div class="space-y-3">
                     <label class="block text-sm font-bold text-gray-600">After Media</label>
 
@@ -248,6 +228,7 @@ new #[Layout('layouts.admin')] class extends Component
 
                     @error('after_media') <p class="text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
+                @endif
 
             </div>
         </div>

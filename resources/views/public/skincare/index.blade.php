@@ -7,13 +7,13 @@
 
 {{-- Hero --}}
 @if (isset($banner) && $banner)
-    <section class="relative isolate overflow-hidden text-white">
+    <section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
         {{-- Background Image --}}
         <div class="absolute inset-0 -z-20">
             <img
                 src="{{ \Illuminate\Support\Facades\Storage::url($banner->image) }}"
                 alt="{{ $banner->title }}"
-                class="h-full w-full object-cover"
+                class="h-full w-full object-contain"
             >
         </div>
 
@@ -25,13 +25,13 @@
         <div class="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div>
 
         {{-- Hero Content --}}
-        <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44">
+        <div class="relative mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20">
             <div class="max-w-3xl">
                 <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                     {{ $banner->title }}
                 </h1>
                 @if ($banner->subtitle)
-                    <p class="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">
+                    <p class="mt-4 line-clamp-2 text-base leading-relaxed text-white/85">
                         {{ $banner->subtitle }}
                     </p>
                 @endif
@@ -61,7 +61,7 @@
                     Perawatan Untuk Kulitmu
                 </h1>
 
-                <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+                <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-neutral-600">
                     Temukan berbagai produk skincare pilihan untuk membantu
                     merawat dan menjaga kesehatan kulitmu.
                 </p>
@@ -224,7 +224,7 @@
                             @if ($product->description)
 
                                 <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-500">
-                                    {{ $product->description }}
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($product->description), 150) }}
                                 </p>
 
                             @endif

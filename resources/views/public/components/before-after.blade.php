@@ -72,40 +72,46 @@
                         >
                             {{-- Inner Wrapper khusus animasi --}}
                             <div class="before-after-card-inner transition-all duration-500 ease-out">
-                                <article class="flex h-full flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3.5 shadow-md transition-all duration-300 sm:p-4">
+                                <article class="mx-auto flex h-full w-full max-w-[260px] flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3 shadow-md transition-all duration-300 sm:max-w-xs sm:p-4">
                                     
-                                    {{-- Grid Media Comparison (Rasio 1350x1080 -> aspect-[5/4]) --}}
-                                    <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
-                                        @foreach ([
-                                            ['key' => 'before_media', 'label' => 'Before', 'badge' => 'bg-black/60 text-white', 'alt' => 'Before ' . $item->treatment?->name],
-                                            ['key' => 'after_media', 'label' => 'After', 'badge' => 'bg-[#FF5252] text-white shadow-md shadow-[#FF5252]/30', 'alt' => 'After ' . $item->treatment?->name]
-                                        ] as $media)
-                                            @php
-                                                $file = $item->{$media['key']};
-                                                $url = Storage::url($file);
-                                                $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                                            @endphp
+                                    {{-- Single combined before-after image (rasio 4:5) --}}
+                                    @php
+                                        $file = $item->after_media ?: $item->before_media;
+                                        $url = Storage::url($file);
+                                        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                    @endphp
 
-                                            <div class="relative aspect-[5/4] overflow-hidden rounded-[1.25rem] border border-neutral-200/60 bg-neutral-100">
-                                                {{-- Badge --}}
-                                                <div class="absolute left-2 top-2 z-10 rounded-full px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur-md sm:left-2.5 sm:top-2.5 sm:px-3 sm:py-1 sm:text-[10px] {{ $media['badge'] }}">
-                                                    {{ $media['label'] }}
-                                                </div>
+                                    <div class="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] border border-neutral-200/60 bg-neutral-100">
+                                        <div class="absolute left-2 top-2 z-10 rounded-full bg-[#FF5252] px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-md shadow-[#FF5252]/30 backdrop-blur-md sm:left-2.5 sm:top-2.5 sm:px-3 sm:py-1 sm:text-[10px]">
+                                            Before After
+                                        </div>
 
-                                                @if (in_array($ext, ['mp4', 'webm', 'mov']))
-                                                    <video autoplay muted loop playsinline class="h-full w-full object-cover">
-                                                        <source src="{{ $url }}" type="{{ $ext === 'mov' ? 'video/quicktime' : 'video/' . $ext }}">
-                                                        Browser kamu tidak mendukung video.
-                                                    </video>
-                                                @else
-                                                    <img
-                                                        src="{{ $url }}"
-                                                        alt="{{ $media['alt'] }}"
-                                                        class="h-full w-full object-cover transition duration-700 hover:scale-105"
-                                                    >
-                                                @endif
-                                            </div>
-                                        @endforeach
+                                        @if (in_array($ext, ['mp4', 'webm', 'mov']))
+                                            <video autoplay muted loop playsinline class="h-full w-full object-cover">
+                                                <source src="{{ $url }}" type="{{ $ext === 'mov' ? 'video/quicktime' : 'video/' . $ext }}">
+                                                Browser kamu tidak mendukung video.
+                                            </video>
+                                        @else
+                                            <img
+                                                src="{{ $url }}"
+                                                alt="Before After {{ $item->treatment?->name }}"
+                                                class="h-full w-full object-cover transition duration-700 hover:scale-105"
+                                            >
+                                        @endif
+
+                                        <button
+                                            type="button"
+                                            data-lightbox-trigger
+                                            data-after-src="{{ $url }}"
+                                            data-after-type="{{ in_array($ext, ['mp4', 'webm', 'mov']) ? 'video' : 'image' }}"
+                                            data-caption="{{ $item->caption }}"
+                                            class="absolute bottom-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-neutral-700 shadow-lg ring-1 ring-white/80 transition duration-300 hover:scale-110 hover:bg-[#FF5252] hover:text-white"
+                                            aria-label="Perbesar hasil before after"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
+                                            </svg>
+                                        </button>
                                     </div>
 
                                     {{-- Caption Info Box --}}

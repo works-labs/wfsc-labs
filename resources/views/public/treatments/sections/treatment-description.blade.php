@@ -24,12 +24,7 @@
                         {{ $treatment->name }}
                     </h2>
 
-                    <div class="mt-6 text-lg leading-8 text-neutral-600
-                        [&_p]:my-4 [&_h2]:my-6 [&_h2]:text-2xl [&_h2]:font-bold
-                        [&_h3]:my-5 [&_h3]:text-xl [&_h3]:font-semibold
-                        [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6
-                        [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6
-                        [&_blockquote]:my-5 [&_blockquote]:border-l-4 [&_blockquote]:border-neutral-300 [&_blockquote]:pl-4">
+                    <div class="rich-content mt-6 text-lg leading-8 text-neutral-600">
                         @if (str_contains($treatment->description, '<'))
                             {!! $treatment->description !!}
                         @else
@@ -56,17 +51,19 @@
                     </h2>
 
 
-                    <div class="mt-8 space-y-8">
+                    <div class="mt-8 grid gap-6 sm:grid-cols-2">
 
-                        @foreach ($treatment->procedureVideos as $video)
+                        @foreach ($treatment->procedureVideos->take(2) as $video)
 
-                            <article>
+                            <article class="min-w-0">
 
-                                <div class="overflow-hidden rounded-[1.5rem] bg-black shadow-sm">
+                                <div class="mx-auto w-full max-w-[260px] overflow-hidden rounded-[1.5rem] bg-black shadow-sm sm:max-w-none">
 
                                     @php
                                         $videoPath = $video->video_path;
                                         $youtubeId = null;
+                                        $instagramId = null;
+                                        $tiktokId = null;
 
                                         if (str_contains($videoPath, 'youtube.com/shorts/')) {
                                             $youtubeId = explode(
@@ -95,6 +92,14 @@
 
                                             $youtubeId = $query['v'] ?? null;
                                         }
+
+                                        if (preg_match('~instagram\.com/(?:reel|p|tv)/([^/?]+)~i', $videoPath, $matches)) {
+                                            $instagramId = $matches[1];
+                                        }
+
+                                        if (preg_match('~tiktok\.com/@[^/]+/video/(\d+)~i', $videoPath, $matches)) {
+                                            $tiktokId = $matches[1];
+                                        }
                                     @endphp
 
 
@@ -112,24 +117,50 @@
 
                                         </div>
 
+                                    @elseif ($instagramId)
+
+                                        <div class="relative aspect-[9/16] w-full max-w-[260px] mx-auto">
+                                            <iframe
+                                                src="https://www.instagram.com/reel/{{ $instagramId }}/embed/?hidecaption=1"
+                                                title="{{ $video->title ?: 'Procedure video' }}"
+                                                class="absolute inset-0 h-full w-full"
+                                                allow="autoplay; encrypted-media; picture-in-picture"
+                                                allowfullscreen
+                                            ></iframe>
+                                        </div>
+
+                                    @elseif ($tiktokId)
+
+                                        <div class="relative aspect-[9/16] w-full max-w-[260px] mx-auto">
+                                            <iframe
+                                                src="https://www.tiktok.com/player/v1/{{ $tiktokId }}?autoplay=1&loop=1&description=0&music_info=0&rel=0"
+                                                title="{{ $video->title ?: 'Procedure video' }}"
+                                                class="absolute inset-0 h-full w-full"
+                                                allow="autoplay; encrypted-media; picture-in-picture"
+                                                allowfullscreen
+                                            ></iframe>
+                                        </div>
+
                                     @else
 
                                         {{-- Legacy uploaded video --}}
-                                        <video
-                                            controls
-                                            playsinline
-                                            preload="metadata"
-                                            class="aspect-video w-full object-cover"
-                                        >
-
-                                            <source
-                                                src="{{ Storage::url($videoPath) }}"
-                                                type="video/mp4"
+                                        <div class="relative mx-auto aspect-[9/16] w-full max-w-[260px]">
+                                            <video
+                                                controls
+                                                playsinline
+                                                preload="metadata"
+                                                class="absolute inset-0 h-full w-full object-cover"
                                             >
 
-                                            Browser kamu tidak mendukung video.
+                                                <source
+                                                    src="{{ Storage::url($videoPath) }}"
+                                                    type="video/mp4"
+                                                >
 
-                                        </video>
+                                                Browser kamu tidak mendukung video.
+
+                                            </video>
+                                        </div>
 
                                     @endif
 

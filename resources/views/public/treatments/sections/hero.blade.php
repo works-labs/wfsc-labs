@@ -1,4 +1,4 @@
-<section class="relative isolate overflow-hidden bg-neutral-900 text-white">
+<section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
 
     {{-- Background Image --}}
     @if ($treatment->cover_image)
@@ -26,7 +26,7 @@
 
     {{-- Hero Content --}}
     <div
-        class="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-36 sm:px-8 lg:px-12 lg:pb-36 lg:pt-44"
+        class="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20"
     >
 
         <div class="max-w-4xl">
@@ -62,7 +62,7 @@
                 <p
                     data-reveal="left"
                     data-delay="200"
-                    class="reveal-hidden mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
+                    class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
                 >
                     {{ $treatment->short_description }}
                 </p>

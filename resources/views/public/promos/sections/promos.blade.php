@@ -56,7 +56,7 @@
                         @if ($promo->image)
 
                             <div
-                                class="relative aspect-[4/3] overflow-hidden bg-neutral-100"
+                                class="relative aspect-[4/5] overflow-hidden bg-neutral-100"
                             >
 
                                 <img

@@ -110,9 +110,10 @@ new #[Layout('layouts.admin')] class extends Component
         <div class="space-y-6">
             @foreach ($this->beforeAfters as $beforeAfter)
                 <div class="overflow-hidden rounded-2xl border border-gray-100/50 bg-white elegant-shadow">
-                    <div class="grid gap-6 p-6 md:grid-cols-2">
+                    <div class="grid gap-6 p-6">
 
-                        {{-- Before --}}
+                        @if (false)
+                        {{-- Legacy Before --}}
                         <div>
                             <span class="mb-3 inline-block rounded-lg bg-rose-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-wfsc-coral)]">
                                 Before
@@ -133,10 +134,12 @@ new #[Layout('layouts.admin')] class extends Component
                             @endif
                         </div>
 
-                        {{-- After --}}
+                        @endif
+
+                        {{-- Result --}}
                         <div>
                             <span class="mb-3 inline-block rounded-lg bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-emerald-600">
-                                After
+                                Foto Hasil
                             </span>
 
                             @php

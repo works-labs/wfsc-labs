@@ -135,7 +135,7 @@ new #[Layout('layouts.admin')] class extends Component
                 'unique:promos,slug,' . $this->promo->id,
             ],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:4096'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:width=1080,height=1350'],
             'cta_text' => ['nullable', 'string', 'max:255'],
             'cta_type' => [
                 'required',
@@ -239,6 +239,7 @@ new #[Layout('layouts.admin')] class extends Component
                         wire:model.live="title"
                         class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
                     >
+                    <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1350 px · maksimal 5 MB · rasio 4:5 portrait.</p>
                     @error('title') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 

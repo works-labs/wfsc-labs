@@ -14,16 +14,6 @@
 
     <div class="relative mx-auto max-w-6xl">
 
-        {{-- Back --}}
-        <a
-            href="{{ route('skincare.index') }}"
-            class="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-500 transition hover:gap-3 hover:text-[#FF5252]"
-        >
-            <span>←</span>
-            Kembali ke skincare
-        </a>
-
-
         <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
 
@@ -131,9 +121,13 @@
                             Tentang Produk
                         </h2>
 
-                        <p class="mt-3 text-sm leading-7 text-neutral-600 sm:text-base">
-                            {{ $product->description }}
-                        </p>
+                        <div class="rich-content mt-3 text-sm leading-7 text-neutral-600 sm:text-base">
+                            @if (str_contains($product->description, '<'))
+                                {!! $product->description !!}
+                            @else
+                                {!! nl2br(e($product->description)) !!}
+                            @endif
+                        </div>
 
                     </div>
 
@@ -187,6 +181,20 @@
     </div>
 
 </section>
+
+<div class="border-t border-neutral-100 bg-neutral-50 py-8">
+    <div class="mx-auto max-w-7xl px-6 text-center lg:px-12">
+        <a
+            href="{{ route('skincare.index') }}"
+            class="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm transition hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Skincare
+        </a>
+    </div>
+</div>
 
 
 @include('public.components.footer')

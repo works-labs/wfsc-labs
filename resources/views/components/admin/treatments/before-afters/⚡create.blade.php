@@ -13,8 +13,7 @@ new #[Layout('layouts.admin')] class extends Component
 
     public Treatment $treatment;
 
-    public $before_media;
-    public $after_media;
+    public $result_media;
 
     public string $caption = '';
     public int $sort_order = 0;
@@ -28,18 +27,13 @@ new #[Layout('layouts.admin')] class extends Component
     public function save(): void
 {
     $validated = $this->validate([
-        'before_media' => [
+        'result_media' => [
             'required',
             'file',
-            'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
-            'max:51200',
-        ],
-
-        'after_media' => [
-            'required',
-            'file',
-            'mimes:jpg,jpeg,png,webp,mp4,webm,mov',
-            'max:51200',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:5120',
+            'dimensions:width=1080,height=1350',
         ],
 
         'caption' => [
@@ -58,34 +52,18 @@ new #[Layout('layouts.admin')] class extends Component
         ],
     ]);
 
-    $beforePath = $this->before_media->store(
+    $resultPath = $this->result_media->store(
         'treatments/before-after',
         'public'
     );
-
-    $afterPath = $this->after_media->store(
-        'treatments/before-after',
-        'public'
-    );
-
-    $beforeMediaType = in_array(
-        strtolower($this->before_media->getClientOriginalExtension()),
-        ['jpg', 'jpeg', 'png', 'webp']
-    ) ? 'image' : 'video';
-
-    $afterMediaType = in_array(
-        strtolower($this->after_media->getClientOriginalExtension()),
-        ['jpg', 'jpeg', 'png', 'webp']
-    ) ? 'image' : 'video';
 
     TreatmentBeforeAfter::create([
         'treatment_id' => $this->treatment->id,
 
-        'before_media' => $beforePath,
-        'before_media_type' => $beforeMediaType,
-
-        'after_media' => $afterPath,
-        'after_media_type' => $afterMediaType,
+        'before_media' => $resultPath,
+        'before_media_type' => 'image',
+        'after_media' => $resultPath,
+        'after_media_type' => 'image',
 
         'caption' => $validated['caption'],
         'sort_order' => $validated['sort_order'],
@@ -122,7 +100,7 @@ new #[Layout('layouts.admin')] class extends Component
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </div>
             <div>
-                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Sebelum & Sesudah</h1>
+                <h1 class="text-2xl font-black tracking-tight text-[var(--color-wfsc-dark)]">Tambah Foto Hasil Treatment</h1>
                 <p class="text-sm font-medium text-gray-500">
                     Add comparison media for <span class="font-bold text-[var(--color-wfsc-coral)]">{{ $treatment->name }}</span>
                 </p>
@@ -140,24 +118,26 @@ new #[Layout('layouts.admin')] class extends Component
                 <div class="rounded-lg bg-purple-50 p-2 text-purple-500">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
-                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Media Files</h2>
+                <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Foto Hasil Treatment</h2>
             </div>
 
-            <div class="grid gap-6 md:grid-cols-2">
-                {{-- Before Media --}}
+            <div>
+                {{-- Result Media --}}
                 <div>
-                    <label class="mb-2 block text-sm font-bold text-gray-600">Before Media <span class="text-[var(--color-wfsc-coral)]">*</span></label>
-                    <input type="file" wire:model="before_media" accept="image/*,video/*" 
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Foto Hasil <span class="text-[var(--color-wfsc-coral)]">*</span></label>
+                    <input type="file" wire:model="result_media" accept="image/jpeg,image/png,image/webp"
                         class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
                     
-                    <div wire:loading wire:target="before_media" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
+                    <p class="mt-2 text-xs font-medium leading-relaxed text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1350 px · maksimal 5 MB · rasio 4:5</p>
+                    <div wire:loading wire:target="result_media" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
                         <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                        Uploading Before Media...
+                        Mengunggah foto...
                     </div>
-                    @error('before_media') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                    @error('result_media') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- After Media --}}
+                @if (false)
+                {{-- Legacy After Media --}}
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">After Media <span class="text-[var(--color-wfsc-coral)]">*</span></label>
                     <input type="file" wire:model="after_media" accept="image/*,video/*" 
@@ -169,6 +149,7 @@ new #[Layout('layouts.admin')] class extends Component
                     </div>
                     @error('after_media') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
+                @endif
             </div>
         </div>
 

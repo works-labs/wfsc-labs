@@ -23,16 +23,6 @@
 
         <div class="mx-auto max-w-4xl px-6 lg:px-12">
 
-            {{-- Back --}}
-            <a
-                href="{{ route('news.index') }}"
-                class="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
-            >
-                <span>←</span>
-                <span>Back to News</span>
-            </a>
-
-
             {{-- Meta --}}
             <div class="mt-9 flex flex-wrap items-center gap-x-4 gap-y-2">
 
@@ -111,6 +101,8 @@
 
             <article
                 class="
+                    news-article
+                    rich-content
                     prose
                     prose-neutral
                     prose-lg
@@ -298,5 +290,21 @@
     @endif
 
 </main>
+
+<div class="border-t border-neutral-100 bg-neutral-50 py-8">
+    <div class="mx-auto max-w-7xl px-6 text-center lg:px-12">
+        <a
+            href="{{ route('news.index') }}"
+            class="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm transition hover:border-[#FF5252] hover:bg-[#FF5252] hover:text-white"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke News
+        </a>
+    </div>
+</div>
+
+@include('public.components.footer')
 
 @endsection

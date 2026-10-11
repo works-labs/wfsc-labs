@@ -11,7 +11,7 @@
                 Results
             </p>
             <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-neutral-900 lg:text-3xl">
-                Before & After
+                Treatment Results
             </h2>
             <p class="mx-auto mt-2 max-w-xl text-xs sm:text-sm text-neutral-500">
                 See the results of our treatment.
@@ -21,55 +21,30 @@
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($treatment->beforeAfters as $item)
                 @php
-                    $beforeExt = $item->before_media ? strtolower(pathinfo($item->before_media, PATHINFO_EXTENSION)) : null;
-                    $afterExt = $item->after_media ? strtolower(pathinfo($item->after_media, PATHINFO_EXTENSION)) : null;
-
-                    $isBeforeVid = in_array($beforeExt, ['mp4', 'webm', 'mov']);
-                    $isAfterVid = in_array($afterExt, ['mp4', 'webm', 'mov']);
-
-                    $beforeSrc = $item->before_media ? Storage::url($item->before_media) : '';
-                    $afterSrc = $item->after_media ? Storage::url($item->after_media) : '';
+                    $displayMedia = $item->after_media ?: $item->before_media;
+                    $displayExt = $displayMedia ? strtolower(pathinfo($displayMedia, PATHINFO_EXTENSION)) : null;
+                    $isDisplayVideo = in_array($displayExt, ['mp4', 'webm', 'mov']);
+                    $displaySrc = $displayMedia ? Storage::url($displayMedia) : '';
                 @endphp
 
                 <article 
                     class="group cursor-pointer overflow-hidden rounded-2xl bg-neutral-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                     data-lightbox-trigger
-                    data-before-src="{{ $beforeSrc }}"
-                    data-before-type="{{ $isBeforeVid ? 'video' : 'image' }}"
-                    data-after-src="{{ $afterSrc }}"
-                    data-after-type="{{ $isAfterVid ? 'video' : 'image' }}"
+                    data-after-src="{{ $displaySrc }}"
+                    data-after-type="{{ $isDisplayVideo ? 'video' : 'image' }}"
                     data-caption="{{ $item->caption ?? '' }}"
                 >
-                    <div class="grid grid-cols-2 gap-0.5 bg-neutral-200">
-                        @if ($item->before_media)
-                            <div class="relative aspect-square overflow-hidden bg-neutral-200">
-                                @if ($isBeforeVid)
-                                    <video autoplay muted loop playsinline class="h-full w-full object-cover">
-                                        <source src="{{ $beforeSrc }}" type="{{ $beforeExt === 'mov' ? 'video/quicktime' : 'video/' . $beforeExt }}">
-                                    </video>
-                                @else
-                                    <img src="{{ $beforeSrc }}" alt="Before {{ $treatment->name }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                @endif
-                                <span class="absolute bottom-2 left-2 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-white backdrop-blur-sm">
-                                    BEFORE
-                                </span>
-                            </div>
+                    <div class="relative aspect-[4/5] overflow-hidden bg-neutral-200">
+                        @if ($isDisplayVideo)
+                            <video autoplay muted loop playsinline class="h-full w-full object-cover">
+                                <source src="{{ $displaySrc }}" type="{{ $displayExt === 'mov' ? 'video/quicktime' : 'video/' . $displayExt }}">
+                            </video>
+                        @else
+                            <img src="{{ $displaySrc }}" alt="Hasil {{ $treatment->name }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                         @endif
-
-                        @if ($item->after_media)
-                            <div class="relative aspect-square overflow-hidden bg-neutral-200">
-                                @if ($isAfterVid)
-                                    <video autoplay muted loop playsinline class="h-full w-full object-cover">
-                                        <source src="{{ $afterSrc }}" type="{{ $afterExt === 'mov' ? 'video/quicktime' : 'video/' . $afterExt }}">
-                                    </video>
-                                @else
-                                    <img src="{{ $afterSrc }}" alt="After {{ $treatment->name }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                @endif
-                                <span class="absolute bottom-2 left-2 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-white backdrop-blur-sm">
-                                    AFTER
-                                </span>
-                            </div>
-                        @endif
+                        <span class="absolute bottom-2 left-2 rounded-full bg-wfsc-coral px-2.5 py-1 text-[10px] font-semibold tracking-wider text-white backdrop-blur-sm">
+                            HASIL
+                        </span>
                     </div>
 
                     @if ($item->caption)
@@ -93,12 +68,9 @@
             </svg>
         </button>
 
-        <div class="grid max-h-[70vh] grid-cols-1 bg-black sm:max-h-[75vh] sm:grid-cols-2">
-            <div id="lightbox-before-container" class="relative flex h-[35vh] items-center justify-center overflow-hidden bg-neutral-950 sm:h-[60vh]">
-                <span class="absolute left-4 top-4 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">BEFORE</span>
-            </div>
-            <div id="lightbox-after-container" class="relative flex h-[35vh] items-center justify-center overflow-hidden bg-neutral-950 sm:h-[60vh]">
-                <span class="absolute left-4 top-4 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">AFTER</span>
+        <div class="max-h-[75vh] bg-black">
+            <div id="lightbox-after-container" class="relative flex h-[65vh] items-center justify-center overflow-hidden bg-neutral-950">
+                <span class="absolute left-4 top-4 z-10 rounded-full bg-wfsc-coral px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">HASIL</span>
             </div>
         </div>
 

@@ -7,6 +7,7 @@
     @include('public.components.hero')
     @include('public.components.treatments')
     @include('public.components.before-after')
+    @include('public.before-after.sections.modal')
     @include('public.components.why-choose')
     @include('public.components.doctors')
     @include('public.components.promos')

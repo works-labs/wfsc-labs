@@ -19,7 +19,7 @@
             @foreach ($treatment->products as $product)
                 <article class="group flex flex-col items-center overflow-hidden rounded-2xl bg-white p-3.5 shadow-sm transition-all duration-300 hover:shadow-md sm:flex-row sm:gap-5 sm:p-4">
                     @if ($product->image)
-                        <div class="h-28 w-full flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:h-24 sm:w-24">
+                        <div class="h-32 w-full flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:h-28 sm:w-28">
                             <img
                                 src="{{ Storage::url($product->image) }}"
                                 alt="{{ $product->name }}"
@@ -27,7 +27,7 @@
                             >
                         </div>
                     @else
-                        <div class="flex h-28 w-full flex-shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-neutral-400 sm:h-24 sm:w-24">
+                        <div class="flex h-32 w-full flex-shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-neutral-400 sm:h-28 sm:w-28">
                             <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                             </svg>

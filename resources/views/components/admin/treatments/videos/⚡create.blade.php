@@ -23,6 +23,12 @@ new #[Layout('layouts.admin')] class extends Component
 
     public function save(): void
     {
+        if ($this->treatment->procedureVideos()->count() >= 2) {
+            $this->addError('video_path', 'Maksimal 2 video prosedur untuk satu treatment.');
+
+            return;
+        }
+
         $validated = $this->validate([
             'title' => ['nullable', 'string', 'max:255'],
             'video_path' => ['required', 'string', 'max:255'],
@@ -88,22 +94,32 @@ new #[Layout('layouts.admin')] class extends Component
                     @error('title') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- YouTube Link --}}
+                {{-- Social Video Link --}}
                 <div>
-                    <label class="mb-2 block text-sm font-bold text-gray-600">YouTube Shorts URL / ID <span class="text-[var(--color-wfsc-coral)]">*</span></label>
-                    <input type="text" wire:model.live="video_path" placeholder="https://www.youtube.com/shorts/VIDEO_ID or VIDEO_ID" 
+                    <label class="mb-2 block text-sm font-bold text-gray-600">Video YouTube, Instagram, atau TikTok <span class="text-[var(--color-wfsc-coral)]">*</span></label>
+                    <input type="text" wire:model.live="video_path" placeholder="Tempel URL video Shorts, Reel, atau TikTok"
                         class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
-                    <p class="mt-1.5 text-xs font-medium text-gray-400">Enter full YouTube Shorts URL or just the video ID.</p>
+                    <p class="mt-1.5 text-xs font-medium leading-relaxed text-gray-400">Mendukung URL YouTube Shorts, Instagram Reel, dan TikTok. Gunakan video vertical rasio 9:16, idealnya 1080 × 1920 px.</p>
                     @error('video_path') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
 
                     {{-- Preview --}}
                     @if ($video_path)
+                        @php
+                            $previewUrl = null;
+                            if (preg_match('~instagram\\.com/(?:reel|p|tv)/([^/?]+)~i', $video_path, $matches)) {
+                                $previewUrl = 'https://www.instagram.com/reel/' . $matches[1] . '/embed/?hidecaption=1';
+                            } elseif (preg_match('~tiktok\\.com/@[^/]+/video/(\\d+)~i', $video_path, $matches)) {
+                                $previewUrl = 'https://www.tiktok.com/player/v1/' . $matches[1] . '?description=1&music_info=1&rel=0';
+                            } else {
+                                $previewUrl = 'https://www.youtube.com/embed/' . str($video_path)->afterLast('/');
+                            }
+                        @endphp
                         <div class="mt-6">
                             <p class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">Video Preview</p>
                             <div class="aspect-[9/16] max-w-xs overflow-hidden rounded-2xl bg-black shadow-lg ring-4 ring-gray-50">
                                 <iframe class="h-full w-full"
-                                    src="https://www.youtube.com/embed/{{ str($video_path)->afterLast('/') }}"
-                                    title="YouTube Shorts Preview" frameborder="0"
+                                    src="{{ $previewUrl }}"
+                                    title="Social video preview" frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowfullscreen>
                                 </iframe>

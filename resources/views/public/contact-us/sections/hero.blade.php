@@ -1,4 +1,4 @@
-<section class="relative isolate overflow-hidden bg-wfsc-coral text-white">
+<section class="relative isolate h-[420px] overflow-hidden bg-wfsc-coral text-white">
 
     @if ($banner && $banner->image)
 
@@ -27,7 +27,7 @@
 
     {{-- Hero Content --}}
     <div
-        class="relative mx-auto max-w-7xl px-6 pb-20 pt-36 sm:px-8 lg:px-12 lg:pb-24 lg:pt-44"
+        class="relative mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20"
     >
 
         <div class="max-w-4xl">
@@ -49,7 +49,7 @@
             <p
                 data-reveal="left"
                 data-delay="200"
-                class="reveal-hidden mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
+                class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
             >
                 {{ $banner?->subtitle ?? 'Kunjungi cabang WFSC Clinic terdekat dan temukan layanan perawatan yang sesuai untukmu.' }}
             </p>
