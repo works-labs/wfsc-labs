@@ -121,7 +121,7 @@
                             Tentang Produk
                         </h2>
 
-                        <div class="rich-content mt-3 text-sm leading-7 text-neutral-600 sm:text-base">
+                        <div class="rich-content mt-3 text-lg leading-8 text-neutral-600">
                             @if (str_contains($product->description, '<'))
                                 {!! $product->description !!}
                             @else

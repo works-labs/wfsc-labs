@@ -3,9 +3,12 @@
 use App\Models\Treatment;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 
 new #[Layout('layouts.admin')] class extends Component
 {
+    use WithPagination;
+
     public function delete(int $treatmentId): void
     {
         $treatment = Treatment::findOrFail($treatmentId);
@@ -15,6 +18,8 @@ new #[Layout('layouts.admin')] class extends Component
         }
 
         $treatment->delete();
+
+        $this->resetPage();
     }
 
     public function with(): array
@@ -23,7 +28,7 @@ new #[Layout('layouts.admin')] class extends Component
             'treatments' => Treatment::with('category')
                 ->orderBy('category_id')
                 ->orderBy('name')
-                ->get(),
+                ->paginate(10),
         ];
     }
 };
@@ -59,24 +64,32 @@ new #[Layout('layouts.admin')] class extends Component
     <div class="overflow-hidden rounded-2xl border border-gray-100/50 bg-white elegant-shadow">
         
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-100">
-                <thead class="bg-[#F4F6F9]">
+            <table class="w-full table-fixed divide-y divide-gray-100">
+                <colgroup>
+                    <col class="w-[27%]">
+                    <col class="w-[14%]">
+                    <col class="w-[11%]">
+                    <col class="w-[9%]">
+                    <col class="w-[9%]">
+                    <col class="w-[30%]">
+                </colgroup>
+                <thead class="sticky top-0 z-10 bg-[#F4F6F9] shadow-sm">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Treatment</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Category</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Slug</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Featured</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Aksi</th>
+                        <th class="px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Treatment</th>
+                        <th class="border-l border-gray-200 px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Category</th>
+                        <th class="border-l border-gray-200 px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Slug</th>
+                        <th class="border-l border-gray-200 px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Featured</th>
+                        <th class="border-l border-gray-200 px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Status</th>
+                        <th class="border-l border-gray-200 px-3 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500 sm:px-6">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-gray-50">
+                <tbody class="divide-y divide-gray-300">
                     @forelse ($treatments as $treatment)
-                        <tr class="transition-colors hover:bg-rose-50/30">
+                        <tr class="border-b border-gray-200 even:bg-gray-100/70 transition-colors hover:bg-rose-50/70">
                             
                             {{-- Treatment Info --}}
-                            <td class="px-6 py-4">
+                            <td class="align-top border-l border-gray-100 px-3 py-4 sm:px-6">
                                 <div class="flex items-center gap-4">
                                     @if ($treatment->cover_image)
                                         <img src="{{ Storage::url($treatment->cover_image) }}" alt="{{ $treatment->name }}" class="h-14 w-14 rounded-2xl object-cover shadow-sm ring-2 ring-white">
@@ -91,7 +104,7 @@ new #[Layout('layouts.admin')] class extends Component
                                             {{ $treatment->name }}
                                         </p>
                                         @if ($treatment->short_description)
-                                            <p class="mt-0.5 max-w-xs truncate text-xs font-medium text-gray-400">
+                                            <p class="mt-0.5 max-w-xs break-words text-xs font-medium text-gray-400">
                                                 {{ $treatment->short_description }}
                                             </p>
                                         @endif
@@ -100,19 +113,19 @@ new #[Layout('layouts.admin')] class extends Component
                             </td>
 
                             {{-- Category --}}
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="align-top px-3 py-4 sm:px-6">
                                 <span class="inline-flex items-center rounded-lg bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-600">
                                     {{ $treatment->category?->name ?? '-' }}
                                 </span>
                             </td>
 
                             {{-- Slug --}}
-                            <td class="whitespace-nowrap px-6 py-4 text-xs font-mono font-medium text-gray-500">
+                            <td class="align-top break-words border-l border-gray-100 px-3 py-4 text-xs font-mono font-medium text-gray-500 sm:px-6">
                                 {{ $treatment->slug }}
                             </td>
 
                             {{-- Featured Badge --}}
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="align-top border-l border-gray-100 px-3 py-4 sm:px-6">
                                 @if ($treatment->is_featured)
                                     <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-600 ring-1 ring-inset ring-amber-600/20">
                                         ★ Featured
@@ -123,7 +136,7 @@ new #[Layout('layouts.admin')] class extends Component
                             </td>
 
                             {{-- Status Badge --}}
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="align-top border-l border-gray-100 px-3 py-4 sm:px-6">
                                 @if ($treatment->is_active)
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600 ring-1 ring-inset ring-emerald-600/20">
                                         <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Aktif
@@ -136,8 +149,8 @@ new #[Layout('layouts.admin')] class extends Component
                             </td>
 
                             {{-- Aksi --}}
-                            <td class="whitespace-nowrap px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-1.5">
+                            <td class="align-top border-l border-gray-100 px-3 py-4 text-left sm:px-6">
+                                <div class="flex flex-wrap items-center justify-start gap-1.5">
 
                                     <a href="{{ route('admin.treatments.videos.index', $treatment) }}" wire:navigate
                                         title="Procedure Videos"
@@ -191,7 +204,12 @@ new #[Layout('layouts.admin')] class extends Component
                 </tbody>
             </table>
         </div>
+
+        @if ($treatments->hasPages())
+            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-4">
+                {{ $treatments->links() }}
+            </div>
+        @endif
     </div>
 
 </div>
-
