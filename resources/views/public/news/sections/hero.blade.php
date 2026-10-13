@@ -6,7 +6,7 @@
 
 <section
     data-hero-slider
-    class="relative isolate h-[420px] overflow-hidden text-white"
+    class="public-responsive-banner relative isolate overflow-hidden text-white"
 >
 
     {{-- ========================================================= --}}

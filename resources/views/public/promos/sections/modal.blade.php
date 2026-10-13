@@ -5,6 +5,7 @@
 >
     {{-- Backdrop --}}
     <div
+        id="promo-lightbox-backdrop"
         class="absolute inset-0 bg-black/80 backdrop-blur-sm"
     ></div>
 
@@ -49,12 +50,38 @@
                 class="relative flex max-h-[70vh] min-h-[300px] items-center justify-center overflow-hidden bg-neutral-100"
             >
 
+                {{-- Previous Slide --}}
+                <button
+                    id="promo-lightbox-prev"
+                    type="button"
+                    class="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-2xl text-white backdrop-blur-md transition hover:bg-black/80 disabled:pointer-events-none disabled:opacity-30 sm:left-5"
+                    aria-label="Promo sebelumnya"
+                >
+                    <span aria-hidden="true">‹</span>
+                </button>
+
                 <img
                     id="promo-lightbox-image"
                     src=""
                     alt=""
                     class="max-h-[70vh] w-full object-contain"
                 >
+
+                {{-- Next Slide --}}
+                <button
+                    id="promo-lightbox-next"
+                    type="button"
+                    class="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-2xl text-white backdrop-blur-md transition hover:bg-black/80 disabled:pointer-events-none disabled:opacity-30 sm:right-5"
+                    aria-label="Promo berikutnya"
+                >
+                    <span aria-hidden="true">›</span>
+                </button>
+
+                <span
+                    id="promo-lightbox-counter"
+                    class="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md"
+                    aria-live="polite"
+                ></span>
 
             </div>
 

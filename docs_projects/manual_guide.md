@@ -13,10 +13,13 @@ Gunakan panduan ini saat menyiapkan gambar atau video untuk diunggah ke website 
 
 | Keperluan | Rasio | Ukuran yang disarankan | Maksimal file |
 | --- | ---: | ---: | ---: |
-| Banner halaman Treatment, Promo, Skincare, News, Before After, dan Contact | **9:2** | **1890 × 420 px** atau lebih tinggi dengan rasio yang sama | **5 MB** |
+| Banner halaman Treatment, Promo, Skincare, News, Before After, dan Contact — Desktop | **9:2** | **1890 × 420 px** atau lebih tinggi dengan rasio yang sama | **5 MB** |
+| Banner/hero publik Treatment, Promo, Skincare, Before After, News, Contact, dan detail Treatment — Mobile | **402:420** | maksimal **402 × 420 px** dengan rasio yang sama | **5 MB** |
 | Banner homepage / Hero Banner | **16:9** | **1920 × 1080 px** | **4 MB** |
 
-Untuk banner halaman, ukuran minimalnya adalah **1890 × 420 px**. Contoh resolusi lebih tinggi yang tetap benar: **3780 × 840 px**.
+Untuk banner halaman desktop, ukuran minimalnya adalah **1890 × 420 px**. Contoh resolusi lebih tinggi yang tetap benar: **3780 × 840 px**.
+
+Untuk banner halaman mobile, gunakan ukuran maksimal **402 × 420 px** dengan rasio **402:420**. Di menu `/admin/banners/create`, pilih `Placement` halaman dan `Mode` **Mobile**. Banner desktop dan mobile disimpan sebagai data terpisah dengan placement yang sama. Hero News, Before After, dan detail Treatment juga mengikuti batas tinggi mobile yang sama.
 
 ## Ukuran thumbnail dan foto konten
 
@@ -54,7 +57,8 @@ Before After menggunakan **satu foto gabungan** yang sudah menampilkan hasil bef
 
 | Jenis konten | Ukuran utama |
 | --- | ---: |
-| Banner halaman | **1890 × 420 px** |
+| Banner halaman desktop | **1890 × 420 px** |
+| Banner/hero publik mobile | **402 × 420 px** |
 | Hero homepage | **1920 × 1080 px** |
 | Treatment | **1280 × 1024 px** |
 | Kategori Treatment | **1080 × 1350 px** |

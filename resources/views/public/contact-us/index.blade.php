@@ -6,7 +6,8 @@
 @section('content')
 
     @include('public.contact-us.sections.hero', [
-        'banner' => $banner,
+        'desktopBanner' => $desktopBanner,
+        'mobileBanner' => $mobileBanner,
     ])
 
     @include('public.contact-us.sections.branches', [

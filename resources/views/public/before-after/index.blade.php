@@ -8,7 +8,7 @@
 <main class="bg-white">
 
     {{-- Title / Hero --}}
-    <section class="relative isolate h-[420px] overflow-hidden bg-wfsc-coral text-white">
+    <section class="public-responsive-banner relative isolate overflow-hidden bg-wfsc-coral text-white">
 
         <div
             class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl"

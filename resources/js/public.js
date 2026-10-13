@@ -659,40 +659,83 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalCtrl = createModalController(modal);
         const closeBtn = document.getElementById('promo-lightbox-close');
         const backdrop = document.getElementById('promo-lightbox-backdrop');
+        const prevBtn = document.getElementById('promo-lightbox-prev');
+        const nextBtn = document.getElementById('promo-lightbox-next');
+        const counter = document.getElementById('promo-lightbox-counter');
+        const imageContainer = document.getElementById('promo-lightbox-image-container');
         const image = document.getElementById('promo-lightbox-image');
         const title = document.getElementById('promo-lightbox-title');
         const descriptionContainer = document.getElementById('promo-lightbox-description-container');
         const description = document.getElementById('promo-lightbox-description');
 
-        const openModal = (card) => {
+        let activeIndex = 0;
+        let touchStartX = null;
+
+        const renderSlide = (index) => {
+            const card = triggers[index];
+            if (!card) return;
+
+            activeIndex = index;
             const { promoImage, promoTitle, promoDescription } = card.dataset;
 
-            modalCtrl.open(() => {
-                if (promoImage) {
-                    image.src = promoImage;
-                    image.alt = promoTitle || 'Promo WFSC Clinic';
-                    image.classList.remove('hidden');
-                } else {
-                    image.src = '';
-                    image.alt = '';
-                    image.classList.add('hidden');
-                }
+            if (promoImage) {
+                image.src = promoImage;
+                image.alt = promoTitle || 'Promo WFSC Clinic';
+                image.classList.remove('hidden');
+            } else {
+                image.src = '';
+                image.alt = '';
+                image.classList.add('hidden');
+            }
 
-                title.textContent = promoTitle || 'Promo WFSC Clinic';
+            title.textContent = promoTitle || 'Promo WFSC Clinic';
 
-                const hasDesc = Boolean(promoDescription && promoDescription.trim());
-                descriptionContainer.classList.toggle('hidden', !hasDesc);
-                description.textContent = hasDesc ? promoDescription : '';
-            });
+            const hasDesc = Boolean(promoDescription && promoDescription.trim());
+            descriptionContainer.classList.toggle('hidden', !hasDesc);
+            description.textContent = hasDesc ? promoDescription : '';
+
+            const hasNavigation = triggers.length > 1;
+            prevBtn?.classList.toggle('hidden', !hasNavigation);
+            nextBtn?.classList.toggle('hidden', !hasNavigation);
+            if (counter) {
+                counter.textContent = `${index + 1} / ${triggers.length}`;
+                counter.classList.toggle('hidden', !hasNavigation);
+            }
+        };
+
+        const openModal = (card) => {
+            const index = Array.from(triggers).indexOf(card);
+            modalCtrl.open(() => renderSlide(index >= 0 ? index : 0));
         };
 
         const closeModal = () => modalCtrl.close();
 
+        const showAdjacentSlide = (direction) => {
+            if (triggers.length < 2) return;
+            const nextIndex = (activeIndex + direction + triggers.length) % triggers.length;
+            renderSlide(nextIndex);
+        };
+
         triggers.forEach(trigger => trigger.addEventListener('click', () => openModal(trigger)));
         closeBtn?.addEventListener('click', closeModal);
         backdrop?.addEventListener('click', closeModal);
+        prevBtn?.addEventListener('click', () => showAdjacentSlide(-1));
+        nextBtn?.addEventListener('click', () => showAdjacentSlide(1));
+        imageContainer?.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0]?.clientX ?? null;
+        }, { passive: true });
+        imageContainer?.addEventListener('touchend', (event) => {
+            if (touchStartX === null) return;
+            const touchEndX = event.changedTouches[0]?.clientX ?? touchStartX;
+            const distance = touchEndX - touchStartX;
+            touchStartX = null;
+            if (Math.abs(distance) > 45) showAdjacentSlide(distance < 0 ? 1 : -1);
+        }, { passive: true });
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+            if (modal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') showAdjacentSlide(-1);
+            if (e.key === 'ArrowRight') showAdjacentSlide(1);
         });
     };
 

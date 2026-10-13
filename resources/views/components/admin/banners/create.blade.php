@@ -15,6 +15,7 @@ class extends Component
     public string $title = '';
     public string $subtitle = '';
     public string $placement = '';
+    public string $mode = 'desktop';
     public int $sort_order = 0;
     public bool $is_active = true;
 
@@ -27,13 +28,24 @@ class extends Component
         'contact-us' => 'Contact',
     ];
 
+    public array $modes = [
+        'desktop' => 'Desktop',
+        'mobile' => 'Mobile',
+    ];
+
     protected function rules(): array
     {
         return [
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string'],
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:min_width=1890,min_height=420,ratio=9/2'],
+            'image' => array_merge(
+                ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+                $this->mode === 'mobile'
+                    ? ['dimensions:min_width=402,min_height=420,ratio=402/420']
+                    : ['dimensions:min_width=1890,min_height=420,ratio=9/2']
+            ),
             'placement' => ['required', 'in:' . implode(',', array_keys($this->placements))],
+            'mode' => ['required', 'in:' . implode(',', array_keys($this->modes))],
             'sort_order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ];
@@ -42,7 +54,7 @@ class extends Component
     protected function messages(): array
     {
         return [
-            'image.dimensions' => 'Ukuran gambar minimal 1890 × 420 px dengan rasio 9:2. Resolusi lebih tinggi diperbolehkan selama rasionya tetap sama.',
+            'image.dimensions' => 'Ukuran gambar tidak sesuai dengan mode banner yang dipilih. Desktop: minimal 1890 × 420 px (9:2); Mobile: minimal 402 × 420 px (402:420).',
         ];
     }
 
@@ -57,6 +69,7 @@ class extends Component
             'subtitle' => $this->subtitle ?: null,
             'image' => $imagePath,
             'placement' => $this->placement,
+            'mode' => $this->mode,
             'sort_order' => $this->sort_order,
             'is_active' => $this->is_active,
         ]);
@@ -171,6 +184,26 @@ class extends Component
                     @enderror
                 </div>
 
+                {{-- Mode --}}
+                <div>
+                    <label class="mb-2 block text-sm font-bold text-gray-600">
+                        Mode <span class="text-[var(--color-wfsc-coral)]">*</span>
+                    </label>
+
+                    <select
+                        wire:model="mode"
+                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
+                    >
+                        @foreach ($modes as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('mode')
+                        <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 {{-- Sort --}}
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">
@@ -203,7 +236,7 @@ class extends Component
                     >
 
                     <p class="mt-1.5 text-xs font-medium text-gray-400">
-                        JPG, PNG, atau WebP · minimal 1890 × 420 px · rasio 9:2 · maksimal 5 MB. Resolusi HD lebih tinggi diperbolehkan.
+                        JPG, PNG, atau WebP · Desktop minimal 1890 × 420 px (9:2), Mobile minimal 402 × 420 px (402:420) · maksimal 5 MB.
                     </p>
 
                     @error('image')

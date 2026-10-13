@@ -1,15 +1,20 @@
-@if ($banner)
+@if ($desktopBanner || $mobileBanner)
 
-<section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
+<section class="public-responsive-banner relative isolate overflow-hidden bg-neutral-900 text-white">
 
     {{-- Background Image --}}
     <div class="absolute inset-0 -z-20">
 
-        <img
-            src="{{ Storage::url($banner->image) }}"
-            alt="{{ $banner->title }}"
-            class="h-full w-full object-contain"
-        >
+        <picture>
+            @if ($mobileBanner)
+                <source media="(max-width: 639px)" srcset="{{ Storage::url($mobileBanner->image) }}">
+            @endif
+            @if ($desktopBanner)
+                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain">
+            @else
+                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain">
+            @endif
+        </picture>
 
     </div>
 
@@ -42,25 +47,25 @@
 
 
             {{-- Title --}}
-            @if ($banner->title)
+            @if (($desktopBanner ?? $mobileBanner)->title)
                 <h1
                     data-reveal="left"
                     data-delay="100"
                     class="reveal-hidden text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
                 >
-                    {{ $banner->title }}
+                    {{ ($desktopBanner ?? $mobileBanner)->title }}
                 </h1>
             @endif
 
 
             {{-- Subtitle --}}
-            @if ($banner->subtitle)
+            @if (($desktopBanner ?? $mobileBanner)->subtitle)
                 <p
                     data-reveal="left"
                     data-delay="200"
                     class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
                 >
-                    {{ $banner->subtitle }}
+                    {{ ($desktopBanner ?? $mobileBanner)->subtitle }}
                 </p>
             @endif
 

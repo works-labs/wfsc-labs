@@ -47,11 +47,13 @@ test('banner create requires a valid image and stores it', function () {
     Livewire::test('admin.banners.create')
         ->set('title', 'Banner Test')
         ->set('placement', 'treatments')
+        ->set('mode', 'desktop')
         ->set('image', tinyPngUpload('banner.png'))
         ->call('save')
         ->assertHasNoErrors();
 
     $banner = Banner::where('title', 'Banner Test')->firstOrFail();
+    expect($banner->mode)->toBe('desktop');
     Storage::disk('public')->assertExists($banner->image);
 });
 

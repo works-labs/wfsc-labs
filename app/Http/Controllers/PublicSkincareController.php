@@ -50,17 +50,22 @@ class PublicSkincareController extends Controller
 
         $activeCategory = $request->category;
 
-        $banner = Banner::query()
+        $banners = Banner::query()
             ->where('placement', 'skincare')
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->first();
+            ->get()
+            ->keyBy('mode');
+
+        $desktopBanner = $banners->get('desktop');
+        $mobileBanner = $banners->get('mobile');
 
         return view('public.skincare.index', compact(
             'categories',
             'products',
             'activeCategory',
-            'banner'
+            'desktopBanner',
+            'mobileBanner'
         ));
     }
 

@@ -9,11 +9,15 @@ class PublicPromoController extends Controller
 {
     public function index()
     {
-        $banner = Banner::query()
+        $banners = Banner::query()
             ->where('placement', 'promos')
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->first();
+            ->get()
+            ->keyBy('mode');
+
+        $desktopBanner = $banners->get('desktop');
+        $mobileBanner = $banners->get('mobile');
 
         $promos = Promo::query()
             ->where('is_active', true)
@@ -21,7 +25,8 @@ class PublicPromoController extends Controller
             ->get();
 
         return view('public.promos.index', [
-            'banner' => $banner,
+            'desktopBanner' => $desktopBanner,
+            'mobileBanner' => $mobileBanner,
             'promos' => $promos,
         ]);
     }

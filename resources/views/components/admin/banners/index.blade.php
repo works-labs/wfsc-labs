@@ -82,6 +82,7 @@ class extends Component
                     <tr>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Banner</th>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Placement</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-500">Mode</th>
                         <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-500">Urutan</th>
                         <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
                         <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Aksi</th>
@@ -120,6 +121,13 @@ class extends Component
                             <td class="whitespace-nowrap px-6 py-4">
                                 <span class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600">
                                     {{ ucwords(str_replace('-', ' ', $banner->placement)) }}
+                                </span>
+                            </td>
+
+                            {{-- Mode --}}
+                            <td class="whitespace-nowrap px-6 py-4">
+                                <span class="inline-flex items-center rounded-lg {{ ($banner->mode ?? 'desktop') === 'mobile' ? 'bg-amber-50 text-amber-600' : 'bg-slate-50 text-slate-600' }} px-3 py-1 text-xs font-bold">
+                                    {{ ucfirst($banner->mode ?? 'desktop') }}
                                 </span>
                             </td>
 

@@ -1,4 +1,4 @@
-<section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
+<section class="public-responsive-banner relative isolate overflow-hidden bg-neutral-900 text-white">
 
     {{-- Background Image --}}
     @if ($treatment->cover_image)

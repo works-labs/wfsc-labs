@@ -12,6 +12,19 @@
     font-display: swap;
 }
 
+/* Tinggi hero/banner mobile mengikuti bidang maksimal 402 × 420 px. */
+.public-responsive-banner {
+    height: 420px;
+}
+
+@media (max-width: 639px) {
+    .public-responsive-banner {
+        width: min(100%, 402px);
+        height: min(420px, 104.47761194vw);
+        margin-inline: auto;
+    }
+}
+
 @font-face {
     font-family: "DIN Pro";
     src: url("/fonts/din-pro/dinpro_medium.otf") format("opentype");

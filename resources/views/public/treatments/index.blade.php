@@ -6,15 +6,20 @@
 @section('content')
 
 {{-- Banner Hero Section (Jika diset di Admin Banners placement: treatments) --}}
-@if (isset($banner) && $banner)
-    <section class="relative isolate h-[420px] overflow-hidden bg-neutral-900 text-white">
+@if ($desktopBanner || $mobileBanner)
+    <section class="public-responsive-banner relative isolate overflow-hidden bg-neutral-900 text-white">
         {{-- Background Image --}}
         <div class="absolute inset-0 -z-20">
-            <img
-                src="{{ \Illuminate\Support\Facades\Storage::url($banner->image) }}"
-                alt="{{ $banner->title }}"
-                class="h-full w-full object-contain"
-            >
+            <picture>
+                @if ($mobileBanner)
+                    <source media="(max-width: 639px)" srcset="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}">
+                @endif
+                @if ($desktopBanner)
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain">
+                @else
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain">
+                @endif
+            </picture>
         </div>
 
         {{-- Overlay --}}
@@ -28,11 +33,11 @@
         <div class="relative mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20">
             <div class="max-w-3xl">
                 <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                    {{ $banner->title }}
+                    {{ ($desktopBanner ?? $mobileBanner)->title }}
                 </h1>
-                @if ($banner->subtitle)
+                @if (($desktopBanner ?? $mobileBanner)->subtitle)
                     <p class="mt-4 line-clamp-2 text-base leading-relaxed text-white/85">
-                        {{ $banner->subtitle }}
+                    {{ ($desktopBanner ?? $mobileBanner)->subtitle }}
                     </p>
                 @endif
 

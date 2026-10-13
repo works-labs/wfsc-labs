@@ -32,14 +32,19 @@ class PublicTreatmentController extends Controller
             ->take(5)
             ->get();
 
-        $banner = \App\Models\Banner::query()
+        $banners = \App\Models\Banner::query()
             ->where('placement', 'treatments')
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->first();
+            ->get()
+            ->keyBy('mode');
+
+        $desktopBanner = $banners->get('desktop');
+        $mobileBanner = $banners->get('mobile');
 
         return view('public.treatments.index', [
-            'banner' => $banner,
+            'desktopBanner' => $desktopBanner,
+            'mobileBanner' => $mobileBanner,
             'categories' => $categories,
             'news' => $news,
         ]);

@@ -1,12 +1,17 @@
-<section class="relative isolate h-[420px] overflow-hidden bg-wfsc-coral text-white">
+<section class="public-responsive-banner relative isolate overflow-hidden bg-wfsc-coral text-white">
 
-    @if ($banner && $banner->image)
+    @if ($desktopBanner || $mobileBanner)
 
-        <img
-            src="{{ Storage::url($banner->image) }}"
-            alt="{{ $banner->title ?? 'Contact WFSC Clinic' }}"
-            class="absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-overlay"
-        >
+        <picture class="absolute inset-0">
+            @if ($mobileBanner)
+                <source media="(max-width: 639px)" srcset="{{ Storage::url($mobileBanner->image) }}">
+            @endif
+            @if ($desktopBanner)
+                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-cover opacity-20 mix-blend-overlay">
+            @else
+                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-cover opacity-20 mix-blend-overlay">
+            @endif
+        </picture>
 
         <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
 
@@ -41,7 +46,7 @@
                 data-delay="100"
                 class="reveal-hidden text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
             >
-                {{ $banner?->title ?? 'Temukan Kami' }}
+                {{ ($desktopBanner ?? $mobileBanner)?->title ?? 'Temukan Kami' }}
             </h1>
 
 
@@ -51,7 +56,7 @@
                 data-delay="200"
                 class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
             >
-                {{ $banner?->subtitle ?? 'Kunjungi cabang WFSC Clinic terdekat dan temukan layanan perawatan yang sesuai untukmu.' }}
+                {{ ($desktopBanner ?? $mobileBanner)?->subtitle ?? 'Kunjungi cabang WFSC Clinic terdekat dan temukan layanan perawatan yang sesuai untukmu.' }}
             </p>
 
         </div>
