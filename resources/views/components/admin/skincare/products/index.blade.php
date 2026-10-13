@@ -1,12 +1,25 @@
 <?php
 
 use App\Models\SkincareProduct;
+use App\Models\SkincareCategory;
+use App\Models\SkincareAttribute;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new #[Layout('layouts.admin')] class extends Component
 {
+    use WithPagination;
+
     public string $search = '';
+    public string $categoryId = '';
+    public string $attributeId = '';
+    public string $status = '';
+
+    public function updatedSearch(): void { $this->resetPage(); }
+    public function updatedCategoryId(): void { $this->resetPage(); }
+    public function updatedAttributeId(): void { $this->resetPage(); }
+    public function updatedStatus(): void { $this->resetPage(); }
 
     public function delete(SkincareProduct $product): void
     {
@@ -28,12 +41,20 @@ new #[Layout('layouts.admin')] class extends Component
                     $query->where(function ($query) {
                         $query
                             ->where('name', 'like', '%' . $this->search . '%')
-                            ->orWhere('slug', 'like', '%' . $this->search . '%');
+                            ->orWhere('slug', 'like', '%' . $this->search . '%')
+                            ->orWhere('description', 'like', '%' . $this->search . '%')
+                            ->orWhereHas('categories', fn ($category) => $category->where('name', 'like', '%' . $this->search . '%'))
+                            ->orWhereHas('attributes', fn ($attribute) => $attribute->where('name', 'like', '%' . $this->search . '%'));
                     });
                 })
+                ->when($this->categoryId, fn ($query) => $query->whereHas('categories', fn ($category) => $category->whereKey($this->categoryId)))
+                ->when($this->attributeId, fn ($query) => $query->whereHas('attributes', fn ($attribute) => $attribute->whereKey($this->attributeId)))
+                ->when($this->status !== '', fn ($query) => $query->where('is_active', $this->status === 'active'))
                 ->orderBy('sort_order')
                 ->orderByDesc('id')
                 ->paginate(10),
+            'categories' => SkincareCategory::query()->orderBy('name')->get(['id', 'name']),
+            'attributes' => SkincareAttribute::query()->orderBy('name')->get(['id', 'name']),
         ];
     }
 };
@@ -75,13 +96,32 @@ new #[Layout('layouts.admin')] class extends Component
 
     {{-- Search Bar Card --}}
     <div class="rounded-2xl border border-gray-100/50 bg-white p-4 elegant-shadow">
-        <div class="relative">
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+        <div class="relative lg:col-span-2">
             <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </span>
-            <input type="search" wire:model.live.debounce.300ms="search" placeholder="Cari nama atau slug produk..."
+            <input type="search" wire:model.live.debounce.300ms="search" placeholder="Cari nama, slug, deskripsi..."
                 class="w-full rounded-xl border-gray-200 bg-gray-50/50 pl-11 pr-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
             >
+        </div>
+        <select wire:model.live="categoryId" class="admin-filter-select w-full">
+            <option value="">Semua kategori</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+        <select wire:model.live="attributeId" class="admin-filter-select w-full">
+            <option value="">Semua atribut</option>
+            @foreach ($attributes as $attribute)
+                <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+            @endforeach
+        </select>
+        <select wire:model.live="status" class="admin-filter-select w-full">
+            <option value="">Semua status</option>
+            <option value="active">Aktif</option>
+            <option value="inactive">Nonaktif</option>
+        </select>
         </div>
     </div>
 

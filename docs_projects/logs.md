@@ -52,3 +52,19 @@ Setelah pengecekan ulang banner Promo, Contact, dan Skincare di publik, standar 
 ## 2026-10-13 — Penyamaan hero mobile seluruh halaman publik
 
 Hero/banner mobile pada `/treatments`, `/promos`, `/skincare`, `/before-after`, `/news`, `/contact-us`, dan detail treatment kini menggunakan utility `public-responsive-banner`. Tingginya maksimal `420px` dan mengikuti lebar layar dengan acuan bidang `402 × 420 px`.
+
+## 2026-10-13 — Banner mobile full width
+
+Banner mobile tidak lagi dibatasi `max-width: 402px`. Banner sekarang memenuhi lebar layar, tinggi maksimal tetap `420px`, dan gambar mobile menggunakan `object-cover` agar tidak muncul gap putih di sisi kiri/kanan. Resolusi sumber yang disarankan tetap `402 × 420 px`.
+
+## 2026-10-13 — Penyamaan ukuran filter chip
+
+Filter chip pada Treatment, Skincare, dan Before After disamakan menggunakan tinggi `36px` pada mobile dan `40px` pada layar lebih besar, dengan padding, font, dan alignment yang konsisten. Bar filter juga memakai padding vertikal yang sama agar perpindahan halaman tidak terlihat berbeda.
+
+## 2026-10-13 — Dots dan swipe filter Skincare
+
+Filter Skincare sekarang memakai struktur scroll chip yang sama dengan Treatment dan Before After: dapat digeser horizontal dengan jari, memiliki indikator tiga dots, dan dots mengikuti posisi scroll serta dapat ditekan untuk berpindah ke bagian scroll.
+
+## 2026-10-13 — Search dan filter halaman admin
+
+Halaman `/admin/treatments`, `/skincare/products`, dan `/admin/news` sekarang memiliki search server-side dan filter yang dapat digunakan bersamaan. Query tetap dipaginate agar aman saat data bertambah banyak; hasil kembali ke halaman pertama setiap kali search/filter berubah.

@@ -15,9 +15,9 @@
                     <source media="(max-width: 639px)" srcset="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}">
                 @endif
                 @if ($desktopBanner)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
                 @else
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
                 @endif
             </picture>
         </div>
@@ -83,12 +83,17 @@
 
     <div class="mx-auto max-w-7xl px-6 lg:px-12">
 
-        <div class="flex gap-2 overflow-x-auto scrollbar-hide py-4">
+        <div class="py-2.5 sm:py-3" data-chip-scroll-container>
+            <div
+                class="flex gap-2 overflow-x-auto scrollbar-hide"
+                style="scrollbar-width: none;"
+                data-chip-scroll-track
+            >
 
             {{-- All --}}
             <a
                 href="{{ route('skincare.index') }}"
-                class="shrink-0 rounded-full border px-5 py-2.5 text-sm font-semibold transition-all duration-300
+                class="inline-flex h-9 shrink-0 items-center rounded-full border px-4 text-xs font-semibold leading-5 transition-all duration-300 sm:h-10 sm:px-5 sm:text-sm
                     {{ !$activeCategory
                         ? 'border-[#FF5252] bg-[#FF5252] text-white'
                         : 'border-neutral-200 bg-white text-neutral-500 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
@@ -100,7 +105,7 @@
 
                 <a
                     href="{{ route('skincare.index', ['category' => $category->slug]) }}"
-                    class="shrink-0 rounded-full border px-5 py-2.5 text-sm font-semibold transition-all duration-300
+                        class="inline-flex h-9 shrink-0 items-center rounded-full border px-4 text-xs font-semibold leading-5 transition-all duration-300 sm:h-10 sm:px-5 sm:text-sm
                         {{ $activeCategory === $category->slug
                             ? 'border-[#FF5252] bg-[#FF5252] text-white'
                             : 'border-neutral-200 bg-white text-neutral-500 hover:border-[#FF5252]/30 hover:text-[#FF5252]' }}"
@@ -110,6 +115,14 @@
 
             @endforeach
 
+            </div>
+
+            {{-- Scroll Indicator Dots --}}
+            <div class="mt-2 flex items-center justify-center gap-1.5 opacity-60">
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-[#FF5252] transition-colors duration-300"></span>
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+                <span data-chip-dot class="h-1.5 w-1.5 rounded-full bg-neutral-300 transition-colors duration-300"></span>
+            </div>
         </div>
 
     </div>

@@ -15,9 +15,9 @@
                     <source media="(max-width: 639px)" srcset="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}">
                 @endif
                 @if ($desktopBanner)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
                 @else
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
                 @endif
             </picture>
         </div>
@@ -77,7 +77,7 @@
                     <button
                         type="button"
                         data-treatment-tab="{{ $category->id }}"
-                        class="treatment-chip shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-colors duration-300 sm:px-5 sm:py-2.5 sm:text-sm focus:outline-none
+                        class="treatment-chip inline-flex h-9 shrink-0 items-center rounded-full border px-4 text-xs font-semibold leading-5 transition-colors duration-300 sm:h-10 sm:px-5 sm:text-sm focus:outline-none
                             {{ $index === 0
                                 ? 'bg-[#FF5252] text-white border-[#FF5252] hover:border-[#FF5252] hover:text-white'
                                 : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"

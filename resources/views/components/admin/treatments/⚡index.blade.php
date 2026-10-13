@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Treatment;
+use App\Models\TreatmentCategory;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -8,6 +9,16 @@ use Livewire\WithPagination;
 new #[Layout('layouts.admin')] class extends Component
 {
     use WithPagination;
+
+    public string $search = '';
+    public string $categoryId = '';
+    public string $status = '';
+    public string $featured = '';
+
+    public function updatedSearch(): void { $this->resetPage(); }
+    public function updatedCategoryId(): void { $this->resetPage(); }
+    public function updatedStatus(): void { $this->resetPage(); }
+    public function updatedFeatured(): void { $this->resetPage(); }
 
     public function delete(int $treatmentId): void
     {
@@ -26,9 +37,22 @@ new #[Layout('layouts.admin')] class extends Component
     {
         return [
             'treatments' => Treatment::with('category')
+                ->when($this->search, function ($query) {
+                    $query->where(function ($query) {
+                        $query
+                            ->where('name', 'like', '%' . $this->search . '%')
+                            ->orWhere('slug', 'like', '%' . $this->search . '%')
+                            ->orWhere('short_description', 'like', '%' . $this->search . '%')
+                            ->orWhereHas('category', fn ($category) => $category->where('name', 'like', '%' . $this->search . '%'));
+                    });
+                })
+                ->when($this->categoryId, fn ($query) => $query->where('category_id', $this->categoryId))
+                ->when($this->status !== '', fn ($query) => $query->where('is_active', $this->status === 'active'))
+                ->when($this->featured !== '', fn ($query) => $query->where('is_featured', $this->featured === 'yes'))
                 ->orderBy('category_id')
                 ->orderBy('name')
                 ->paginate(10),
+            'categories' => TreatmentCategory::query()->orderBy('name')->get(['id', 'name']),
         ];
     }
 };
@@ -58,6 +82,31 @@ new #[Layout('layouts.admin')] class extends Component
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Tambah Perawatan
         </a>
+    </div>
+
+    {{-- Search & Filters --}}
+    <div class="rounded-2xl border border-gray-100/50 bg-white p-4 elegant-shadow">
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+            <input type="search" wire:model.live.debounce.300ms="search" placeholder="Cari nama, slug, deskripsi..."
+                class="rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm focus:border-[var(--color-wfsc-coral)] focus:bg-white focus:ring-1 focus:ring-[var(--color-wfsc-coral)] lg:col-span-2"
+            >
+            <select wire:model.live="categoryId" class="admin-filter-select w-full">
+                <option value="">Semua kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            <select wire:model.live="status" class="admin-filter-select w-full">
+                <option value="">Semua status</option>
+                <option value="active">Aktif</option>
+                <option value="inactive">Nonaktif</option>
+            </select>
+            <select wire:model.live="featured" class="admin-filter-select w-full">
+                <option value="">Featured: semua</option>
+                <option value="yes">Featured</option>
+                <option value="no">Bukan featured</option>
+            </select>
+        </div>
     </div>
 
     {{-- Table Card --}}

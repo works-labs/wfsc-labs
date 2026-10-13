@@ -2,11 +2,67 @@
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 use App\Models\News;
+use App\Models\NewsCategory;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 new #[Layout('layouts.admin')] class extends Component
 {
+    use WithPagination;
+
+    public string $search = '';
+    public string $categoryId = '';
+    public string $authorId = '';
+    public string $status = '';
+    public string $featured = '';
+
+    public function updatedSearch(): void { $this->resetPage(); }
+    public function updatedCategoryId(): void { $this->resetPage(); }
+    public function updatedAuthorId(): void { $this->resetPage(); }
+    public function updatedStatus(): void { $this->resetPage(); }
+    public function updatedFeatured(): void { $this->resetPage(); }
+
+    public function with(): array
+    {
+        return [
+            'newsItems' => News::query()
+                ->with(['author', 'category'])
+                ->when($this->search, function ($query) {
+                    $query->where(function ($query) {
+                        $query
+                            ->where('title', 'like', '%' . $this->search . '%')
+                            ->orWhere('slug', 'like', '%' . $this->search . '%')
+                            ->orWhere('excerpt', 'like', '%' . $this->search . '%')
+                            ->orWhereHas('author', fn ($author) => $author->where('name', 'like', '%' . $this->search . '%'))
+                            ->orWhereHas('category', fn ($category) => $category->where('name', 'like', '%' . $this->search . '%'));
+                    });
+                })
+                ->when($this->categoryId, fn ($query) => $query->where('category_id', $this->categoryId))
+                ->when($this->authorId, fn ($query) => $query->where('author_id', $this->authorId))
+                ->when($this->status !== '', function ($query) {
+                    if ($this->status === 'published') {
+                        $query->whereNotNull('published_at');
+                    } elseif ($this->status === 'draft') {
+                        $query->whereNull('published_at');
+                    } elseif ($this->status === 'active') {
+                        $query->where('is_active', true);
+                    } elseif ($this->status === 'inactive') {
+                        $query->where('is_active', false);
+                    }
+                })
+                ->when($this->featured !== '', fn ($query) => $query->where('is_featured', $this->featured === 'yes'))
+                ->latest()
+                ->paginate(10),
+            'categories' => NewsCategory::query()->orderBy('name')->get(['id', 'name']),
+            'authors' => User::query()
+                ->whereIn('id', News::query()->whereNotNull('author_id')->select('author_id'))
+                ->orderBy('name')
+                ->get(['id', 'name']),
+        ];
+    }
+
     public function delete(int $newsId): void
 {
     $news = News::findOrFail($newsId);
@@ -18,6 +74,7 @@ new #[Layout('layouts.admin')] class extends Component
     $news->delete();
 
     session()->flash('success', 'News deleted successfully.');
+    $this->resetPage();
 }
 };
 ?>
@@ -56,6 +113,39 @@ new #[Layout('layouts.admin')] class extends Component
         </div>
     @endif
 
+    {{-- Search & Filters --}}
+    <div class="rounded-2xl border border-gray-100/50 bg-white p-4 elegant-shadow">
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+            <input type="search" wire:model.live.debounce.300ms="search" placeholder="Cari judul, slug, ringkasan..."
+                class="rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm focus:border-[var(--color-wfsc-coral)] focus:bg-white focus:ring-1 focus:ring-[var(--color-wfsc-coral)] lg:col-span-2"
+            >
+            <select wire:model.live="categoryId" class="admin-filter-select w-full">
+                <option value="">Semua kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            <select wire:model.live="authorId" class="admin-filter-select w-full">
+                <option value="">Semua penulis</option>
+                @foreach ($authors as $author)
+                    <option value="{{ $author->id }}">{{ $author->name }}</option>
+                @endforeach
+            </select>
+            <select wire:model.live="status" class="admin-filter-select w-full">
+                <option value="">Semua status</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+                <option value="active">Aktif</option>
+                <option value="inactive">Nonaktif</option>
+            </select>
+            <select wire:model.live="featured" class="admin-filter-select w-full">
+                <option value="">Featured: semua</option>
+                <option value="yes">Featured</option>
+                <option value="no">Bukan featured</option>
+            </select>
+        </div>
+    </div>
+
     {{-- Table Card --}}
     <div class="overflow-hidden rounded-2xl border border-gray-100/50 bg-white elegant-shadow">
         <div class="overflow-x-auto">
@@ -72,7 +162,7 @@ new #[Layout('layouts.admin')] class extends Component
                 </thead>
 
                 <tbody class="divide-y divide-gray-50">
-                    @forelse (News::with('author')->latest()->get() as $news)
+                    @forelse ($newsItems as $news)
                         <tr class="transition-colors hover:bg-rose-50/30">
                             {{-- News Info --}}
                             <td class="px-6 py-4">
@@ -167,5 +257,11 @@ new #[Layout('layouts.admin')] class extends Component
                 </tbody>
             </table>
         </div>
+
+        @if ($newsItems->hasPages())
+            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-4">
+                {{ $newsItems->links() }}
+            </div>
+        @endif
     </div>
 </div>
