@@ -68,3 +68,15 @@ Filter Skincare sekarang memakai struktur scroll chip yang sama dengan Treatment
 ## 2026-10-13 — Search dan filter halaman admin
 
 Halaman `/admin/treatments`, `/skincare/products`, dan `/admin/news` sekarang memiliki search server-side dan filter yang dapat digunakan bersamaan. Query tetap dipaginate agar aman saat data bertambah banyak; hasil kembali ke halaman pertama setiap kali search/filter berubah.
+
+## 2026-10-14 — Dokumentasi fitur terbaru
+
+Dokumentasi maintenance diperbarui di `manual_guide.md` dan `README.md` untuk mencatat seluruh perubahan terakhir:
+
+- Banner desktop/mobile menggunakan field `mode`, dengan desktop `1890 × 420 px` dan sumber mobile `402 × 420 px`.
+- Banner publik memenuhi lebar layar mobile dengan tinggi maksimal `420px`; `object-cover` mencegah gap putih.
+- Hero yang mengikuti aturan tersebut mencakup Treatment, Promo, Skincare, Before After, News, Contact Us, dan detail Treatment.
+- Popup promo mendukung slide dengan tombol, keyboard, dan swipe.
+- Chip filter Treatment, Skincare, dan Before After memiliki ukuran konsisten, scroll jari, serta indikator dots.
+- Admin Treatment, Skincare Products, dan News memiliki search dan filter gabungan dengan pagination server-side.
+- Dropdown filter admin menggunakan class `admin-filter-select` agar UI tetap konsisten.

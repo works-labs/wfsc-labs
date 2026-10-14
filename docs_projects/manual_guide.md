@@ -21,6 +21,46 @@ Untuk banner halaman desktop, ukuran minimalnya adalah **1890 × 420 px**. Conto
 
 Untuk banner halaman mobile, gunakan ukuran maksimal **402 × 420 px** dengan rasio **402:420**. Di menu `/admin/banners/create`, pilih `Placement` halaman dan `Mode` **Mobile**. Banner desktop dan mobile disimpan sebagai data terpisah dengan placement yang sama. Hero News, Before After, dan detail Treatment juga mengikuti batas tinggi mobile yang sama.
 
+## Catatan fitur banner publik
+
+- Placement banner yang dikelola melalui Banner Manager: `treatments`, `promos`, `skincare`, dan `contact-us`.
+- Setiap placement dapat memiliki data `Desktop` dan `Mobile` secara terpisah.
+- Banner lama tanpa mode dianggap sebagai `Desktop` setelah migration.
+- Pada layar mobile, banner memenuhi lebar layar dan tinggi hero maksimal **420 px**. Gambar menggunakan `object-cover` agar tidak muncul ruang kosong di sisi kiri/kanan.
+- Jika banner mobile belum tersedia, halaman memakai banner desktop sebagai fallback.
+- Hero publik yang mengikuti aturan tinggi mobile: daftar Treatment, Promo, Skincare, Before After, News, Contact Us, dan detail Treatment.
+
+## Fitur interaktif publik
+
+### Popup Promo
+
+Pada halaman `/promos`, klik kartu promo untuk membuka popup. Popup dapat dinavigasi dengan:
+
+- tombol sebelumnya/berikutnya;
+- tombol panah kiri/kanan pada keyboard;
+- swipe kiri/kanan pada gambar di mobile;
+- tombol `Escape` atau klik backdrop untuk menutup.
+
+Popup menampilkan counter posisi slide dan informasi promo mengikuti gambar yang sedang aktif.
+
+### Filter chip publik
+
+Filter chip pada `/treatments`, `/skincare`, dan `/before-after` memakai ukuran yang sama. Chip dapat digeser horizontal dengan jari pada mobile. Indikator dots menunjukkan posisi scroll; pada Skincare dots juga sudah tersedia dan dapat ditekan untuk berpindah posisi.
+
+## Pencarian dan filter admin
+
+Search dan filter di bawah ini berjalan bersamaan dan menggunakan pagination server-side:
+
+| Halaman | Search | Filter |
+| --- | --- | --- |
+| `/admin/treatments` | nama, slug, deskripsi, kategori | kategori, status, featured |
+| `/skincare/products` | nama, slug, deskripsi, kategori, atribut | kategori, atribut, status |
+| `/admin/news` | judul, slug, ringkasan, kategori, penulis | kategori, penulis, status publikasi/aktif, featured |
+
+Saat nilai search atau filter berubah, hasil otomatis kembali ke halaman pertama.
+
+Untuk menjaga tampilan konsisten, dropdown filter admin menggunakan class UI `admin-filter-select` di `resources/css/public.css`.
+
 ## Ukuran thumbnail dan foto konten
 
 | Keperluan | Rasio | Ukuran gambar | Maksimal file |

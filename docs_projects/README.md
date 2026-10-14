@@ -70,7 +70,10 @@ Kasus yang wajib diuji di browser:
 
 - Beranda, navbar, footer, CTA WhatsApp, dan semua gambar tampil.
 - Daftar/detail dokter, treatment, berita, promo, skincare, dan before-after.
-- Filter/search kategori dan attribute.
+- Filter/search kategori dan attribute pada halaman publik.
+- Popup promo dapat di-slide dengan tombol, keyboard, dan swipe mobile.
+- Chip filter Treatment, Skincare, dan Before After dapat di-swipe; indikator dots mengikuti posisi scroll.
+- Banner responsive desktop/mobile pada Treatment, Promo, Skincare, Before After, News, Contact, dan detail Treatment.
 - Slug yang tidak ada menghasilkan 404 yang aman, bukan stack trace.
 - Konten kosong tidak merusak layout.
 - Link CTA internal, WhatsApp, dan eksternal mengarah ke tujuan yang benar.
@@ -81,6 +84,7 @@ Kasus yang wajib diuji di browser:
 - Login sukses, password salah, reset password, logout, session expiry, dan CSRF.
 - Akses `/admin/*` tanpa login diarahkan ke login.
 - CRUD seluruh resource: dokter, treatment, kategori, produk, berita, banner, promo, cabang, fasilitas, settings, video, before-after, skincare.
+- Search dan filter gabungan pada admin Treatment, Skincare Products, dan News dengan pagination.
 - Relasi parent-child tidak dapat tertukar melalui perubahan ID di request Livewire.
 - Upload, replace, dan delete file tidak menghapus file milik record lain.
 - User non-admin tidak dapat mengakses action admin.
