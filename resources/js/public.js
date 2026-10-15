@@ -668,15 +668,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const descriptionContainer = document.getElementById('promo-lightbox-description-container');
         const description = document.getElementById('promo-lightbox-description');
 
-        let activeIndex = 0;
+        let activePromoIndex = 0;
+        let activeImageIndex = 0;
         let touchStartX = null;
 
-        const renderSlide = (index) => {
-            const card = triggers[index];
+        const getImages = (card) => {
+            try {
+                const images = JSON.parse(card.dataset.promoImages || '[]');
+                return images.length ? images : (card.dataset.promoImage ? [card.dataset.promoImage] : []);
+            } catch {
+                return card.dataset.promoImage ? [card.dataset.promoImage] : [];
+            }
+        };
+
+        const renderSlide = (promoIndex, imageIndex = 0) => {
+            const card = triggers[promoIndex];
             if (!card) return;
 
-            activeIndex = index;
-            const { promoImage, promoTitle, promoDescription } = card.dataset;
+            activePromoIndex = promoIndex;
+            const images = getImages(card);
+            activeImageIndex = Math.max(0, Math.min(imageIndex, images.length - 1));
+            const { promoTitle, promoDescription } = card.dataset;
+            const promoImage = images[activeImageIndex];
 
             if (promoImage) {
                 image.src = promoImage;
@@ -694,26 +707,27 @@ document.addEventListener('DOMContentLoaded', () => {
             descriptionContainer.classList.toggle('hidden', !hasDesc);
             description.textContent = hasDesc ? promoDescription : '';
 
-            const hasNavigation = triggers.length > 1;
+            const hasNavigation = images.length > 1;
             prevBtn?.classList.toggle('hidden', !hasNavigation);
             nextBtn?.classList.toggle('hidden', !hasNavigation);
             if (counter) {
-                counter.textContent = `${index + 1} / ${triggers.length}`;
+                counter.textContent = `${activeImageIndex + 1} / ${images.length}`;
                 counter.classList.toggle('hidden', !hasNavigation);
             }
         };
 
         const openModal = (card) => {
             const index = Array.from(triggers).indexOf(card);
-            modalCtrl.open(() => renderSlide(index >= 0 ? index : 0));
+            modalCtrl.open(() => renderSlide(index >= 0 ? index : 0, 0));
         };
 
         const closeModal = () => modalCtrl.close();
 
         const showAdjacentSlide = (direction) => {
-            if (triggers.length < 2) return;
-            const nextIndex = (activeIndex + direction + triggers.length) % triggers.length;
-            renderSlide(nextIndex);
+            const images = getImages(triggers[activePromoIndex]);
+            if (images.length < 2) return;
+            const nextIndex = (activeImageIndex + direction + images.length) % images.length;
+            renderSlide(activePromoIndex, nextIndex);
         };
 
         triggers.forEach(trigger => trigger.addEventListener('click', () => openModal(trigger)));
@@ -730,6 +744,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const distance = touchEndX - touchStartX;
             touchStartX = null;
             if (Math.abs(distance) > 45) showAdjacentSlide(distance < 0 ? 1 : -1);
+        }, { passive: true });
+        imageContainer?.addEventListener('touchcancel', () => {
+            touchStartX = null;
         }, { passive: true });
         document.addEventListener('keydown', (e) => {
             if (modal.classList.contains('hidden')) return;

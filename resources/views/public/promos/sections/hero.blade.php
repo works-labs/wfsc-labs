@@ -10,9 +10,9 @@
                 <source media="(max-width: 639px)" srcset="{{ Storage::url($mobileBanner->image) }}">
             @endif
             @if ($desktopBanner)
-                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
+                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-cover">
             @else
-                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
+                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-cover">
             @endif
         </picture>
 

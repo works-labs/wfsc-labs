@@ -15,6 +15,10 @@ new #[Layout('layouts.admin')] class extends Component
             Storage::disk('public')->delete($promo->image);
         }
 
+        foreach ($promo->images as $image) {
+            Storage::disk('public')->delete($image->path);
+        }
+
         $promo->delete();
 
         session()->flash(
@@ -28,6 +32,7 @@ new #[Layout('layouts.admin')] class extends Component
         return [
             'promos' => Promo::orderBy('sort_order')
                 ->orderBy('id')
+                ->with('images')
                 ->get(),
         ];
     }

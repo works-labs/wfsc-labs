@@ -9,6 +9,7 @@ use App\Models\TreatmentProduct;
 use App\Models\Treatment;
 use App\Models\Doctor;
 use App\Models\News;
+use App\Models\PromoImage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ new #[Layout('layouts.admin')] class extends Component
     public string $slug = '';
     public string $description = '';
     public $image = null;
+    public array $images = [];
     public ?string $existingImage = null;
     
     // Dynamic CTA Properties
@@ -34,6 +36,18 @@ new #[Layout('layouts.admin')] class extends Component
     public string $end_date = '';
     public int $sort_order = 0;
     public bool $is_active = true;
+
+    public function removeImage(int $imageId): void
+    {
+        $image = $this->promo->images()->findOrFail($imageId);
+        $wasCover = $this->promo->image === $image->path;
+        Storage::disk('public')->delete($image->path);
+        $image->delete();
+        if ($wasCover) {
+            $this->promo->update(['image' => $this->promo->images()->value('path')]);
+        }
+        $this->promo->load('images');
+    }
 
     public function mount(Promo $promo): void
     {
@@ -136,6 +150,8 @@ new #[Layout('layouts.admin')] class extends Component
             ],
             'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:width=1080,height=1350'],
+            'images' => ['nullable', 'array', 'max:20'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:width=1080,height=1350'],
             'cta_text' => ['nullable', 'string', 'max:255'],
             'cta_type' => [
                 'required',
@@ -148,19 +164,25 @@ new #[Layout('layouts.admin')] class extends Component
             'is_active' => ['boolean'],
         ]);
 
+        $uploads = $this->images;
         if ($this->image) {
-            $oldImage = $this->promo->image;
-            $newImage = $this->image->store('promos', 'public');
-            $validated['image'] = $newImage;
-
-            if ($oldImage) {
-                Storage::disk('public')->delete($oldImage);
-            }
-        } else {
-            unset($validated['image']);
+            array_unshift($uploads, $this->image);
         }
+        unset($validated['images'], $validated['image']);
 
         $this->promo->update($validated);
+
+        foreach ($uploads as $sortOrder => $upload) {
+            $path = $upload->store('promos', 'public');
+            PromoImage::create([
+                'promo_id' => $this->promo->id,
+                'path' => $path,
+                'sort_order' => $this->promo->images()->count() + $sortOrder,
+            ]);
+            if (! $this->promo->image) {
+                $this->promo->update(['image' => $path]);
+            }
+        }
 
         session()->flash('success', 'Promo updated successfully.');
 
@@ -281,15 +303,18 @@ new #[Layout('layouts.admin')] class extends Component
             </div>
 
             <div class="space-y-6">
-                @if ($existingImage && !$image)
+                @if ($promo->images->isNotEmpty() || $existingImage)
                     <div>
-                        <p class="mb-2 text-xs font-bold text-gray-600">Current Image</p>
-                        <div class="overflow-hidden rounded-2xl border border-gray-100 shadow-sm ring-4 ring-gray-50">
-                            <img
-                                src="{{ Storage::url($existingImage) }}"
-                                alt="{{ $title }}"
-                                class="h-64 w-full object-cover"
-                            >
+                        <p class="mb-2 text-xs font-bold text-gray-600">Current Photos</p>
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                            @foreach ($promo->galleryPaths as $path)
+                                <div class="relative overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                                    <img src="{{ Storage::url($path) }}" alt="{{ $title }}" class="h-40 w-full object-cover">
+                                    @if ($promo->images->firstWhere('path', $path))
+                                        <button type="button" wire:click="removeImage({{ $promo->images->firstWhere('path', $path)->id }})" wire:confirm="Hapus foto ini?" class="absolute right-2 top-2 rounded-full bg-black/70 px-2 py-1 text-xs font-bold text-white">×</button>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 @endif
@@ -298,26 +323,28 @@ new #[Layout('layouts.admin')] class extends Component
                     <label class="mb-2 block text-sm font-bold text-gray-600">Upload New Image</label>
                     <input
                         type="file"
-                        wire:model="image"
+                    wire:model="images"
+                    multiple
                         accept="image/*"
                         class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
                     >
-                    @error('image') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                    @error('images') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                    @error('images.*') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
 
-                    <div wire:loading wire:target="image" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
+                    <div wire:loading wire:target="images" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
                         <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         Uploading preview...
                     </div>
                 </div>
 
-                @if ($image)
+                @if ($images)
                     <div>
-                        <p class="mb-2 text-xs font-bold text-gray-600">New Image Preview</p>
-                        <img
-                            src="{{ $image->temporaryUrl() }}"
-                            alt="New promo preview"
-                            class="h-64 w-full rounded-2xl border border-gray-100 object-cover shadow-sm ring-4 ring-gray-50"
-                        >
+                        <p class="mb-2 text-xs font-bold text-gray-600">New Photos ({{ count($images) }})</p>
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                            @foreach ($images as $imagePreview)
+                                <img src="{{ $imagePreview->temporaryUrl() }}" alt="New promo preview" class="h-40 w-full rounded-xl border border-gray-100 object-cover shadow-sm">
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>

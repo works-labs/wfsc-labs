@@ -15,9 +15,9 @@
                     <source media="(max-width: 639px)" srcset="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}">
                 @endif
                 @if ($desktopBanner)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-cover">
                 @else
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-contain max-[639px]:object-cover">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-cover">
                 @endif
             </picture>
         </div>

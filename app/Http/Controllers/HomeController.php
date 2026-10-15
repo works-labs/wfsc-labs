@@ -86,6 +86,7 @@ class HomeController extends Controller
         $promos = Promo::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
+            ->with('images')
             ->get();
 
         $news = News::query()

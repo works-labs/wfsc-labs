@@ -80,3 +80,41 @@ Dokumentasi maintenance diperbarui di `manual_guide.md` dan `README.md` untuk me
 - Chip filter Treatment, Skincare, dan Before After memiliki ukuran konsisten, scroll jari, serta indikator dots.
 - Admin Treatment, Skincare Products, dan News memiliki search dan filter gabungan dengan pagination server-side.
 - Dropdown filter admin menggunakan class `admin-filter-select` agar UI tetap konsisten.
+
+## 2026-10-14 — Perbaikan jarak rich text sebelum list
+
+Pada detail produk skincare, jarak antara teks pengantar seperti `Kandungan & Manfaat` dan list terasa terlalu lebar karena margin bawah paragraf bertemu dengan margin atas `ul/ol`. Margin list yang langsung mengikuti paragraf atau heading sekarang diperkecil, sementara jarak antar-item list tetap dipertahankan. Editor admin juga mengikuti aturan adjacency yang sama.
+
+## 2026-10-14 — Rencana pengembangan kontrol spacing rich text
+
+Permintaan berikutnya pada editor rich text:
+
+- Tambahkan pilihan spacing keempat yang lebih longgar dari `Rapat`, `Normal`, dan `Longgar`.
+- Tambahkan kontrol untuk memberi jarak sebelum paragraf.
+- Tambahkan kontrol untuk memberi jarak setelah paragraf.
+- Pastikan kontrol dapat diterapkan pada blok teks yang dipilih dan tetap tersimpan sebagai HTML/style inline saat konten disimpan.
+
+Implementasi selesai pada editor rich text.
+
+## 2026-10-14 — Implementasi kontrol spacing rich text
+
+- Pilihan `Spasi` sekarang memiliki empat tingkat: `Rapat`, `Normal`, `Longgar`, dan `Sangat longgar`.
+- Ditambahkan kontrol `Sebelum` untuk mengatur jarak sebelum paragraf/blok aktif.
+- Ditambahkan kontrol `Sesudah` untuk mengatur jarak setelah paragraf/blok aktif.
+- Pengaturan dapat diterapkan ke satu atau beberapa blok yang dipilih dan disimpan sebagai inline style pada HTML rich text.
+- Opsi `Default` menghapus inline margin sehingga blok kembali mengikuti style bawaan editor.
+- Validasi berhasil dengan `git diff --check`, `php artisan view:cache`, dan `npm run build`.
+
+## 2026-10-14 — Perbaikan reset spacing rich text
+
+Memperbaiki kontrol `Sebelum` dan `Sesudah` agar pilihan `Default` dapat menghapus kembali inline margin setelah sebelumnya memilih jarak tambahan. Seleksi editor sekarang disimpan sebelum fokus berpindah ke dropdown toolbar, sehingga blok yang dipilih tetap menjadi target reset.
+
+Validasi ulang berhasil dengan `git diff --check` dan `php artisan view:cache`.
+
+## 2026-10-14 — Perbaikan target seleksi saat reset spacing
+
+Perbaikan lanjutan pada reset `Default`: ketika fokus berpindah ke dropdown, fungsi pemilihan blok kini mengabaikan range yang berada di luar editor dan menggunakan seleksi terakhir yang tersimpan di dalam editor. Dengan begitu, margin `Sedikit`, `Sedang`, atau `Besar` dapat dikembalikan ke `Default` setelah konten disimpan maupun saat dropdown digunakan kembali.
+
+## 2026-10-14 — Perbaikan penghapusan margin spacing
+
+Memperbaiki format nama properti CSS saat opsi `Default` dipilih. Sebelumnya `marginTop`/`marginBottom` tidak terhapus karena `removeProperty` membutuhkan format CSS `margin-top`/`margin-bottom`. Validasi ulang berhasil dengan `git diff --check` dan `php artisan view:cache`.

@@ -47,7 +47,7 @@
             {{-- Promo Image --}}
             <div
                 id="promo-lightbox-image-container"
-                class="relative flex max-h-[70vh] min-h-[300px] items-center justify-center overflow-hidden bg-neutral-100"
+                class="relative flex max-h-[70vh] min-h-[300px] touch-pan-y select-none items-center justify-center overflow-hidden bg-neutral-100"
             >
 
                 {{-- Previous Slide --}}

@@ -161,9 +161,19 @@
 
     .rich-content ul,
     .rich-content ol {
-        margin-top: 0.75rem;
+        margin-top: 0.35rem;
         margin-bottom: 0.75rem;
         padding-left: 1.75rem;
+    }
+
+    /* List yang langsung mengikuti judul/paragraf tidak perlu gap dobel. */
+    .rich-content p + ul,
+    .rich-content p + ol,
+    .rich-content h2 + ul,
+    .rich-content h2 + ol,
+    .rich-content h3 + ul,
+    .rich-content h3 + ol {
+        margin-top: 0.15rem;
     }
 
     .rich-content ul {

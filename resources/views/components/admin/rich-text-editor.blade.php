@@ -10,6 +10,8 @@
         activeFormats: {},
         activeBlock: 'p',
         activeLineHeight: 'normal',
+        activeMarginTop: 'normal',
+        activeMarginBottom: 'normal',
         savedRange: null,
 
         init() {
@@ -116,6 +118,8 @@
             this.activeBlock = block?.tagName?.toLowerCase() || 'p';
             this.activeFormats.createLink = Boolean(node?.closest?.('a')) || this.activeFormats.createLink;
             this.activeLineHeight = block?.style?.lineHeight || 'normal';
+            this.activeMarginTop = block?.style?.marginTop || 'normal';
+            this.activeMarginBottom = block?.style?.marginBottom || 'normal';
         },
 
         isActive(command) {
@@ -146,7 +150,10 @@
 
         selectedBlocks() {
             const selection = window.getSelection();
-            const range = selection?.rangeCount ? selection.getRangeAt(0) : this.savedRange;
+            const currentRange = selection?.rangeCount ? selection.getRangeAt(0) : null;
+            const range = currentRange && this.editor.contains(currentRange.commonAncestorContainer)
+                ? currentRange
+                : this.savedRange;
             if (!range) return [];
 
             const blocks = Array.from(this.editor.querySelectorAll('p,h2,h3,blockquote,li'));
@@ -189,6 +196,43 @@
 
             this.activeLineHeight = value;
             this.sync();
+        },
+
+        setBlockMargin(property, value) {
+            // Simpan seleksi sebelum fokus berpindah dari editor ke dropdown toolbar.
+            this.saveSelection();
+            this.editor.focus();
+
+            this.restoreSelection();
+
+            const blocks = this.selectedBlocks();
+            if (!blocks.length) return;
+
+            const cssProperty = property.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+
+            blocks.forEach((block) => {
+                if (value === 'normal') {
+                    block.style.removeProperty(cssProperty);
+                } else {
+                    block.style.setProperty(cssProperty, value);
+                }
+            });
+
+            if (property === 'marginTop') {
+                this.activeMarginTop = value;
+            } else {
+                this.activeMarginBottom = value;
+            }
+
+            this.sync();
+        },
+
+        setMarginTop(value) {
+            this.setBlockMargin('marginTop', value);
+        },
+
+        setMarginBottom(value) {
+            this.setBlockMargin('marginBottom', value);
         },
 
         cleanPaste(event) {
@@ -393,6 +437,37 @@
                 <option value="1.5">Rapat</option>
                 <option value="normal">Normal</option>
                 <option value="2">Longgar</option>
+                <option value="2.5">Sangat longgar</option>
+            </select>
+        </label>
+
+        <label class="flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-neutral-500" title="Jarak sebelum paragraf atau blok aktif">
+            <span class="hidden sm:inline">Sebelum</span>
+            <select
+                :value="activeMarginTop"
+                @change="setMarginTop($event.target.value)"
+                class="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-xs text-neutral-700 outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-300"
+                aria-label="Atur jarak sebelum paragraf"
+            >
+                <option value="normal">Default</option>
+                <option value="0.5rem">Sedikit</option>
+                <option value="1rem">Sedang</option>
+                <option value="1.5rem">Besar</option>
+            </select>
+        </label>
+
+        <label class="flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-neutral-500" title="Jarak setelah paragraf atau blok aktif">
+            <span class="hidden sm:inline">Sesudah</span>
+            <select
+                :value="activeMarginBottom"
+                @change="setMarginBottom($event.target.value)"
+                class="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-xs text-neutral-700 outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-300"
+                aria-label="Atur jarak setelah paragraf"
+            >
+                <option value="normal">Default</option>
+                <option value="0.5rem">Sedikit</option>
+                <option value="1rem">Sedang</option>
+                <option value="1.5rem">Besar</option>
             </select>
         </label>
     </div>
@@ -415,6 +490,12 @@
                [&_blockquote]:border-neutral-300
                [&_blockquote]:pl-4
                [&_ul]:my-2
+               [&_p+ul]:mt-0
+               [&_p+ol]:mt-0
+               [&_h2+ul]:mt-1
+               [&_h2+ol]:mt-1
+               [&_h3+ul]:mt-1
+               [&_h3+ol]:mt-1
                [&_ul]:list-disc
                [&_ul]:pl-6
                [&_ol]:my-2

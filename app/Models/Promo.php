@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\SiteSetting;
 
 class Promo extends Model
@@ -32,6 +33,26 @@ class Promo extends Model
     public function treatmentProduct(): BelongsTo
     {
         return $this->belongsTo(TreatmentProduct::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(PromoImage::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /** @return array<int, string> */
+    public function getGalleryPathsAttribute(): array
+    {
+        $paths = $this->relationLoaded('images')
+            ? $this->images->pluck('path')->all()
+            : $this->images()->pluck('path')->all();
+
+        // Keep promos created before the gallery feature visible as well.
+        if ($this->image && ! in_array($this->image, $paths, true)) {
+            array_unshift($paths, $this->image);
+        }
+
+        return $paths;
     }
 
     public function getCtaUrlAttribute(): string

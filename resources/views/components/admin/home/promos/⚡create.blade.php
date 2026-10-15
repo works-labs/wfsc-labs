@@ -9,6 +9,7 @@ use App\Models\TreatmentProduct;
 use App\Models\Treatment;
 use App\Models\Doctor;
 use App\Models\News;
+use App\Models\PromoImage;
 use Illuminate\Support\Str;
 
 new #[Layout('layouts.admin')] class extends Component
@@ -20,6 +21,7 @@ new #[Layout('layouts.admin')] class extends Component
     public string $slug = '';
     public string $description = '';
     public $image = null;
+    public array $images = [];
     
     // Dynamic CTA Properties
     public string $cta_text = 'Book Appointment';
@@ -112,6 +114,8 @@ new #[Layout('layouts.admin')] class extends Component
             'slug' => ['required', 'string', 'max:255', 'unique:promos,slug'],
             'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:width=1080,height=1350'],
+            'images' => ['nullable', 'array', 'max:20'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:width=1080,height=1350'],
             'cta_text' => ['nullable', 'string', 'max:255'],
             'cta_type' => [
                 'required',
@@ -124,11 +128,21 @@ new #[Layout('layouts.admin')] class extends Component
             'is_active' => ['boolean'],
         ]);
 
+        $uploads = $this->images;
         if ($this->image) {
-            $validated['image'] = $this->image->store('promos', 'public');
+            array_unshift($uploads, $this->image);
         }
 
-        Promo::create($validated);
+        unset($validated['images']);
+        if ($uploads) {
+            $validated['image'] = $uploads[0]->store('promos', 'public');
+        }
+
+        $promo = Promo::create($validated);
+        foreach ($uploads as $sortOrder => $upload) {
+            $path = $sortOrder === 0 ? $promo->image : $upload->store('promos', 'public');
+            PromoImage::create(['promo_id' => $promo->id, 'path' => $path, 'sort_order' => $sortOrder]);
+        }
 
         session()->flash('success', 'Promo created successfully.');
 
@@ -251,21 +265,23 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="space-y-4">
                 <input
                     type="file"
-                    wire:model="image"
+                    wire:model="images"
+                    multiple
                     accept="image/*"
                     class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
                 >
                 <p class="text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1350 px · maksimal 5 MB · rasio 4:5 portrait.</p>
-                @error('image') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                @error('images') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
+                @error('images.*') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
 
-                @if ($image)
+                @if ($images)
                     <div class="mt-4">
-                        <p class="mb-2 text-xs font-bold text-gray-600">Preview</p>
-                        <img
-                            src="{{ $image->temporaryUrl() }}"
-                            alt="Promo preview"
-                            class="h-64 w-full rounded-2xl border border-gray-100 object-cover shadow-sm ring-4 ring-gray-50"
-                        >
+                        <p class="mb-2 text-xs font-bold text-gray-600">Preview ({{ count($images) }} foto)</p>
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                            @foreach ($images as $imagePreview)
+                                <img src="{{ $imagePreview->temporaryUrl() }}" alt="Promo preview" class="h-40 w-full rounded-xl border border-gray-100 object-cover shadow-sm">
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>

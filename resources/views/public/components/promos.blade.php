@@ -76,7 +76,7 @@
                 data-reveal="zoom"
                 data-delay="500"
                 data-promo-slider
-                class="reveal-hidden relative -my-8 overflow-hidden py-8"
+                class="reveal-hidden relative -my-8 touch-pan-y overflow-hidden py-8"
             >
 
                 <div
@@ -87,13 +87,15 @@
                     @foreach ($promos as $index => $promo)
 
                         @php
-                            $imageUrl = $promo->image
+                            $promoImages = collect($promo->galleryPaths)->map(fn ($path) => Storage::url($path))->values()->all();
+                            $imageUrl = $promoImages[0] ?? (
+                                $promo->image
                                 ? Storage::url($promo->image)
                                 : (
                                     $promo->treatmentProduct?->image
                                         ? Storage::url($promo->treatmentProduct->image)
                                         : null
-                                );
+                                ));
 
                             $promoCount = $promos->count();
 
@@ -115,6 +117,7 @@
                                 <article
                                     data-promo-lightbox-trigger
                                     data-promo-image="{{ $imageUrl }}"
+                                    data-promo-images='@json($promoImages ?: ($imageUrl ? [$imageUrl] : []))'
                                     data-promo-title="{{ $promo->title }}"
                                     data-promo-description="{{ $promo->description }}"
                                     class="group cursor-pointer flex h-full flex-col overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white p-3 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-[#FF5252]/30"

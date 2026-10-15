@@ -22,6 +22,7 @@ class PublicPromoController extends Controller
         $promos = Promo::query()
             ->where('is_active', true)
             ->orderBy('created_at', 'desc')
+            ->with('images')
             ->get();
 
         return view('public.promos.index', [

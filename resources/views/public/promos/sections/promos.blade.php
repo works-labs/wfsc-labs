@@ -37,6 +37,10 @@
 
                 @foreach ($promos as $index => $promo)
 
+                    @php
+                        $promoImages = collect($promo->galleryPaths)->map(fn ($path) => Storage::url($path))->values()->all();
+                    @endphp
+
                     <button
                         type="button"
 
@@ -44,7 +48,8 @@
 
                         data-promo-title="{{ $promo->title }}"
                         data-promo-description="{{ $promo->description ?? '' }}"
-                        data-promo-image="{{ $promo->image ? Storage::url($promo->image) : '' }}"
+                        data-promo-image="{{ $promoImages[0] ?? '' }}"
+                        data-promo-images='@json($promoImages)'
 
                         data-reveal="up"
                         data-delay="{{ ($index + 1) * 100 }}"
