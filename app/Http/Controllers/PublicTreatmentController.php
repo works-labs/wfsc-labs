@@ -17,6 +17,7 @@ class PublicTreatmentController extends Controller
                 'treatments' => function ($query) {
                     $query
                         ->where('is_active', true)
+                        ->orderBy('sort_order')
                         ->orderBy('id');
                 },
             ])

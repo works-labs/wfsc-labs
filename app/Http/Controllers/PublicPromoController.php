@@ -21,7 +21,8 @@ class PublicPromoController extends Controller
 
         $promos = Promo::query()
             ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('sort_order')
+            ->orderBy('id')
             ->with('images')
             ->get();
 

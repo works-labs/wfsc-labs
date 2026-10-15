@@ -14,6 +14,7 @@ class Treatment extends Model
     // add models dulu bjir :)
      protected $fillable = [
         'category_id',
+        'sort_order',
         'name',
         'slug',
         'short_description',

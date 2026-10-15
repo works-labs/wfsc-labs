@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin/treatments', 'admin.treatments.index')
         ->name('admin.treatments.index');
 
+    Route::livewire('/admin/treatments/order', 'admin.treatments.order')
+        ->name('admin.treatments.order');
+
     Route::livewire('/admin/treatments/create', 'admin.treatments.create')
         ->name('admin.treatments.create');
 
@@ -118,6 +121,9 @@ Route::middleware('auth')->group(function () {
     // route prommos
     Route::livewire('/admin/home/promos', 'admin.home.promos.index')
     ->name('admin.home.promos.index');
+
+    Route::livewire('/admin/home/promos/order', 'admin.home.promos.order')
+    ->name('admin.home.promos.order');
 
     Route::livewire('/admin/home/promos/create', 'admin.home.promos.create')
     ->name('admin.home.promos.create');
@@ -220,6 +226,9 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/skincare/products', 'admin.skincare.products.index')
     ->name('admin.skincare.products.index');
+
+    Route::livewire('/skincare/products/order', 'admin.skincare.products.order')
+        ->name('admin.skincare.products.order');
 
     Route::livewire('/skincare/products/create', 'admin.skincare.products.create')
         ->name('admin.skincare.products.create');

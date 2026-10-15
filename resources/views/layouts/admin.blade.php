@@ -31,6 +31,11 @@
             {{-- Navigation --}}
             <nav class="elegant-scrollbar flex-1 space-y-1 overflow-y-auto px-4 py-6">
 
+                @include('layouts.admin-navigation')
+
+                {{-- Legacy navigation retained in source for reference; grouped navigation above is active. --}}
+                @if (false)
+
                 {{-- Dashboard --}}
                 <a href="{{ route('admin.dashboard') }}" wire:navigate
                     class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-300 mb-6
@@ -42,9 +47,9 @@
                     Dashboard
                 </a>
 
-                {{-- Clinic Management --}}
+                {{-- Treatments --}}
                 <div>
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Manajemen Klinik</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Treatments</p>
 
                     <a href="{{ route('admin.doctors.index') }}" wire:navigate
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200
@@ -82,9 +87,9 @@
                     </a>
                 </div>
 
-                {{-- Products (Skincare) --}}
+                {{-- Skincare --}}
                 <div class="pt-6">
-                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Produk</p>
+                    <p class="mb-3 px-4 text-[11px] font-bold uppercase tracking-wider text-gray-400">Skincare</p>
 
                     <div x-data="{ open: {{ request()->routeIs('admin.skincare.*') ? 'true' : 'false' }} }">
                         <button @click="open = !open" 
@@ -221,6 +226,7 @@
                         Pengaturan Situs
                     </a>
                 </div>
+                @endif
             </nav>
 
             {{-- User Profile Area --}}

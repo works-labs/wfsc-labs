@@ -76,6 +76,10 @@ new #[Layout('layouts.admin')] class extends Component
             unset($validated['cover_image']);
         }
 
+        if ((int) $this->treatment->category_id !== (int) $this->category_id) {
+            $validated['sort_order'] = ((int) Treatment::where('category_id', $this->category_id)->max('sort_order')) + 1;
+        }
+
         $this->treatment->update($validated);
 
         session()->flash('success', 'Treatment updated successfully.');

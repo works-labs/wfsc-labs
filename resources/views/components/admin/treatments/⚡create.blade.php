@@ -45,6 +45,8 @@ new #[Layout('layouts.admin')] class extends Component
             $validated['cover_image'] = $this->cover_image->store('treatments', 'public');
         }
 
+        $validated['sort_order'] = ((int) Treatment::where('category_id', $this->category_id)->max('sort_order')) + 1;
+
         Treatment::create($validated);
 
         session()->flash('success', 'Treatment created successfully.');
