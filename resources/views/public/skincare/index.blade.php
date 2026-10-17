@@ -177,7 +177,7 @@
                         data-reveal="up"
                         data-delay="{{ ($index + 1) * 100 }}"
                         data-skincare-card
-                        class="reveal-hidden group flex flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] sm:rounded-[1.75rem] sm:p-4 lg:col-span-2 {{ $index % 5 === 3 ? 'lg:col-start-2' : ($index % 5 === 4 ? 'lg:col-start-4' : '') }}"
+                        class="reveal-hidden group flex flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] sm:rounded-[1.75rem] sm:p-4 lg:col-span-2"
                     >
 
                         {{-- Product Image --}}

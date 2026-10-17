@@ -245,12 +245,7 @@ new #[Layout('layouts.admin')] class extends Component
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Upload New Image</label>
-                    <input
-                        type="file"
-                        wire:model="background_image"
-                        accept="image/*"
-                        class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
-                    >
+                    <x-admin.image-cropper model="background_image" ratio="16/9" :width="1920" :height="1080" label="Background Image" />
                     <p class="mt-1.5 text-xs font-medium text-gray-400">
                         Kosongkan jika tidak ingin mengganti gambar. JPG, PNG, atau WebP · tepat 1920 × 1080 px · maksimal 4 MB · rasio 16:9.
                     </p>

@@ -156,4 +156,4 @@ Component berada di `resources/views/components/admin/image-cropper.blade.php` d
 
 ### Status
 
-Reusable cropper selesai dibuat dan sudah aktif pada form produk skincare. Penerapan ke form banner, dokter, news, promo, treatment, kategori treatment, hero homepage, dan fasilitas dilakukan bertahap setelah pilot dikonfirmasi stabil.
+Reusable cropper sudah aktif pada create/edit produk skincare, banner, dokter, news, promo, treatment, kategori treatment, hero homepage, dan fasilitas. Field promo juga mendukung pemilihan beberapa gambar; setiap gambar dipotong satu per satu sebelum dikirim ke Livewire.

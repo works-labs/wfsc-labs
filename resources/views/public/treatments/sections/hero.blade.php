@@ -8,7 +8,7 @@
                 alt="{{ $treatment->name }}"
                 class="h-full w-full object-cover object-center"
             >
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/65 to-black/40"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
         </div>
     @else
         <div class="absolute inset-0 z-0 bg-wfsc-coral">
@@ -29,7 +29,7 @@
         class="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 sm:px-8 lg:px-12 lg:pt-20"
     >
 
-        <div class="max-w-4xl">
+        <div class="max-w-4xl drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">
 
             {{-- Category --}}
             @if ($treatment->category)

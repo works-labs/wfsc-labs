@@ -113,8 +113,7 @@ new #[Layout('layouts.admin')] class extends Component
                             </div>
                         @endif
                         <div class="w-full">
-                            <input type="file" wire:model="image" accept="image/*" 
-                                class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                            <x-admin.image-cropper model="image" ratio="4/3" :width="1280" :height="960" label="Gambar Fasilitas" />
                             <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1280 × 960 px · maksimal 2 MB · rasio 4:3.</p>
                             @error('image') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                         </div>

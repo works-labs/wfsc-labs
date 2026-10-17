@@ -46,7 +46,7 @@ class PublicNewsController extends Controller
             })
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->paginate(5)
+            ->paginate(6)
             ->withQueryString();
 
         $activeCategory = $request->category;

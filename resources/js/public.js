@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentPage = Number(new URLSearchParams(window.location.search).get('page')) || 1;
         let previousPageSize = null;
 
-        const getPageSize = () => window.matchMedia('(max-width: 639px)').matches ? 10 : 5;
+        const getPageSize = () => window.matchMedia('(max-width: 639px)').matches ? 10 : 6;
 
         const render = (resetPage = false) => {
             const pageSize = getPageSize();

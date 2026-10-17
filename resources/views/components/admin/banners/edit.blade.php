@@ -264,12 +264,7 @@ class extends Component
                         Ganti Gambar
                     </label>
 
-                    <input
-                        type="file"
-                        wire:model="image"
-                        accept="image/jpeg,image/png,image/webp"
-                        class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"
-                    >
+                    <x-admin.image-cropper model="image" :ratio="$mode === 'mobile' ? '402/420' : '9/2'" :width="$mode === 'mobile' ? 402 : 1890" :height="420" label="Gambar Banner" />
 
                     <p class="mt-1.5 text-xs font-medium text-gray-400">
                         Kosongkan jika tidak ingin mengganti gambar. JPG, PNG, atau WebP · Desktop minimal 1890 × 420 px (9:2), Mobile minimal 402 × 420 px (402:420) · maksimal 5 MB.

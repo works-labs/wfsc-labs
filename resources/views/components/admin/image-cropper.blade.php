@@ -5,6 +5,7 @@
     'height' => 1080,
     'label' => 'Gambar',
     'existingUrl' => null,
+    'multiple' => false,
 ])
 
 <div
@@ -15,6 +16,7 @@
         outputHeight: {{ (int) $height }},
         maxBytes: 2 * 1024 * 1024,
         existingUrl: @js($existingUrl),
+        multiple: @js($multiple),
     })"
     class="w-full"
 >
@@ -26,8 +28,8 @@
         </template>
 
         <div class="w-full">
-            <input type="file" accept="image/jpeg,image/png,image/webp" @change="open($event)" class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
-            <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · {{ $width }} × {{ $height }} px · maksimal 2 MB · rasio {{ $ratio }}.</p>
+            <input type="file" accept="image/jpeg,image/png,image/webp" @change="open($event)" {{ $multiple ? 'multiple' : '' }} class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+            <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · {{ $width }} × {{ $height }} px · maksimal 2 MB per gambar · rasio {{ $ratio }}{{ $multiple ? ' · bisa memilih beberapa gambar' : '' }}.</p>
             @error($model) <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
         </div>
     </div>
@@ -39,7 +41,7 @@
                     <h3 class="text-lg font-black text-gray-900">Sesuaikan {{ strtolower($label) }}</h3>
                     <p class="text-xs text-gray-500">Geser gambar di dalam kotak untuk menyesuaikan posisi, lalu gunakan slider untuk memperbesar atau memperkecil.</p>
                 </div>
-                <button type="button" @click="close()" class="text-2xl leading-none text-gray-400 hover:text-gray-700">&times;</button>
+                <button type="button" @click="close()" :disabled="processing" class="text-2xl leading-none text-gray-400 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40">&times;</button>
             </div>
 
             <div x-ref="viewport" class="relative mx-auto max-h-[60vh] max-w-full overflow-hidden rounded-xl bg-gray-900" :style="`aspect-ratio: ${ratio.replace('/', ' / ')}`" @pointerdown="startDrag($event)" @pointermove="drag($event)" @pointerup="endDrag()" @pointercancel="endDrag()">
@@ -58,8 +60,11 @@
             </div>
 
             <div class="mt-5 flex justify-end gap-2">
-                <button type="button" @click="close()" class="rounded-xl px-4 py-2.5 text-sm font-bold text-gray-500 hover:bg-gray-100">Batal</button>
-                <button type="button" @click="cropAndUpload()" class="rounded-xl bg-[var(--color-wfsc-coral)] px-5 py-2.5 text-sm font-bold text-white hover:opacity-90">Gunakan Gambar</button>
+                <button type="button" @click="close()" :disabled="processing" class="rounded-xl px-4 py-2.5 text-sm font-bold text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40">Batal</button>
+                <button type="button" @click="cropAndUpload()" :disabled="processing" class="inline-flex min-w-36 items-center justify-center gap-2 rounded-xl bg-[var(--color-wfsc-coral)] px-5 py-2.5 text-sm font-bold text-white hover:opacity-90 disabled:cursor-wait disabled:opacity-70">
+                    <svg x-show="processing" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    <span x-text="processing ? 'Memproses...' : 'Gunakan Gambar'"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -74,20 +79,26 @@
                     sourceUrl: null,
                     previewUrl: config.existingUrl,
                     image: null,
+                    files: [],
+                    croppedFiles: [],
                     imageWidth: 0,
                     imageHeight: 0,
                     offsetX: 0,
                     offsetY: 0,
                     zoom: 1,
                     dragging: false,
+                    processing: false,
                     pointerX: 0,
                     pointerY: 0,
                     baseScale: 1,
                     viewportWidth: 0,
                     viewportHeight: 0,
                     open(event) {
-                        const file = event.target.files?.[0];
+                        const selectedFiles = Array.from(event.target.files || []);
+                        const file = selectedFiles[0];
                         if (!file) return;
+                        this.files = selectedFiles;
+                        this.croppedFiles = [];
                         this.image = file;
                         this.sourceUrl = URL.createObjectURL(file);
                         this.openModal = true;
@@ -145,6 +156,8 @@
                         this.dragging = false;
                     },
                     async cropAndUpload() {
+                        if (this.processing) return;
+                        this.processing = true;
                         const scale = this.imageWidth / this.$refs.source.naturalWidth;
                         const sx = Math.max(0, -this.offsetX / scale);
                         const sy = Math.max(0, -this.offsetY / scale);
@@ -166,14 +179,36 @@
 
                         if (blob.size > this.maxBytes) {
                             alert('Gambar hasil crop masih lebih dari 2 MB. Silakan gunakan gambar yang lebih sederhana atau kurangi detailnya.');
+                            this.processing = false;
                             return;
                         }
 
                         const file = new File([blob], this.image.name.replace(/\.[^/.]+$/, '') + '.jpg', { type: 'image/jpeg' });
-                        this.$wire.upload(this.model, file, () => {
+                        this.croppedFiles.push(file);
+                        const nextFile = this.files[this.croppedFiles.length];
+                        if (nextFile) {
+                            this.image = nextFile;
+                            this.sourceUrl = URL.createObjectURL(nextFile);
+                            this.$nextTick(() => { this.$refs.source.onload = () => this.fitImage(); });
+                            return;
+                        }
+
+                        const onSuccess = () => {
                             this.previewUrl = URL.createObjectURL(blob);
+                            this.processing = false;
                             this.close();
-                        }, () => alert('Gagal mengunggah gambar.'), () => {});
+                            this.files = [];
+                            this.croppedFiles = [];
+                        };
+                        const onError = () => {
+                            this.processing = false;
+                            alert('Gagal mengunggah gambar.');
+                        };
+                        if (this.multiple) {
+                            this.$wire.uploadMultiple(this.model, this.croppedFiles, onSuccess, onError, () => {});
+                        } else {
+                            this.$wire.upload(this.model, file, onSuccess, onError, () => {});
+                        }
                     },
                     canvasBlob(canvas, quality) {
                         return new Promise((resolve) => {
@@ -181,6 +216,7 @@
                         });
                     },
                     close() {
+                        if (this.processing) return;
                         this.openModal = false;
                         if (this.sourceUrl) URL.revokeObjectURL(this.sourceUrl);
                         this.sourceUrl = null;

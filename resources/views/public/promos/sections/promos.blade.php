@@ -132,6 +132,12 @@
 
             </div>
 
+            @if ($promos->hasPages())
+                <div class="mt-10">
+                    {{ $promos->links('pagination.public') }}
+                </div>
+            @endif
+
         @else
 
             {{-- Empty State --}}

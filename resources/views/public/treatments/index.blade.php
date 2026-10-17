@@ -137,7 +137,7 @@
 
                         @foreach ($category->treatments as $treatment)
 
-                            <article class="group flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] lg:col-span-2 {{ $loop->iteration === 4 ? 'lg:col-start-2' : ($loop->iteration === 5 ? 'lg:col-start-4' : '') }}">
+                            <article class="group flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] lg:col-span-2">
 
                                 <div>
                                     {{-- Image --}}

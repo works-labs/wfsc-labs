@@ -142,8 +142,7 @@ new #[Layout('layouts.admin')] class extends Component
                         @endif
 
                         <div class="w-full">
-                            <input type="file" wire:model="image" accept="image/*" 
-                                class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
+                            <x-admin.image-cropper model="image" ratio="4/3" :width="1280" :height="960" label="Gambar Fasilitas" />
                             <p class="mt-2 text-xs font-medium text-gray-400">Kosongkan jika tidak ingin mengganti gambar. JPG, PNG, atau WebP · tepat 1280 × 960 px · maksimal 2 MB · rasio 4:3.</p>
                             <div wire:loading wire:target="image" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
                                 <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>

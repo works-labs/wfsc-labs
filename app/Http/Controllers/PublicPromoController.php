@@ -24,7 +24,8 @@ class PublicPromoController extends Controller
             ->orderBy('sort_order')
             ->orderBy('id')
             ->with('images')
-            ->get();
+            ->paginate(6)
+            ->withQueryString();
 
         return view('public.promos.index', [
             'desktopBanner' => $desktopBanner,

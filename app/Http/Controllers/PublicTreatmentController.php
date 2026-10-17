@@ -26,7 +26,7 @@ class PublicTreatmentController extends Controller
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->orderBy('id')
-                ->paginate(5, ['*'], $pageName)
+                ->paginate(6, ['*'], $pageName)
                 ->withQueryString()
                 ->fragment('category-' . $category->id);
 
