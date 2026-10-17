@@ -118,3 +118,42 @@ Perbaikan lanjutan pada reset `Default`: ketika fokus berpindah ke dropdown, fun
 ## 2026-10-14 — Perbaikan penghapusan margin spacing
 
 Memperbaiki format nama properti CSS saat opsi `Default` dipilih. Sebelumnya `marginTop`/`marginBottom` tidak terhapus karena `removeProperty` membutuhkan format CSS `margin-top`/`margin-bottom`. Validasi ulang berhasil dengan `git diff --check` dan `php artisan view:cache`.
+
+## 2026-10-17 — Reusable image cropper native Canvas
+
+### Keputusan
+
+Upload gambar pada CRUD admin dibuat lebih ramah pengguna dengan cropper reusable berbasis JavaScript native dan Canvas. Implementasi tidak menggunakan npm/library eksternal sehingga tetap kompatibel dengan hosting cPanel yang tidak menyediakan Node.js/npm.
+
+### Alur
+
+1. Admin memilih gambar melalui field upload.
+2. Modal crop menampilkan preview, grid 3×3, kontrol drag, dan zoom.
+3. Gambar tidak dapat digeser sampai meninggalkan area crop.
+4. Canvas menghasilkan file baru sesuai ukuran dan rasio field.
+5. File dikirim ke Livewire hanya setelah crop selesai.
+6. Jika hasil crop lebih dari batas file, kualitas JPEG diturunkan bertahap. Jika sudah di bawah batas, tidak dikompres lagi.
+7. Validasi Laravel tetap menjadi pengaman terakhir.
+
+### Component reusable
+
+Component berada di `resources/views/components/admin/image-cropper.blade.php` dan dipanggil dengan konfigurasi model, rasio, lebar, serta tinggi output. Pilot awal sudah diterapkan pada create/edit produk skincare.
+
+### Standar media admin
+
+| Form | Ukuran output | Rasio | Maksimal file |
+|---|---:|---:|---:|
+| Banner desktop | 1890 × 420 px | 9:2 | 5 MB |
+| Banner mobile | 402 × 420 px | 402:420 | 5 MB |
+| Dokter | 1080 × 1440 px | 3:4 | 5 MB |
+| News thumbnail | 1600 × 1000 px | 8:5 | 2 MB |
+| Promo image | 1080 × 1350 px | 4:5 | 5 MB |
+| Treatment | 1280 × 1024 px | 5:4 | 5 MB |
+| Treatment category | 1080 × 1350 px | 4:5 | 5 MB |
+| Hero homepage | 1920 × 1080 px | 16:9 | 4 MB |
+| Facility | 1280 × 960 px | 4:3 | 2 MB |
+| Skincare product | 1080 × 1350 px | 4:5 | 2 MB |
+
+### Status
+
+Reusable cropper selesai dibuat dan sudah aktif pada form produk skincare. Penerapan ke form banner, dokter, news, promo, treatment, kategori treatment, hero homepage, dan fasilitas dilakukan bertahap setelah pilot dikonfirmasi stabil.

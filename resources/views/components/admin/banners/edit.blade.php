@@ -25,6 +25,7 @@ class extends Component
 
     public array $placements = [
         'treatments' => 'Treatment',
+        'before-after' => 'Before & After',
         'promos' => 'Promo',
         'skincare' => 'Skincare',
         'contact-us' => 'Contact',

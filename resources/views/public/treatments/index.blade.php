@@ -78,7 +78,7 @@
                         type="button"
                         data-treatment-tab="{{ $category->id }}"
                         class="treatment-chip inline-flex h-9 shrink-0 items-center rounded-full border px-4 text-xs font-semibold leading-5 transition-colors duration-300 sm:h-10 sm:px-5 sm:text-sm focus:outline-none
-                            {{ $index === 0
+                            {{ ($activeCategoryId ?? null) === $category->id || (($activeCategoryId ?? null) === null && $index === 0)
                                 ? 'bg-[#FF5252] text-white border-[#FF5252] hover:border-[#FF5252] hover:text-white'
                                 : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#FF5252] hover:text-[#FF5252]' }}"
                     >
@@ -111,7 +111,7 @@
 
             <div
                 data-treatment-panel="{{ $category->id }}"
-                class="{{ $loop->first ? '' : 'hidden' }} transition-opacity duration-500"
+                class="{{ ($activeCategoryId ?? null) === $category->id || (($activeCategoryId ?? null) === null && $loop->first) ? '' : 'hidden' }} transition-opacity duration-500"
             >
 
                 {{-- Category Heading (Centered & Dibatasi Lebarnya) --}}
@@ -133,11 +133,11 @@
                 {{-- Treatment Cards Grid --}}
                 @if ($category->treatments->isNotEmpty())
 
-                    <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-6">
 
                         @foreach ($category->treatments as $treatment)
 
-                            <article class="group flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)]">
+                            <article class="group flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] lg:col-span-2 {{ $loop->iteration === 4 ? 'lg:col-start-2' : ($loop->iteration === 5 ? 'lg:col-start-4' : '') }}">
 
                                 <div>
                                     {{-- Image --}}
@@ -218,6 +218,12 @@
                         @endforeach
 
                     </div>
+
+                    @if ($category->treatments->hasPages())
+                        <div class="mt-10">
+                            {{ $category->treatments->links('pagination.public') }}
+                        </div>
+                    @endif
 
                 @else
 

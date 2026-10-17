@@ -1,4 +1,4 @@
-<section class="public-responsive-banner relative isolate overflow-hidden bg-wfsc-coral text-white">
+<section class="public-responsive-banner relative isolate overflow-hidden bg-neutral-900 text-white">
 
     @if ($desktopBanner || $mobileBanner)
 
@@ -7,13 +7,13 @@
                 <source media="(max-width: 639px)" srcset="{{ Storage::url($mobileBanner->image) }}">
             @endif
             @if ($desktopBanner)
-                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-cover opacity-20 mix-blend-overlay">
+                <img src="{{ Storage::url($desktopBanner->image) }}" alt="{{ $desktopBanner->title }}" class="h-full w-full object-cover">
             @else
-                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-cover opacity-20 mix-blend-overlay">
+                <img src="{{ Storage::url($mobileBanner->image) }}" alt="{{ $mobileBanner->title }}" class="h-full w-full object-cover">
             @endif
         </picture>
 
-        <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+        <div class="absolute inset-0 bg-black/50"></div>
 
     @endif
 

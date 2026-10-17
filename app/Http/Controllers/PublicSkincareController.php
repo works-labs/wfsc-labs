@@ -24,7 +24,7 @@ class PublicSkincareController extends Controller
             ->orderBy('name')
             ->get();
 
-        $products = SkincareProduct::query()
+        $productsQuery = SkincareProduct::query()
             ->where('is_active', true)
             ->with([
                 'categories' => function ($query) {
@@ -45,8 +45,29 @@ class PublicSkincareController extends Controller
                 }
             )
             ->orderBy('sort_order')
-            ->orderBy('name')
-            ->get();
+            ->orderBy('name');
+
+        if ($request->filled('category')) {
+            $activeCategory = SkincareCategory::query()
+                ->where('slug', $request->category)
+                ->where('is_active', true)
+                ->first();
+
+            if ($activeCategory) {
+                $productsQuery
+                    ->join('skincare_category_product as category_product_order', function ($join) use ($activeCategory) {
+                        $join->on('category_product_order.skincare_product_id', '=', 'skincare_products.id')
+                            ->where('category_product_order.skincare_category_id', $activeCategory->id);
+                    })
+                    ->select('skincare_products.*')
+                    ->reorder()
+                    ->orderBy('category_product_order.sort_order')
+                    ->orderBy('skincare_products.sort_order')
+                    ->orderBy('skincare_products.name');
+            }
+        }
+
+        $products = $productsQuery->get();
 
         $activeCategory = $request->category;
 

@@ -5,24 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use App\Models\Treatment;
 use App\Models\TreatmentCategory;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PublicTreatmentController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $categories = TreatmentCategory::query()
             ->where('is_active', true)
-            ->with([
-                'treatments' => function ($query) {
-                    $query
-                        ->where('is_active', true)
-                        ->orderBy('sort_order')
-                        ->orderBy('id');
-                },
-            ])
             ->orderBy('sort_order')
             ->get();
+
+        $activeCategoryId = null;
+
+        foreach ($categories as $category) {
+            $pageName = 'treatments_page_' . $category->id;
+
+            $treatments = $category->treatments()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->paginate(5, ['*'], $pageName)
+                ->withQueryString()
+                ->fragment('category-' . $category->id);
+
+            if ($request->filled($pageName)) {
+                $activeCategoryId = $category->id;
+            }
+
+            $category->setRelation('treatments', $treatments);
+        }
 
         $news = News::query()
             ->where('is_active', true)
@@ -47,6 +60,7 @@ class PublicTreatmentController extends Controller
             'desktopBanner' => $desktopBanner,
             'mobileBanner' => $mobileBanner,
             'categories' => $categories,
+            'activeCategoryId' => $activeCategoryId,
             'news' => $news,
         ]);
     }

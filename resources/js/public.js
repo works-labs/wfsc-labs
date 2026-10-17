@@ -96,6 +96,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
+       4. Responsive Skincare Pagination
+       ========================================================================== */
+    const initSkincarePagination = () => {
+        const grid = document.querySelector('[data-skincare-pagination]');
+        const controls = document.querySelector('[data-skincare-pagination-controls]');
+        if (!grid || !controls) return;
+
+        const cards = Array.from(grid.querySelectorAll('[data-skincare-card]'));
+        if (cards.length === 0) return;
+
+        let currentPage = Number(new URLSearchParams(window.location.search).get('page')) || 1;
+        let previousPageSize = null;
+
+        const getPageSize = () => window.matchMedia('(max-width: 639px)').matches ? 10 : 5;
+
+        const render = (resetPage = false) => {
+            const pageSize = getPageSize();
+            const totalPages = Math.max(1, Math.ceil(cards.length / pageSize));
+
+            if (resetPage || pageSize !== previousPageSize) {
+                currentPage = Math.min(currentPage, totalPages);
+            }
+
+            previousPageSize = pageSize;
+
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+
+            cards.forEach((card, index) => {
+                card.hidden = index < start || index >= end;
+            });
+
+            if (totalPages <= 1) {
+                controls.replaceChildren();
+                return;
+            }
+
+            const firstItem = start + 1;
+            const lastItem = Math.min(end, cards.length);
+            controls.innerHTML = `
+                <nav class="flex flex-col items-center justify-between gap-4 sm:flex-row" aria-label="Pagination produk skincare">
+                    <p class="text-xs text-neutral-500 sm:text-sm">
+                        Menampilkan <span class="font-semibold text-neutral-700">${firstItem}–${lastItem}</span>
+                        dari <span class="font-semibold text-neutral-700">${cards.length}</span> produk
+                    </p>
+                    <div class="flex items-center gap-1.5">
+                        <button type="button" data-skincare-page="prev" class="inline-flex h-9 items-center rounded-lg border border-neutral-200 bg-white px-3 text-xs font-semibold text-neutral-600 transition hover:border-[#FF5252]/40 hover:text-[#FF5252] disabled:cursor-not-allowed disabled:text-neutral-300">
+                            Sebelumnya
+                        </button>
+                        <span class="px-2 text-xs font-semibold text-neutral-600">${currentPage} / ${totalPages}</span>
+                        <button type="button" data-skincare-page="next" class="inline-flex h-9 items-center rounded-lg border border-neutral-200 bg-white px-3 text-xs font-semibold text-neutral-600 transition hover:border-[#FF5252]/40 hover:text-[#FF5252] disabled:cursor-not-allowed disabled:text-neutral-300">
+                            Berikutnya
+                        </button>
+                    </div>
+                </nav>
+            `;
+
+            controls.querySelector('[data-skincare-page="prev"]').disabled = currentPage === 1;
+            controls.querySelector('[data-skincare-page="next"]').disabled = currentPage === totalPages;
+        };
+
+        controls.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-skincare-page]');
+            if (!button) return;
+
+            const totalPages = Math.ceil(cards.length / getPageSize());
+            currentPage += button.dataset.skincarePage === 'next' ? 1 : -1;
+            currentPage = Math.max(1, Math.min(currentPage, totalPages));
+
+            const url = new URL(window.location.href);
+            url.searchParams.set('page', currentPage);
+            history.replaceState(null, '', url);
+            render();
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => render(true), 150);
+        }, { passive: true });
+
+        render();
+    };
+
+
+    /* ==========================================================================
        4. Fade / Chunk Switcher Slider
        ========================================================================== */
     class FadeSlider {
@@ -874,6 +961,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initNavbar();
     initTreatmentTabs();
+    initSkincarePagination();
     initBeforeAfterLightbox();
     initBeforeAfterNavigation();
     initPromoLightbox();

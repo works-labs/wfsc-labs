@@ -75,7 +75,7 @@
         {{-- News Cards --}}
         @if ($news->isNotEmpty())
 
-            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
 
                 @foreach ($news as $index => $item)
 
@@ -83,7 +83,7 @@
                         href="{{ route('news.show', $item->slug) }}"
                         data-reveal="up"
                         data-delay="{{ ($index + 1) * 100 }}"
-                        class="reveal-hidden group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                        class="reveal-hidden group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-2 {{ $loop->iteration === 4 ? 'lg:col-start-2' : ($loop->iteration === 5 ? 'lg:col-start-4' : '') }}"
                     >
 
                         {{-- Thumbnail --}}
@@ -201,7 +201,7 @@
             @if ($news->hasPages())
 
                 <div class="mt-10">
-                    {{ $news->links() }}
+                    {{ $news->links('pagination.public') }}
                 </div>
 
             @endif

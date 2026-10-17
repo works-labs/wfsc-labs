@@ -28,12 +28,12 @@
                     <img
                         src="{{ Storage::url($product->image) }}"
                         alt="{{ $product->name }}"
-                        class="aspect-square w-full rounded-[1.5rem] object-cover"
+                        class="aspect-[4/5] w-full rounded-[1.5rem] object-contain"
                     >
 
                 @else
 
-                    <div class="flex aspect-square items-center justify-center rounded-[1.5rem] bg-neutral-100">
+                    <div class="flex aspect-[4/5] items-center justify-center rounded-[1.5rem] bg-neutral-100">
                         <span class="text-sm text-neutral-400">
                             {{ $product->name }}
                         </span>

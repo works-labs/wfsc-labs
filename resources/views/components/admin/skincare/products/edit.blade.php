@@ -79,7 +79,7 @@ class extends Component
                     ->ignore($this->skincareProduct->id),
             ],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048', 'dimensions:width=1080,height=1080'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048', 'dimensions:width=1080,height=1350'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'shopee_url' => ['nullable', 'url', 'max:255'],
             'sort_order' => ['required', 'integer', 'min:0'],
@@ -236,7 +236,9 @@ class extends Component
                 <h2 class="text-lg font-bold text-[var(--color-wfsc-dark)]">Gambar Produk</h2>
             </div>
 
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <x-admin.image-cropper model="image" ratio="4/5" :width="1080" :height="1350" label="Gambar Produk" :existing-url="$existingImage ? asset('storage/' . $existingImage) : null" />
+
+            <div class="hidden flex flex-col gap-4 sm:flex-row sm:items-center">
                 @if ($existingImage && !$image)
                     <div class="shrink-0">
                         <img src="{{ asset('storage/' . $existingImage) }}" alt="{{ $name }}" class="h-24 w-24 rounded-2xl object-cover shadow-sm ring-4 ring-gray-50">
@@ -253,7 +255,7 @@ class extends Component
                 <div class="w-full">
                     <input type="file" wire:model="image" accept="image/jpeg,image/png,image/webp" 
                         class="block w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-2.5 text-sm text-gray-600 transition-colors file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-bold file:text-[var(--color-wfsc-coral)] file:shadow-sm hover:file:bg-rose-50 focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]">
-                    <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1080 px · maksimal 2 MB · rasio 1:1.</p>
+                    <p class="mt-2 text-xs font-medium text-gray-400">JPG, PNG, atau WebP · tepat 1080 × 1350 px · maksimal 2 MB · rasio 4:5 (portrait).</p>
                     <div wire:loading wire:target="image" class="mt-2 text-xs font-bold text-[var(--color-wfsc-coral)] flex items-center gap-1.5">
                         <svg class="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         Mengunggah pratinjau...

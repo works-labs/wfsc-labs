@@ -31,7 +31,7 @@ class SkincareProduct extends Model
             'skincare_category_product',
             'skincare_product_id',
             'skincare_category_id'
-        );
+        )->withPivot('sort_order');
     }
 
     public function attributes(): BelongsToMany

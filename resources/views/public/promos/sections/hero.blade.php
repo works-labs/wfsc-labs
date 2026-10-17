@@ -1,5 +1,10 @@
 @if ($desktopBanner || $mobileBanner)
 
+@php
+    $desktopContent = $desktopBanner ?? $mobileBanner;
+    $mobileContent = $mobileBanner ?? $desktopBanner;
+@endphp
+
 <section class="public-responsive-banner relative isolate overflow-hidden bg-neutral-900 text-white">
 
     {{-- Background Image --}}
@@ -47,25 +52,45 @@
 
 
             {{-- Title --}}
-            @if (($desktopBanner ?? $mobileBanner)->title)
+            @if ($desktopContent->title)
                 <h1
                     data-reveal="left"
                     data-delay="100"
-                    class="reveal-hidden text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+                    class="reveal-hidden hidden text-4xl font-black leading-tight tracking-tight sm:block sm:text-5xl lg:text-6xl"
                 >
-                    {{ ($desktopBanner ?? $mobileBanner)->title }}
+                    {{ $desktopContent->title }}
+                </h1>
+            @endif
+
+            @if ($mobileContent->title)
+                <h1
+                    data-reveal="left"
+                    data-delay="100"
+                    class="reveal-hidden text-4xl font-black leading-tight tracking-tight sm:hidden"
+                >
+                    {{ $mobileContent->title }}
                 </h1>
             @endif
 
 
             {{-- Subtitle --}}
-            @if (($desktopBanner ?? $mobileBanner)->subtitle)
+            @if ($desktopContent->subtitle)
                 <p
                     data-reveal="left"
                     data-delay="200"
-                    class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85"
+                    class="reveal-hidden mt-6 hidden line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85 sm:block"
                 >
-                    {{ ($desktopBanner ?? $mobileBanner)->subtitle }}
+                    {{ $desktopContent->subtitle }}
+                </p>
+            @endif
+
+            @if ($mobileContent->subtitle)
+                <p
+                    data-reveal="left"
+                    data-delay="200"
+                    class="reveal-hidden mt-6 line-clamp-2 max-w-2xl text-base leading-relaxed text-white/85 sm:hidden"
+                >
+                    {{ $mobileContent->subtitle }}
                 </p>
             @endif
 

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SiteContentSeeder::class,
             PromoSeeder::class,
             NewsSeeder::class,
+            SkincareSeeder::class,
         ]);
     }
 }

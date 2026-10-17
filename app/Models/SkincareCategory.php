@@ -27,6 +27,6 @@ class SkincareCategory extends Model
             'skincare_category_product',
             'skincare_category_id',
             'skincare_product_id'
-        );
+        )->withPivot('sort_order');
     }
 }

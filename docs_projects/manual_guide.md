@@ -7,6 +7,9 @@ Gunakan panduan ini saat menyiapkan gambar atau video untuk diunggah ke website 
 - Format yang diterima: **JPG, PNG, atau WebP**.
 - Jangan menambahkan border, canvas, atau ruang kosong di luar ukuran desain.
 - Gunakan ukuran pixel dan rasio yang sesuai agar gambar tidak terpotong atau terlihat gepeng.
+- Pada form yang sudah memakai cropper, pilih gambar lalu geser dan zoom di dalam grid crop sebelum menekan `Gunakan Gambar`.
+- Cropper menghasilkan file baru sesuai ukuran output. Resolusi tidak mengikuti ukuran asli upload.
+- Jika hasil crop masih di bawah batas maksimal file, kualitasnya dipertahankan. Kompresi tambahan hanya dilakukan jika melewati batas.
 - Jika ingin menggunakan resolusi lebih tinggi, pertahankan rasio yang sama.
 
 ## Ukuran gambar banner
@@ -23,7 +26,7 @@ Untuk banner halaman mobile, gunakan ukuran maksimal **402 × 420 px** dengan ra
 
 ## Catatan fitur banner publik
 
-- Placement banner yang dikelola melalui Banner Manager: `treatments`, `promos`, `skincare`, dan `contact-us`.
+- Placement banner yang dikelola melalui Banner Manager: `treatments`, `before-after`, `promos`, `skincare`, dan `contact-us`.
 - Setiap placement dapat memiliki data `Desktop` dan `Mobile` secara terpisah.
 - Banner lama tanpa mode dianggap sebagai `Desktop` setelah migration.
 - Pada layar mobile, banner memenuhi lebar layar dan tinggi hero maksimal **420 px**. Gambar menggunakan `object-cover` agar tidak muncul ruang kosong di sisi kiri/kanan.
@@ -68,7 +71,7 @@ Untuk menjaga tampilan konsisten, dropdown filter admin menggunakan class UI `ad
 | Foto cover Treatment | **5:4** | **1280 × 1024 px** | **5 MB** |
 | Foto kategori Treatment di homepage | **4:5** | **1080 × 1350 px** | **5 MB** |
 | Thumbnail Promo | **4:5** | **1080 × 1350 px** | **5 MB** |
-| Foto produk Skincare | **1:1** | **1080 × 1080 px** | **2 MB** |
+| Foto produk Skincare | **4:5** | **1080 × 1350 px** | **2 MB** |
 | Foto produk Treatment / Products Used | **1:1** | **1080 × 1080 px** | **2 MB** |
 | Thumbnail News / Artikel | **16:10** | **1600 × 1000 px** | **2 MB** |
 | Foto Before After | **4:5** | **1080 × 1350 px** | **5 MB** |
@@ -103,7 +106,7 @@ Before After menggunakan **satu foto gabungan** yang sudah menampilkan hasil bef
 | Treatment | **1280 × 1024 px** |
 | Kategori Treatment | **1080 × 1350 px** |
 | Promo | **1080 × 1350 px** |
-| Skincare | **1080 × 1080 px** |
+| Skincare | **1080 × 1350 px** |
 | Produk Treatment | **1080 × 1080 px** |
 | News / Artikel | **1600 × 1000 px** |
 | Before After | **1080 × 1350 px** |

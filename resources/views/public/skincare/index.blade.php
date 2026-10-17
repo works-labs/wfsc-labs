@@ -169,14 +169,15 @@
 
         @if ($products->isNotEmpty())
 
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-skincare-pagination class="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-6">
 
                 @foreach ($products as $index => $product)
 
                     <article
                         data-reveal="up"
                         data-delay="{{ ($index + 1) * 100 }}"
-                        class="reveal-hidden group flex flex-col overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)]"
+                        data-skincare-card
+                        class="reveal-hidden group flex flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF5252]/30 hover:shadow-[0_12px_30px_rgba(255,82,82,0.12)] sm:rounded-[1.75rem] sm:p-4 lg:col-span-2 {{ $index % 5 === 3 ? 'lg:col-start-2' : ($index % 5 === 4 ? 'lg:col-start-4' : '') }}"
                     >
 
                         {{-- Product Image --}}
@@ -191,12 +192,12 @@
                                     src="{{ Storage::url($product->image) }}"
                                     alt="{{ $product->name }}"
                                     loading="lazy"
-                                    class="aspect-square w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                    class="aspect-[4/5] w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                                 >
 
                             @else
 
-                                <div class="flex aspect-square items-center justify-center bg-neutral-100">
+                                <div class="flex aspect-[4/5] items-center justify-center bg-neutral-100">
                                     <span class="text-sm text-neutral-400">
                                         {{ $product->name }}
                                     </span>
@@ -212,50 +213,21 @@
 
 
                         {{-- Product Content --}}
-                        <div class="flex flex-1 flex-col px-2 pt-5">
-
-                            {{-- Attributes --}}
-                            @if ($product->attributes->isNotEmpty())
-
-                                <div class="mb-3 flex flex-wrap gap-1.5">
-
-                                    @foreach ($product->attributes->take(3) as $attribute)
-
-                                        <span class="rounded-full border border-[#FF5252]/15 bg-[#FF5252]/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#FF5252]">
-                                            {{ $attribute->name }}
-                                        </span>
-
-                                    @endforeach
-
-                                </div>
-
-                            @endif
-
+                        <div class="flex flex-1 flex-col px-2 pt-4 pb-1">
 
                             {{-- Name --}}
-                            <h3 class="text-xl font-bold tracking-tight text-neutral-900 transition-colors duration-300 group-hover:text-[#FF5252]">
+                            <h3 class="text-sm font-bold leading-snug tracking-tight text-neutral-900 transition-colors duration-300 group-hover:text-[#FF5252] sm:text-xl">
                                 {{ $product->name }}
                             </h3>
-
-
-                            {{-- Description --}}
-                            @if ($product->description)
-
-                                <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-500">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($product->description), 150) }}
-                                </p>
-
-                            @endif
-
 
                             {{-- Categories --}}
                             @if ($product->categories->isNotEmpty())
 
-                                <div class="mt-4 flex flex-wrap gap-1.5">
+                                <div class="mt-2 flex flex-wrap gap-1.5">
 
                                     @foreach ($product->categories as $category)
 
-                                        <span class="text-xs font-medium text-neutral-400">
+                                        <span class="text-[10px] font-medium leading-tight text-neutral-400 sm:text-xs">
                                             {{ $category->name }}@if (!$loop->last),@endif
                                         </span>
 
@@ -267,18 +239,18 @@
 
 
                             {{-- Bottom --}}
-                            <div class="mt-auto pt-6">
+                            <div class="mt-auto pt-4">
 
                                 <div class="flex items-center justify-between border-t border-neutral-100 pt-4">
 
                                     @if ($product->price !== null)
                                         <div>
 
-                                            <p class="text-xs font-medium uppercase tracking-wider text-neutral-400">
+                                            <p class="text-[9px] font-medium uppercase tracking-wider text-neutral-400 sm:text-xs">
                                                 Price
                                             </p>
 
-                                            <p class="mt-0.5 text-lg font-black text-neutral-900">
+                                            <p class="mt-0.5 text-sm font-black text-neutral-900 sm:text-lg">
                                                 Rp {{ number_format((float) $product->price, 0, ',', '.') }}
                                             </p>
 
@@ -288,7 +260,7 @@
 
                                     <a
                                         href="{{ route('skincare.show', $product->slug) }}"
-                                        class="ml-auto flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-900 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FF5252] group-hover:text-white"
+                                        class="ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm text-neutral-900 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FF5252] group-hover:text-white sm:h-9 sm:w-9 sm:text-base"
                                         aria-label="Lihat {{ $product->name }}"
                                     >
                                         →
@@ -305,6 +277,8 @@
                 @endforeach
 
             </div>
+
+            <div data-skincare-pagination-controls class="mt-10"></div>
 
         @else
 

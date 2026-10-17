@@ -10,7 +10,7 @@
             >
         @endif
         
-        <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/70 to-black/40 lg:via-neutral-900/50"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-neutral-900/40 via-neutral-900/15 to-black/10 lg:via-neutral-900/10"></div>
     </div>
 
     {{-- Main Hero Content --}}
@@ -21,12 +21,12 @@
             <div class="order-1 max-w-2xl lg:col-span-7">
                 @if ($hero = $heroBanners->first())
 
-                    <p data-reveal="left" data-delay="100" class="reveal-hidden mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 sm:text-sm">
+                    <p data-reveal="left" data-delay="100" class="reveal-hidden mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] sm:text-sm">
                         {{ $hero->subtitle }}
                     </p>
 
                     {{-- Title --}}
-                    <h1 data-reveal="left" data-delay="300" class="reveal-hidden text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
+                    <h1 data-reveal="left" data-delay="300" class="reveal-hidden text-3xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] sm:text-5xl md:text-6xl xl:text-7xl">
                         {{ $hero->title }}
                     </h1>
 
@@ -71,12 +71,12 @@
                             </div>
 
                             <div class="mt-3 text-center lg:text-left">
-                                <p class="text-xs font-semibold text-white transition-colors duration-300 group-hover:text-white/80 sm:text-sm">
+                                <p class="text-xs font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] transition-colors duration-300 group-hover:text-white/80 sm:text-sm">
                                     {{ $doctor->title }} {{ $doctor->name }}
                                 </p>
 
                                 @if ($doctor->specialization)
-                                    <p class="mt-0.5 text-[11px] text-white/60 sm:text-xs">
+                                    <p class="mt-0.5 text-[11px] text-white/60 drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] sm:text-xs">
                                         {{ $doctor->specialization }}
                                     </p>
                                 @endif
@@ -95,11 +95,11 @@
             <div class="grid grid-cols-2 gap-2 rounded-2xl border border-white/20 bg-white/10 p-2.5 backdrop-blur-xl sm:grid-cols-4 sm:gap-3 sm:rounded-3xl sm:p-3 lg:flex lg:flex-row lg:items-center lg:justify-center lg:gap-0 lg:p-2.5">
                 @foreach ($statistics as $statistic)
                     <div class="min-w-[100px] px-3 py-2 text-center sm:px-4 lg:min-w-[130px] lg:border-r lg:border-white/15 lg:py-2 lg:last:border-r-0">
-                        <div class="text-lg font-bold text-white sm:text-xl lg:text-2xl">
+                        <div class="text-lg font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] sm:text-xl lg:text-2xl">
                             {{ $statistic->value }}{{ $statistic->suffix }}
                         </div>
 
-                        <div class="mt-0.5 text-[10px] text-white/70 sm:text-xs">
+                        <div class="mt-0.5 text-[10px] text-white/70 drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] sm:text-xs">
                             {{ $statistic->label }}
                         </div>
                     </div>
