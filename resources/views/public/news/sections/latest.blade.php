@@ -16,19 +16,19 @@
             <span
                 class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral"
             >
-                News
+                News & Updates
             </span>
 
             <h2
                 class="mt-2 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl"
             >
-                Berita & Artikel Terbaru
+                News & Updates
             </h2>
 
             <p
                 class="mt-3 text-base leading-relaxed text-neutral-600"
             >
-                Temukan informasi, tips, dan artikel terbaru dari WFSC Clinic.
+                Temukan informasi terbaru seputar dunia estetika, tips perawatan kulit, inovasi teknologi kecantikan, serta insight terbaru untuk membantu merawat kulit dan menjaga penampilan Anda
             </p>
 
         </div>
@@ -79,11 +79,23 @@
 
                 @foreach ($news as $index => $item)
 
+                    @php
+                        $desktopPosition = match (true) {
+                            $news->count() === 5 && $loop->iteration === 4 => 'lg:col-start-2',
+                            $news->count() === 5 && $loop->iteration === 5 => 'lg:col-start-4',
+                            $news->count() === 4 && $loop->iteration === 4 => 'lg:col-start-3',
+                            $news->count() === 2 && $loop->iteration === 1 => 'lg:col-start-2',
+                            $news->count() === 2 && $loop->iteration === 2 => 'lg:col-start-4',
+                            $news->count() === 1 => 'lg:col-start-3',
+                            default => '',
+                        };
+                    @endphp
+
                     <a
                         href="{{ route('news.show', $item->slug) }}"
                         data-reveal="up"
                         data-delay="{{ ($index + 1) * 100 }}"
-                        class="reveal-hidden group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-2 {{ $loop->iteration === 4 ? 'lg:col-start-2' : ($loop->iteration === 5 ? 'lg:col-start-4' : '') }}"
+                        class="reveal-hidden group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-2 {{ $desktopPosition }}"
                     >
 
                         {{-- Thumbnail --}}

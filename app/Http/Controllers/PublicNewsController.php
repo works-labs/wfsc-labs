@@ -32,6 +32,11 @@ class PublicNewsController extends Controller
             ->take(4)
             ->get();
 
+        $isMobile = preg_match(
+            '/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
+            (string) $request->userAgent()
+        ) === 1;
+
         $news = News::query()
             ->where('is_active', true)
             ->with([
@@ -46,7 +51,7 @@ class PublicNewsController extends Controller
             })
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->paginate(6)
+            ->paginate($isMobile ? 5 : 6)
             ->withQueryString();
 
         $activeCategory = $request->category;

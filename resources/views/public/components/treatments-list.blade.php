@@ -6,16 +6,14 @@
                 <div data-reveal="fade-up" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                     <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
-                        Our Treatments
+                        What We Offer
                     </span>
                 </div>
                 <h2 data-reveal="fade-up" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl md:text-5xl">
-                    Find the Right Treatment
-                    <span class="text-[#FF5252]">for You</span>
+                    Our Treatments
                 </h2>
                 <p data-reveal="fade-up" data-delay="300" class="reveal-hidden mt-3 text-sm leading-relaxed text-neutral-500 sm:mt-4 sm:text-base">
-                    Pilihan perawatan estetika yang dirancang untuk membantu
-                    memenuhi kebutuhan kulit dan kecantikan Anda.
+                    Rangkaian perawatan estetika, mulai dari skin quality, anti aging & contouring, facial, hingga body & hair treatment.
                 </p>
             </div>
             <div data-reveal="fade-up" data-delay="300" class="reveal-hidden flex items-center justify-center gap-2.5 sm:gap-3">

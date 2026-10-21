@@ -12,20 +12,14 @@
             <span
                 class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral"
             >
-                Promo
+                Our Special Promo
             </span>
 
             <h2
                 class="mt-2 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl"
             >
-                Promo Menarik Untuk Kamu
+                Promo Spesial di WFSC Saat Ini
             </h2>
-
-            <p
-                class="mt-3 text-base leading-relaxed text-neutral-600"
-            >
-                Nikmati berbagai penawaran dan promo menarik dari WFSC Clinic.
-            </p>
 
         </div>
 

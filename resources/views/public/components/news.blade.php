@@ -13,6 +13,10 @@
                 <h2 data-reveal="fade-up" data-delay="200" class="reveal-hidden mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-5xl">
                     News & Updates
                 </h2>
+
+                <p data-reveal="fade-up" data-delay="300" class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm">
+                    Temukan informasi terbaru seputar dunia estetika, tips perawatan kulit, inovasi teknologi kecantikan, serta insight terbaru untuk membantu merawat kulit dan menjaga penampilan Anda.
+                </p>
             </div>
 
             {{-- Navigation Buttons --}}
@@ -47,10 +51,10 @@
                 data-news-slider
                 class="reveal-hidden relative -my-8 overflow-hidden py-8"
             >
-                <div data-news-track class="flex items-center transition-transform duration-500 ease-out">
+                <div data-news-track class="flex items-stretch transition-transform duration-500 ease-out">
 
                     @foreach ($news as $item)
-                        <div data-news-slide class="w-full shrink-0 px-3 sm:w-1/2 lg:w-1/3">
+                        <div data-news-slide class="flex w-full shrink-0 px-3 sm:w-1/2 lg:w-1/3">
                             
                             {{-- Inner Wrapper untuk penanganan Scale & Shadow --}}
                             <div class="news-card-inner transition-all duration-500 ease-out">

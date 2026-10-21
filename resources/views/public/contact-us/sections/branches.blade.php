@@ -13,15 +13,15 @@
         >
 
             <span class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral">
-                Our Branches
+                Our Location
             </span>
 
             <h2 class="mt-3 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
-                Kunjungi Cabang Kami
+                WFSC Aesthetic & Anti Aging Clinic
             </h2>
 
             <p class="mt-4 text-base leading-relaxed text-neutral-600">
-                Temukan lokasi WFSC Clinic dan kunjungi cabang yang paling dekat dengan Anda.
+                Temukan lokasi cabang WFSC Clinic terdekat dan kunjungi untuk pengalaman perawatan estetika yang eksklusif dan profesional.
             </p>
 
         </div>

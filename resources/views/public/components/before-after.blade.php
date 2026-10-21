@@ -15,16 +15,16 @@
                 <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                     <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
-                        Real Results
+                        See The Difference
                     </span>
                 </div>
 
                 <h2 data-reveal="down" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl lg:text-5xl">
-                    See The Difference
+                    Before & After
                 </h2>
 
                 <p data-reveal="down" data-delay="300" class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm">
-                    Bukti nyata transformasi dan hasil perawatan pasien kami di WFSC Clinic.
+                    Setiap treatment disesuaikan dengan kebutuhan pasien untuk mendapatkan hasil yang optimal, proporsional, dan natural.
                 </p>
             </div>
 
@@ -82,10 +82,6 @@
                                     @endphp
 
                                     <div class="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] border border-neutral-200/60 bg-neutral-100">
-                                        <div class="absolute left-2 top-2 z-10 rounded-full bg-[#FF5252] px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-md shadow-[#FF5252]/30 backdrop-blur-md sm:left-2.5 sm:top-2.5 sm:px-3 sm:py-1 sm:text-[10px]">
-                                            Before After
-                                        </div>
-
                                         @if (in_array($ext, ['mp4', 'webm', 'mov']))
                                             <video autoplay muted loop playsinline class="h-full w-full object-cover">
                                                 <source src="{{ $url }}" type="{{ $ext === 'mov' ? 'video/quicktime' : 'video/' . $ext }}">

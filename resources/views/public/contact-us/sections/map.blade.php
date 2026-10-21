@@ -15,7 +15,7 @@
         >
 
             <span class="text-sm font-semibold uppercase tracking-[0.2em] text-wfsc-coral">
-                Location
+                Our Location
             </span>
 
             <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -23,11 +23,11 @@
                 <div>
 
                     <h2 class="text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
-                        Temukan Lokasi Kami
+                        WFSC Aesthetic & Anti Aging Clinic
                     </h2>
 
                     <p class="mt-3 max-w-2xl text-base leading-relaxed text-neutral-600">
-                        Lihat lokasi seluruh cabang WFSC Clinic dan pilih cabang yang paling nyaman untuk Anda kunjungi.
+                        Temukan lokasi cabang WFSC Clinic terdekat dan kunjungi untuk pengalaman perawatan estetika yang eksklusif dan profesional.
                     </p>
 
                 </div>

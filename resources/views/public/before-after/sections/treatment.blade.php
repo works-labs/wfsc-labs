@@ -78,10 +78,6 @@
                             >
                         @endif
 
-                        <span class="absolute left-3 top-3 rounded-full bg-wfsc-coral px-3 py-1 text-xs font-semibold text-white">
-                            Hasil
-                        </span>
-
                         {{-- Popup Indicator --}}
                         <span
                             class="pointer-events-none absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-neutral-700 shadow-lg ring-1 ring-white/80 transition duration-300 group-hover:scale-110 group-hover:bg-wfsc-coral group-hover:text-white"

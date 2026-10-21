@@ -37,7 +37,7 @@
                         data-delay="300"
                         class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm"
                     >
-                        Nikmati penawaran terbatas dan diskon spesial untuk perawatan terbaik Anda.
+                        Dapatkan harga spesial setiap treatment di WFSC Clinic
                     </p>
                 </div>
 
@@ -81,7 +81,7 @@
 
                 <div
                     data-promo-track
-                    class="flex items-center transition-transform duration-500 ease-out"
+                    class="flex items-center transition-transform duration-500 ease-out {{ $promos->count() < 3 ? 'lg:justify-center' : '' }}"
                 >
 
                     @foreach ($promos as $index => $promo)
@@ -97,15 +97,7 @@
                                         : null
                                 ));
 
-                            $promoCount = $promos->count();
-
-                            if ($promoCount === 1) {
-                                $slideWidth = 'w-full';
-                            } elseif ($promoCount === 2) {
-                                $slideWidth = 'w-full sm:w-1/2';
-                            } else {
-                                $slideWidth = 'w-full sm:w-1/2 lg:w-1/3';
-                            }
+                            $slideWidth = 'w-full sm:w-1/2 lg:w-1/3';
                         @endphp
 
                         <div
