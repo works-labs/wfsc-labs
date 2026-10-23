@@ -861,11 +861,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const bio = document.getElementById('doctor-lightbox-bio');
         const educationContainer = document.getElementById('doctor-lightbox-education-container');
         const education = document.getElementById('doctor-lightbox-education');
+        const certificationsContainer = document.getElementById('doctor-lightbox-certifications-container');
+        const certifications = document.getElementById('doctor-lightbox-certifications');
         const experienceContainer = document.getElementById('doctor-lightbox-experience-container');
         const experience = document.getElementById('doctor-lightbox-experience');
 
+        const setRichText = (element, value) => {
+            if (!element) return;
+
+            if (value && /<[a-z][\s\S]*>/i.test(value)) {
+                element.innerHTML = value;
+            } else {
+                element.textContent = value || '';
+            }
+        };
+
         const openModal = (card) => {
-            const { doctorPhoto, doctorName, doctorSpecialization, doctorBio, doctorEducation, doctorExperience } = card.dataset;
+            const { doctorPhoto, doctorName, doctorSpecialization, doctorBio, doctorEducation, doctorCertifications, doctorExperience } = card.dataset;
 
             modalCtrl.open(() => {
                 if (doctorPhoto) {
@@ -880,11 +892,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 name.textContent = doctorName || 'Doctor Profile';
                 specialization.textContent = doctorSpecialization || 'Specialist';
-                bio.textContent = doctorBio || '';
+                setRichText(bio, doctorBio);
 
                 const hasEdu = Boolean(doctorEducation && doctorEducation.trim());
                 educationContainer.classList.toggle('hidden', !hasEdu);
-                if (hasEdu) education.textContent = doctorEducation;
+                if (hasEdu) setRichText(education, doctorEducation);
+
+                const hasCertifications = Boolean(doctorCertifications && doctorCertifications.trim());
+                certificationsContainer.classList.toggle('hidden', !hasCertifications);
+                if (hasCertifications) setRichText(certifications, doctorCertifications);
 
                 const hasExp = Boolean(doctorExperience && doctorExperience.trim());
                 experienceContainer.classList.toggle('hidden', !hasExp);

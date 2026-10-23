@@ -3,6 +3,18 @@
 @section('title', $doctor->name . ' — WFSC Clinic')
 
 @section('content')
+    @php
+        $renderDoctorRichText = static function (?string $value): string {
+            if (! $value) {
+                return '';
+            }
+
+            return str_contains($value, '<')
+                ? $value
+                : nl2br(e($value));
+        };
+    @endphp
+
     <main class="relative min-h-screen bg-[#FAF9F6] pt-32 pb-24 overflow-hidden">
         
         {{-- Ambient Glow Background --}}
@@ -58,9 +70,9 @@
 
                     {{-- Short Bio --}}
                     @if ($doctor->short_bio)
-                        <p class="mt-6 text-base leading-relaxed text-neutral-600">
-                            {{ $doctor->short_bio }}
-                        </p>
+                        <div class="doctor-rich-text mt-6 text-base leading-relaxed text-neutral-600 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:my-1 [&_strong]:font-bold">
+                            {!! $renderDoctorRichText($doctor->short_bio) !!}
+                        </div>
                     @endif
 
                     {{-- Highlighted Credentials Grid --}}
@@ -71,9 +83,9 @@
                                 <span class="text-[11px] font-bold uppercase tracking-wider text-[#FF5252]">
                                     Education
                                 </span>
-                                <p class="mt-1.5 text-sm font-semibold leading-normal text-neutral-800">
-                                    {{ $doctor->education }}
-                                </p>
+                                <div class="doctor-rich-text mt-1.5 text-sm font-semibold leading-normal text-neutral-800 [&_p]:my-1 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_strong]:font-bold">
+                                    {!! $renderDoctorRichText($doctor->education) !!}
+                                </div>
                             </div>
                         @endif
 
@@ -82,9 +94,9 @@
                                 <span class="text-[11px] font-bold uppercase tracking-wider text-[#FF5252]">
                                     Certifications
                                 </span>
-                                <p class="mt-1.5 text-sm font-semibold leading-normal text-neutral-800">
-                                    {{ $doctor->certifications }}
-                                </p>
+                                <div class="doctor-rich-text mt-1.5 text-sm font-semibold leading-normal text-neutral-800 [&_p]:my-1 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_strong]:font-bold">
+                                    {!! $renderDoctorRichText($doctor->certifications) !!}
+                                </div>
                             </div>
                         @endif
 
@@ -107,9 +119,9 @@
                             <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-900 mb-3">
                                 About {{ $doctor->name }}
                             </h3>
-                            <p class="text-sm leading-relaxed text-neutral-600">
-                                {{ $doctor->bio }}
-                            </p>
+                            <div class="doctor-rich-text text-sm leading-relaxed text-neutral-600 [&_p]:my-3 [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:my-1 [&_strong]:font-bold">
+                                {!! $renderDoctorRichText($doctor->bio) !!}
+                            </div>
                         </div>
                     @endif
 

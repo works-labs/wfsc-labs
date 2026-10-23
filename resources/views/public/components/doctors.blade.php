@@ -109,6 +109,7 @@
                                             data-doctor-specialization="{{ $doctor->specialization }}"
                                             data-doctor-bio="{{ $doctor->short_bio ?: $doctor->bio }}"
                                             data-doctor-education="{{ $doctor->education }}"
+                                            data-doctor-certifications="{{ $doctor->certifications }}"
                                             data-doctor-experience="{{ $doctor->experience }}"
                                             class="group relative cursor-pointer flex h-full w-full flex-col rounded-[2rem] bg-white p-3.5 border border-neutral-200 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-[#FF5252]/40"
                                         >

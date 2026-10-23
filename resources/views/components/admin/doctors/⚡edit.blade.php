@@ -193,12 +193,12 @@ public function update(): void
             <div class="space-y-6">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Bio Singkat</label>
-                    <textarea wire:model="short_bio" rows="3" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="short_bio" placeholder="Tulis bio singkat dokter..." />
                 </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Biografi Lengkap</label>
-                    <textarea wire:model="bio" rows="5" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="bio" placeholder="Tulis biografi lengkap dokter..." />
                 </div>
             </div>
         </div>
@@ -215,12 +215,12 @@ public function update(): void
             <div class="grid gap-6 md:grid-cols-2">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Pendidikan</label>
-                    <textarea wire:model="education" rows="4" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="education" placeholder="Tulis riwayat pendidikan dokter..." />
                 </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Sertifikasi</label>
-                    <textarea wire:model="certifications" rows="4" class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="certifications" placeholder="Tulis sertifikasi dokter..." />
                 </div>
             </div>
         </div>

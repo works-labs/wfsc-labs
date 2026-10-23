@@ -154,15 +154,13 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="space-y-6">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Bio Singkat</label>
-                    <textarea wire:model="short_bio" rows="3" placeholder="Deskripsi singkat yang tampil pada kartu dokter..." 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="short_bio" placeholder="Tulis bio singkat dokter..." />
                     @error('short_bio') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Biografi Lengkap</label>
-                    <textarea wire:model="bio" rows="6" placeholder="Profil dan biografi lengkap dokter..." 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="bio" placeholder="Tulis biografi lengkap dokter..." />
                     @error('bio') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -180,15 +178,13 @@ new #[Layout('layouts.admin')] class extends Component
             <div class="grid gap-6 md:grid-cols-2">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Pendidikan</label>
-                    <textarea wire:model="education" rows="5" placeholder="Universitas, pendidikan kedokteran, dll." 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="education" placeholder="Tulis riwayat pendidikan dokter..." />
                     @error('education') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-bold text-gray-600">Sertifikasi</label>
-                    <textarea wire:model="certifications" rows="5" placeholder="Sertifikasi profesional kedokteran..." 
-                        class="w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm transition-colors focus:bg-white focus:border-[var(--color-wfsc-coral)] focus:ring-1 focus:ring-[var(--color-wfsc-coral)]"></textarea>
+                    <x-admin.rich-text-editor wire:model="certifications" placeholder="Tulis sertifikasi dokter..." />
                     @error('certifications') <p class="mt-1.5 text-xs font-bold text-red-500">{{ $message }}</p> @enderror
                 </div>
             </div>

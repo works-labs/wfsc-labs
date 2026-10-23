@@ -64,10 +64,10 @@
                             class="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900 sm:text-3xl"
                         ></h2>
 
-                        <p
+                        <div
                             id="doctor-lightbox-bio"
-                            class="mt-3 text-xs leading-relaxed text-neutral-500 sm:text-sm"
-                        ></p>
+                            class="doctor-rich-text mt-3 text-xs leading-relaxed text-neutral-500 sm:text-sm [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
+                        ></div>
 
                         {{-- Quick Info Badges --}}
                         <div class="mt-4 flex flex-wrap items-center justify-center sm:justify-start gap-2">
@@ -75,15 +75,23 @@
                                 id="doctor-lightbox-education-container"
                                 class="hidden rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-1.5 text-left"
                             >
-                                <span class="block text-[9px] font-bold uppercase tracking-wider text-neutral-400">Pendidikan</span>
-                                <span id="doctor-lightbox-education" class="text-xs font-semibold text-neutral-800"></span>
+                                <span class="block text-[9px] font-bold uppercase tracking-wider text-neutral-400">Education</span>
+                                <div id="doctor-lightbox-education" class="doctor-rich-text text-xs font-semibold text-neutral-800 [&_p]:my-1 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:my-0.5"></div>
+                            </div>
+
+                            <div
+                                id="doctor-lightbox-certifications-container"
+                                class="hidden rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-1.5 text-left"
+                            >
+                                <span class="block text-[9px] font-bold uppercase tracking-wider text-neutral-400">Certifications</span>
+                                <div id="doctor-lightbox-certifications" class="doctor-rich-text text-xs font-semibold text-neutral-800 [&_p]:my-1 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:my-0.5"></div>
                             </div>
 
                             <div
                                 id="doctor-lightbox-experience-container"
                                 class="hidden rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-1.5 text-left"
                             >
-                                <span class="block text-[9px] font-bold uppercase tracking-wider text-neutral-400">Pengalaman</span>
+                                <span class="block text-[9px] font-bold uppercase tracking-wider text-neutral-400">Experience</span>
                                 <span id="doctor-lightbox-experience" class="text-xs font-semibold text-neutral-800"></span>
                             </div>
                         </div>
