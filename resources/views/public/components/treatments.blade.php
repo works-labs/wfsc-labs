@@ -11,16 +11,16 @@
                 <div data-reveal="down" data-delay="100" class="reveal-hidden inline-flex items-center gap-2 rounded-full border border-[#FF5252]/20 bg-[#FF5252]/5 px-3.5 py-1 sm:px-4 sm:py-1.5">
                     <span class="h-1.5 w-1.5 rounded-full bg-[#FF5252]"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF5252] sm:text-xs">
-                        Expert Care & Treatment
+                        What We Offer
                     </span>
                 </div>
 
                 <h2 data-reveal="down" data-delay="200" class="reveal-hidden mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:mt-4 sm:text-4xl lg:text-5xl">
-                    Our Signature Treatments
+                    Our Treatments
                 </h2>
                 
                 <p data-reveal="down" data-delay="300" class="reveal-hidden mx-auto mt-3 max-w-xl text-xs leading-relaxed text-neutral-500 sm:mt-4 sm:text-sm">
-                    Rangkaian perawatan estetika medis berstandar tinggi yang dirancang khusus untuk kesehatan dan kemilau alami kulit Anda.
+                    Rangkaian perawatan estetika, mulai dari skin quality, anti aging & contouring, facial, hingga body & hair treatment.
                 </p>
             </div>
         </div>
